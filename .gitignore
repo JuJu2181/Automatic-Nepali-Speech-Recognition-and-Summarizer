@@ -1,0 +1,12 @@
+audio/
+openslr/
+wav2vec_trained_models/
+tokenizer/
+processor/
+ne_np_female/
+__pycache__/
+.vscode/
+wandb/
+*.env
+*.zip
+node_modules/

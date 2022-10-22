@@ -1,0 +1,11 @@
+ul li a:hover{
+    text-decoration: none;
+}
+.links{
+    color: white;
+    text-decoration: none;
+}
+.links:hover{
+    color: #ea0e0e;
+    text-decoration: none;
+}
