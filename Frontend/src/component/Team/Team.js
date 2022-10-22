@@ -1,5 +1,8 @@
 import './team.css'  // This is the CSS file for this component'
 import sudip from '../../static/teamimage/me.jpg'
+import anish from '../../static/teamimage/anish-image.jpg'
+import anjaan from '../../static/teamimage/anjaan-image.png'
+import sachin from '../../static/teamimage/sachin-img.jpg'
 
 export default function Team() {
   return (
@@ -21,14 +24,14 @@ export default function Team() {
 				<div class="col-sm-6 col-lg-4 col-xl-3">
 					<div class="single-person">
 						<div class="person-image">
-							<img src="https://i.ibb.co/G2CBWvb/person1.jpg" alt=""/>
+								  <img src={ anish} alt=""/>
 							<span class="icon">
 								<i class="fa fa-graduation-cap"></i>
 							</span>
 						</div>
 						<div class="person-info">
-							<h3 class="full-name">Anish Silphakar</h3>
-							<span class="speciality">KCE075BCT08</span>
+							<h3 class="full-name">Anish Shilpakar</h3>
+							<span class="speciality">KCE075BCT008</span>
 						</div>
 					</div>
 				</div>
@@ -36,14 +39,14 @@ export default function Team() {
 				<div class="col-sm-6 col-lg-4 col-xl-3">
 					<div class="single-person">
 						<div class="person-image">
-							<img src="https://i.ibb.co/nbpNr4r/person2.jpg" alt=""/>
+								  <img src={ anjaan} alt=""/>
 							<span class="icon">
 								<i class="fa fa-graduation-cap"></i>
 							</span>
 						</div>
 						<div class="person-info">
 							<h3 class="full-name">Anjaan Khadka</h3>
-							<span class="speciality">KCE075BCT09</span>
+							<span class="speciality">KCE075BCT009</span>
 						</div>
 					</div>
 				</div>
@@ -51,7 +54,7 @@ export default function Team() {
 				<div class="col-sm-6 col-lg-4 col-xl-3">
 					<div class="single-person">
 						<div class="person-image">
-							<img src="https://i.ibb.co/25zdRMr/person3.jpg" alt=""/>
+								  <img src={ sachin} alt=""/>
 							<span class="icon">
 								<i class="fa fa-graduation-cap"></i>
 							</span>
