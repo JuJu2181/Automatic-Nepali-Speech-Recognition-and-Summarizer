@@ -2,6 +2,10 @@ import torch
 import torchaudio
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 from model.config import *
+# For adjusting volume 
+import soundfile as sf 
+import pyloudnorm as pyln 
+import numpy as np
 import os 
 # To ignore cuda warnings of no gpu
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -14,11 +18,29 @@ def segmentLargeArray(inputTensor,chunksize=200000):
         list_of_segments.append(inputTensor[:,i:i+chunksize])
     return list_of_segments 
 
+def adjust_volume(ip_tensor,sr):
+    data = ip_tensor.numpy()
+    # Peak normalization of all audio to -1dB
+    meter = pyln.Meter(sr) #create BS.1770 Meter
+    # print(data)
+    # print(np.transpose(data).shape)
+    loudness = meter.integrated_loudness(np.transpose(data)) 
+    print(f'Before: {loudness} dB')
+    # This is peak normalization which depends on the original volume of audio file
+    # peak_normalized_audio = pyln.normalize.peak(data,-1.0)
+    # Actually this is loudness normalization to a fixed level irrespective of volume in original file
+    peak_normalized_audio = pyln.normalize.loudness(data, loudness, 0)
+    loudness = meter.integrated_loudness(np.transpose(peak_normalized_audio)) 
+    print(f'After peak normalization: {loudness} dB')
+    op_tensor = torch.from_numpy(peak_normalized_audio)
+    return op_tensor
 
-def predict_from_speech(file,model,processor):
+def predict_from_speech(ip_file,model,processor):
     print("=> Loading the audio input to the model")
-    speech_array, sampling_rate = torchaudio.load(file)
+    speech_array, sampling_rate = torchaudio.load(ip_file)
     # print(speech_array,sampling_rate)
+    print('=> Adjusting volume of audio input')
+    speech_array = adjust_volume(speech_array,sampling_rate)
     resampler = torchaudio.transforms.Resample(sampling_rate, 16000)
     resampled_array = resampler(speech_array).squeeze()
     if len(resampled_array.shape) == 1:
@@ -45,7 +67,9 @@ def predict_from_speech(file,model,processor):
         print(f"Prediction:\n{output}")
     return output
         
-        
+
+
+
 if __name__ == "__main__":
     # can be changed to relative paths
     model_path = 'D:\Programming\Projects\major_project\Codes\ASR\wav2vec_trained_models\\nepali-wav2vec-v2\model_0.1_dropout_5_10sec' 
