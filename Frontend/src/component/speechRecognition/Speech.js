@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './speech.css'
-// import axios from 'axios'
+import axios from 'axios'
 import ReactAudioPlayer from 'react-audio-player'
 
 function Speech() {
@@ -16,27 +16,31 @@ function Speech() {
     console.log(e.target.files[0])
   }
   }
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   let ext=audio.name.split('.').pop()
-  //   if(ext === 'flac' || ext === 'wav' || ext === 'mp3'){
-  //     const formData = new FormData()
-  //     formData.append('demo', audio)
-  //     axios.post('http://localhost:5000/audio', formData)
-  //     .then(res => {
+  const handleSubmit = (e) => {
+    
+    let ext=audio.name.split('.').pop()
+    if(ext === 'flac'){
+      const formData = new FormData()
+      formData.append('audio', audio)
+      axios.post(      
+        'http://localhost:8000/audio', formData
         
-  //       document.getElementById("success").innerHTML = "The file is uploaded!"
-  //     }  
-  //     )
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-  //   }
-  //   else{
-  //     alert("Please upload a .flac or .wav file")
-  //   }  
+      )
+      .then((res)=> {
+        console.log(res)
+        document.getElementById("success").innerHTML = "The file is uploaded!"
+      }  
+      )
+      .catch((error)=>{
+        console.log(error)
+        console.log("no response")
+      })
+    }
+    else{
+      alert("Please upload a .flac or .wav file")
+    }  
 
-  // }  
+  }  
   return (
     <div>
         <div class="audio">
@@ -58,7 +62,7 @@ function Speech() {
                         controls
                       />
                     </div>  
-                    <button class="btn btn-primary mt-2">Get the Transcript</button>
+                    <button onClick={handleSubmit} class="btn btn-primary mt-2">Get the Transcript</button>
                 <p id="success">
                 
                 </p>

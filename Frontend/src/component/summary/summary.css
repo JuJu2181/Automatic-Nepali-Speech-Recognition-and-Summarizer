@@ -13,3 +13,61 @@ input{
     border-radius: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
+.transcript{
+    border: 1px solid green;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.contain {
+      
+      padding-left: 10px;
+      padding-right: 10px;
+      height: auto;
+      background: #F2F2F2;
+      /* border: 1px solid #ccc; */
+      box-shadow: 1px 1px 2px #fff inset,
+                  -1px -1px 2px #fff inset;
+      border-radius: 3px/6px;         
+        
+        
+    }
+.filename{
+    color :rgb(178, 152, 220);
+    font-size: 1.2rem;
+    
+}    
+.message{
+    color: rgb(21, 229, 69);
+    
+}
+
+/* //text area */
+textarea {
+    margin-top: 10px;
+   
+    height : 250px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+    border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+    border-image: none;
+    border-radius: 6px 6px 6px 6px;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    color: #555555;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.4em;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease 0s;
+  }
+  
+  
+  textarea:focus {
+      background: none repeat scroll 0 0 #FFFFFF;
+      outline-width: 0;
+  }
