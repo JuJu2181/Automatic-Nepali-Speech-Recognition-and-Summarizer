@@ -58,7 +58,7 @@ async def create_upload_file(text: UploadFile = File(...)):
          
         
     else:
-        return {"message": "File is not txt"}  
+        return {"Summary not found! Please upload a text file"}  
       
 @app.post("/audio")
 def create_upload_file(audio: UploadFile = File(...)):    

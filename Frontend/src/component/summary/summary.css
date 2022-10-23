@@ -41,6 +41,9 @@ input{
     color: rgb(21, 229, 69);
     
 }
+/* .text-content{
+    
+} */
 
 /* //text area */
 textarea {
@@ -71,3 +74,7 @@ textarea {
       background: none repeat scroll 0 0 #FFFFFF;
       outline-width: 0;
   }
+
+#nofile-error,#input-text-error{ 
+    color:red;
+}  
