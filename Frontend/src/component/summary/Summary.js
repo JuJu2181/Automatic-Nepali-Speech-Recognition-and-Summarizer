@@ -12,8 +12,15 @@ export default function Summary() {
   })
 
   const[input_text,setInput_text] = useState('')
+
+  //sets the urlblob of the summary for texts given by user
   const [url_text,setUrl_text] = useState('')
+
+  //sets the urlblob of the summary for input file txt
   const [url_text_input,setUrl_text_input] = useState('')
+
+  //text bata ako summary download garnalai
+  const [downloadbuttonstatustext, setDownloadbuttonstatustext] = useState(false)
 
   const input_text_downloader = (e) => {
     if(url_text_input===''){
@@ -106,7 +113,7 @@ export default function Summary() {
 
   }
 
-  //this handles the connection to server
+  //this handles the connection to server submit click garesi acios le return garxa accordingly
   const textSubmit = (e) => {
     const data = {
       texts: input_text
@@ -137,7 +144,9 @@ export default function Summary() {
       .then(
         function(res){
           
+          
           document.getElementById("textsuccess").innerHTML = res.data
+          setDownloadbuttonstatustext(true)
           console.log(res.data)
           const downloadTextFile = JSON.stringify(res.data);
           const blob = new Blob([downloadTextFile], { type: "text/plain" });
@@ -243,7 +252,7 @@ export default function Summary() {
             
             </div>
           </div>
-          <button onClick={text_downloader}  type="submit" class="btn btn-primary mt-1"> Download-summary</button>
+          {downloadbuttonstatustext && <button onClick={text_downloader}  type="submit" class="btn btn-primary mt-1"> Download-summary</button>}
    
           
           
