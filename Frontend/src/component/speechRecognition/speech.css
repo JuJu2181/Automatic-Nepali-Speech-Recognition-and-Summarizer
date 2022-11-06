@@ -22,3 +22,10 @@ input{
 #wait-message{
     color: rgb(111, 8, 22);
 }
+#filename{
+    color :rgb(49, 5, 208);
+    font-size: 1.2rem;
+    font-family: 'Arima', cursive;
+    font-weight: bold;
+    
+}

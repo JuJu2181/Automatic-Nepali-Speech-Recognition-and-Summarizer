@@ -9,3 +9,31 @@ ul li a:hover{
     color: #ea0e0e;
     text-decoration: none;
 }
+.links-title:hover{
+    color: #ea0e0e;
+    text-decoration: none;
+}
+
+.links-title{
+    
+    text-decoration: none;
+    
+    width: 160px;
+    height: 50px;
+
+    font-family: 'Almendra';
+    font-style: normal;
+    
+    font-size: auto;
+    line-height: 137.9%;
+    /* identical to box height, or 50px */
+
+    
+    letter-spacing: 0.195em;
+
+    color: rgb(15, 239, 18);
+
+    mix-blend-mode: normal;
+
+    filter: blur(0.5px);
+}

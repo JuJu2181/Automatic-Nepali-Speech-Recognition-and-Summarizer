@@ -18,7 +18,21 @@ def remove_useless_characters(text,valid_characters):
     # print(valid_text)
     return valid_text
 
+def get_word_arr_from_text(text):
+    return text.split(" ")
 
+def add_purnabiram(text):
+    kriyapad = open("D:/final_year_project/major_project_fe_react/fastApi\pythonfiles/kriyapad.txt",'r',encoding="utf-8").read().split("\n")
+    # print(kriyapad)
+    text_arr = get_word_arr_from_text(text)
+    new_text = ''
+    # print(text_arr)
+    for words in text_arr:
+        # print(words)
+        new_text = new_text + words + ' '
+        if words in kriyapad:
+            new_text += "। "
+    return new_text
 def get_sentences_as_arr(text):
     '''text(string)  -> sentences (1d-array)
     '''

@@ -7,7 +7,7 @@ export default function Navbar() {
     <div>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
 			<div class="container" >    
-				<a class="navbar-brand"><Link className='links' to="/"><i class="fas fa-microphone"/> ANSRAS </Link></a>
+				<a class="navbar-brand"><Link className='links-title' to="/"><i class="fas fa-microphone"/> ANSRAS </Link></a>
                 <button class="navbar-toggler text-white" type="button" 
                     data-toggle="collapse"
                     data-target="#navbarSupportedContent"
@@ -24,6 +24,9 @@ export default function Navbar() {
                         </li> 
                         <li class="nav-item"> 
                             <a class="px-4 mr-3" ><Link Link className='links' to="/summary" > Summary</Link>    </a> 
+                        </li> 
+                        <li class="nav-item"> 
+                            <a class="px-4 mr-3" ><Link Link className='links' to="/mictest" > RealTime Speech</Link>    </a> 
                         </li> 
                         <li class="nav-item"> 
                             <a class="px-4 mr-3" > <Link Link className='links' to ="/teams">Team</Link></a> 
