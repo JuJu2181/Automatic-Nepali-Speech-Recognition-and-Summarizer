@@ -102,6 +102,7 @@ function Speech() {
 
 
   const handleFile = (e) => {
+    console.log(e.target.files[0])
     if(e.target.files[0]==='undefined'){
       alert("Please upload a .flac or .wav file")
 
