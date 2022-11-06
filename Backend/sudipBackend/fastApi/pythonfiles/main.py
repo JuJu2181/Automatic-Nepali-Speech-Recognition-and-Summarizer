@@ -8,11 +8,19 @@ def get_summary_from_text_file(file_path = './pythonfiles/sample.txt'):
     # Reading text files (sample text file, word endings file and stopwords file)
     #
     text = open(file_path,'r',encoding="utf-8").read()
+    is_complete_sentence = True
+    if "।" not in text:
+        is_complete_sentence = False
+    # print(is_complete_sentence)
     stop_words = open("D:/final_year_project/major_project_fe_react/fastApi/pythonfiles/stopwords.txt",'r',encoding="utf-8").read()
     word_endings = open("D:/final_year_project/major_project_fe_react/fastApi/pythonfiles/word_endings.txt",'r',encoding='utf-8').read() 
     valid_characters = tokenizer.get_valid_chars()
-    # print(stop_words.split("\n"))
-    # print(text)
+    text = tokenizer.remove_useless_characters(text,valid_characters)
+    if not is_complete_sentence:
+        text = tokenizer.add_purnabiram(text)
+    # print(stop_wo=====rds.split("\n"))
+    print("=================================================================================== ")
+    print("success ")
     #
     # Remove useless characters from the sentence 
     #     
@@ -55,12 +63,14 @@ def get_summary_from_text_file(file_path = './pythonfiles/sample.txt'):
     # 
     # Get first n sentences from the given text as summarized text.
     # 
-    summary_sentences = ranker.get_n_influencial_sentence(sentences,sentence_influence,n=np.ceil(len(sentences)*0.43))
+    summary_sentences = ranker.get_n_influencial_sentence(sentences,sentence_influence,n=np.ceil(len(sentences)*0.33))
+    print(summary_sentences)
 
     #
     # Combine all sentences as a single paragraph
     #
     summarized_text = ranker.get_summarized_text(summary_sentences)
+    print("-_----------------------------------------------------------------------")
     
     print(summarized_text)
     

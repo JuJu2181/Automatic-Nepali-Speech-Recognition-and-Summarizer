@@ -16,6 +16,9 @@ body hr{
     padding: 2rem;
     text-align: justify;
     transition: all 0.3s;
+    font-family: 'Arima', cursive;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
   .container1 p{
     line-height: 1.5;
@@ -54,7 +57,7 @@ body hr{
 
 .button-three {
     position: relative;
-    background-color: #dfdbd4;
+    background-color: rgb(207, 235, 166);
     border: none;
     padding: 20px;
     width: 200px;
@@ -76,7 +79,7 @@ body hr{
   
   .button-three:after {
     content: "";
-    background: #c0bfbd;
+    background: #fff;
     display: block;
     position: absolute;
     padding-top: 300%;
@@ -93,3 +96,16 @@ body hr{
     opacity: 1;
     transition: 0s
   }
+  .h3{
+    font-size: 30px;
+    font-weight: 600;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Arima:wght@100&family=Cabin+Sketch&display=swap');  
+.project-title{
+  font-family: 'Cabin Sketch', cursive;
+  color: #04480e;
+  font-weight: bold;
+  font-size: 40px;
+}
