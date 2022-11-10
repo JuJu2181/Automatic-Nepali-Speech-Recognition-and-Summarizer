@@ -72,8 +72,8 @@ def predict_from_speech(ip_file,model,processor):
 
 if __name__ == "__main__":
     # can be changed to relative paths
-    model_path = 'D:\Programming\Projects\major_project\Codes\ASR\wav2vec_trained_models\\nepali-wav2vec-v2\models\model_0.1_15000_20000' 
-    processor_path = 'D:\Programming\Projects\major_project\Codes\ASR\wav2vec_trained_models\\nepali-wav2vec-v2\processors\processor_0.1_15000_20000'
+    model_path = 'D:\Programming\Projects\major_project\Codes\ASR\wav2vec_trained_models\\nepali-wav2vec-v2\models\model-lt-4sec-first-5000' 
+    processor_path = 'D:\Programming\Projects\major_project\Codes\ASR\wav2vec_trained_models\\nepali-wav2vec-v2\processors\processor_0.1_dropout_lt_4sec_first_5000'
     print("=> Loading the trained model and processor")
     model = Wav2Vec2ForCTC.from_pretrained(model_path).to(DEVICE)
     processor = Wav2Vec2Processor.from_pretrained(processor_path)
