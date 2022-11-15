@@ -1,122 +1,58 @@
 '''
-This file will contain all the utilities functions required by other files
+Important Notes:
+    1. The dimension of wav files is in the format of  -> batch * sequence * frame_size.
+
 '''
 
-# * imports
+
+from tensorflow.keras import models
+import tensorflow.keras.backend as K
+import tensorflow as tf
 import librosa
-import librosa.display
-import soundfile as sf
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 import time
 import edit_distance as ed
-import wave
-# Pytorch imports
-import torch
-from torch import nn
-# imports from other files
-from .config import INPUT_DIMENSION, SAMPLING_RATE, MFCC_COUNT, HOP_LENGTH, FRAME_SIZE, DEVICE
 
 
-# * functions
-# 1. To load the wav files
-def load_wav(path):
-    return librosa.load(path, sr=SAMPLING_RATE)[0]
+# Global configs required for training
+from .configs import INPUT_DIM, SR, N_MFCC, HOP_LENGTH, FRAME_SIZE
 
-# 2. To extract mfcc from loaded audio
+device_name = '/device:CPU:0'
+
+# U.0
+# Loads model from the directory argument
 
 
-def generate_mfcc(audio_arr):
+def load_model(model_dir):
+    return models.load_model(model_dir)
+
+# U.1
+# Loading wav file from librosa
+
+
+def load_wav(dir):
+    return librosa.load(dir, sr=SR)[0]
+
+# U.2
+# Generates Normalized MFCCs from audio
+
+
+def gen_mfcc(arr):
     mfccs = librosa.feature.mfcc(
-        y=audio_arr[:-1], sr=SAMPLING_RATE, n_mfcc=MFCC_COUNT, hop_length=HOP_LENGTH).transpose().flatten()
-    # performing z normalization in the mfccs before returning
-    return (mfccs - np.mean(mfccs))/np.std(mfccs)
-
-# 3. To save a trained model
+        y=arr[:-1], sr=SR, n_mfcc=N_MFCC, hop_length=HOP_LENGTH).transpose().flatten()
+    return (mfccs - np.mean(mfccs)) / np.std(mfccs)
 
 
-def save_model(model, path):
-    torch.save(model, path)
-    print('Model saved successfully')
-
-# 4. To load a saved model
-
-
-def load_model(path):
-    model = torch.load(path)
-    return model
-
-# 5. To clean a single audio file by clipping silent gaps from both ends
-
-
-def clean_single_audio_file(audiofile, win_size=500):
-    audio_avg = np.average(np.absolute(audiofile))
-
-    # clip silent gaps from left end
-    for s in range(0, len(audiofile)-win_size, win_size):
-        window = audiofile[s:s+win_size]
-        window_avg = np.average(np.absolute(window))
-        if window_avg > audio_avg:
-            # print('Clipping left end')
-            audiofile = audiofile[s:]
-            break
-
-    # clip silent gaps from right end
-    for s in range(len(audiofile)-win_size, 0, -win_size):
-        window = audiofile[s-win_size:s]
-        window_avg = np.average(np.absolute(window))
-        if window_avg > audio_avg:
-            # print('Clipping right end')
-            audiofile = audiofile[:s]
-            break
-
-    padding = FRAME_SIZE - len(audiofile) % FRAME_SIZE
-    audiofile = np.pad(audiofile, (0, padding), mode="mean")
-    return audiofile
-
-# 6. To plot a audio wave
-def plot_wave(wav):
-    plt.figure() 
-    librosa.display.waveshow(wav, sr=16000, x_axis='s')
-    plt.show()
-
-# 7. To plot a spectrogram 
-def plot_spectrogram(wav):
-    n_fft = 512 
-    hop_length=320
-    window_type ='hann'
-    mel_bins = 64
-    Mel_spectrogram = librosa.feature.melspectrogram(y=wav, sr=SAMPLING_RATE, n_fft=n_fft, hop_length=hop_length, win_length=n_fft, window=window_type, n_mels = mel_bins, power=2.0)
-    mel_spectrogram_db = librosa.power_to_db(Mel_spectrogram, ref=np.max)
-    librosa.display.specshow(mel_spectrogram_db, sr=SAMPLING_RATE, x_axis='time', y_axis='mel',hop_length=hop_length)
-    plt.colorbar(format='%+2.0f dB')
-    plt.title('Log Mel spectrogram')
-    plt.tight_layout()
-    plt.show()
-
-# 8. To display Fourier transform representation of the signal
-def plot_fourier_transform(wav):
-    n_fft = 512 
-    # stft => short time fourier transform
-    D = np.abs(librosa.stft(wav[:n_fft], n_fft=n_fft, hop_length=n_fft+1))
-    plt.plot(D)
-
-# 9. To generate padded text from list of texts 
-def pad_text(text_list, unq_chars, unk_idx=1):
-    '''
-    unq_chars = set of unique characters
-    unk_idx = unknown index 
-    '''
-    # get the length of the longest text in the list of texts to pad all other texts to that length
-    max_len = max([len(txt) for txt in text_list])
-    # padded_arr will contain all the padded texts
+# U.3
+# Generates padded text from list of texts
+def pad_text(list_texts, unq_chars, unk_idx=1):
+    max_len = max([len(txt) for txt in list_texts])
     padded_arr = []
-    # seq_lengths will contain the length of each text
     seq_lengths = []
 
-    # pad each text to maximum length
-    for txt in text_list:
+    for txt in list_texts:
         len_seq = len(txt)
         txt += "0" * (max_len - len_seq)
 
@@ -129,13 +65,15 @@ def pad_text(text_list, unq_chars, unk_idx=1):
 
     return np.array(padded_arr), np.array(seq_lengths)
 
-# 10. Returns tensor batch*seq*frame 
+# U.4
+# Returns tensor batch*seq*frame
+
+
 def pad_list_np(list_np):
-    # get maximum length of array from the given list of arrays
     max_len = max([len(arr) for arr in list_np])
 
     # So that the numpy array can be reshaped according to the input dimension
-    max_len += INPUT_DIMENSION - (max_len % INPUT_DIMENSION)
+    max_len += INPUT_DIM - (max_len % INPUT_DIM)
 
     padded_arr = []
 
@@ -144,10 +82,12 @@ def pad_list_np(list_np):
         arr = np.pad(arr, (0, max_len - len_seq), constant_values=0)
         padded_arr.append(arr)
 
-    # final shape: no_of_arrays(rows), -1, 52 => -1 means unknown dimension
-    return np.array(padded_arr).reshape((len(list_np), -1, INPUT_DIMENSION))
+    return np.array(padded_arr).reshape((len(list_np), -1, INPUT_DIM))
 
-# 11. Generate batches of wavs and texts with padding as per needed 
+# U.5
+# Generates batches of wavs and texts  with padding as per needed
+
+
 def batchify(wavs, texts, unq_chars):
     assert len(wavs) == len(texts)
     # generates tensor of dim (batch * seq * frame)
@@ -158,7 +98,46 @@ def batchify(wavs, texts, unq_chars):
 
     return input_tensor, target_tensor, target_lengths_tensor.reshape((-1, 1)), output_seq_lengths_tensor.reshape((-1, 1))
 
-# 12. To decode with prefix beam search for MFCC features only
+
+# U.6
+# Plots lossses from the file
+def plot_losses(dir, optimal_epoch=None):
+    losses = None
+    with open(dir, "rb") as f:
+        losses = pickle.load(f)
+        f.close()
+
+    train_losses, test_losses = losses["train_losses"], losses["test_losses"]
+    epochs = len(train_losses)
+    # print(len(test_losses))
+
+    X = range(1, epochs+1)
+
+    fig, ax = plt.subplots(1, figsize=(15, 10))
+
+    fig.suptitle('Train and Test Losses', fontsize=25,)
+
+    ax.set_xlim(0, 72)
+    ax.plot(X, train_losses, color="red", label="Train Loss")
+    ax.plot(X, test_losses, color="green", label="Test Loss")
+
+    plt.rcParams.update({'font.size': 20})
+
+    plt.legend(loc="upper right", frameon=False, fontsize=20)
+    # plt.xlabel("Epochs",{"size":20})
+    # plt.ylabel("Loss", {"size":20})
+
+    if (optimal_epoch != None):
+        plt.axvline(x=optimal_epoch, ymax=0.5)
+        # ax.plot(58, 0, 'go', label='marker only')
+        plt.text(optimal_epoch, 35,
+                 f'Optimal Epoch at {optimal_epoch}', fontsize=15)
+
+    plt.show()
+
+
+# U.7
+# Decoding with prefix beam search from MFCC features only
 def predict_from_mfccs(model, mfccs, unq_chars):
 
     mfccs = pad_list_np(mfccs)  # coverts the data to 3d
@@ -184,12 +163,17 @@ def predict_from_mfccs(model, mfccs, unq_chars):
         char_indices.append(temp_indices)
     return sentences, char_indices
 
-# 23. Decoding with prefix beam search from wavs only
+
+# U.8
+# Decoding with prefix beam search from wavs only
 def predict_from_wavs(model, wavs, unq_chars):
-    mfccs = [generate_mfcc(wav) for wav in wavs]
+    mfccs = [gen_mfcc(wav) for wav in wavs]
     return predict_from_mfccs(model, mfccs, unq_chars)
 
-#24. Converts the text to list of indices as per the unique characters list
+# U.9
+# Converts the text to list of indices as per the unique characters list
+
+
 def indices_from_texts(texts_list, unq_chars, unk_idx=1):
 
     indices_list = []
@@ -204,10 +188,16 @@ def indices_from_texts(texts_list, unq_chars, unk_idx=1):
     return indices_list
 
 
-#25. To find CER from mfccs
+'''
+Calculates CER( character error rate) from dataset;
+'''
+# U.10
+# CER from mfccs
+
+
 def CER_from_mfccs(model, mfccs, texts, unq_chars, batch_size=100):
 
-    with torch.device(DEVICE):
+    with tf.device(device_name):
 
         len_mfccs = len(mfccs)
         batch_count = 0
@@ -246,60 +236,54 @@ def CER_from_mfccs(model, mfccs, texts, unq_chars, batch_size=100):
             "The total time taken for all sentences CER calculation is  {:.2f} secs.".format(time.time() - start_time))
         return sum_cer / batch_count
 
-#26. CER from wavs
+# U.11
+# CER from wavs
+
+
 def CER_from_wavs(model, wavs, texts, unq_chars, batch_size=100):
 
     assert len(wavs) == len(texts)
 
     len_wavs = len(wavs)
     for i in range(len_wavs):
-        wavs[i] = generate_mfcc(wavs[i])
+        wavs[i] = gen_mfcc(wavs[i])
 
     return CER_from_mfccs(model, wavs, texts, unq_chars, batch_size)
 
 
-#27. CTC softmax probabilities output from mfcc features
+# U.12
+# CTC softmax probabilities output from mfcc features
 def ctc_softmax_output_from_mfccs(model, mfccs):
     mfccs = pad_list_np(mfccs)
     y = model(mfccs)
     return y
 
-#28. CTC softmax probabilities output from wavs
+# U.13
+# CTC softmax probabilities output from wavs
+
+
 def ctc_softmax_output_from_wavs(model, wavs):
-    mfccs = [generate_mfcc(wav) for wav in wavs]
+    mfccs = [gen_mfcc(wav) for wav in wavs]
     return ctc_softmax_output_from_mfccs(model, mfccs)
 
-#28. Plots lossses from the file
-def plot_losses(dir, optimal_epoch=None):
-    losses = None
-    with open(dir, "rb") as f:
-        losses = pickle.load(f)
-        f.close()
 
-    train_losses, test_losses = losses["train_losses"], losses["test_losses"]
-    epochs = len(train_losses)
-    # print(len(test_losses))
+# U.14
+# Clean the single audio file by clipping silent gaps from both ends
+def clean_single_wav(wav, win_size=500):
+    wav_avg = np.average(np.absolute(wav))
 
-    X = range(1, epochs+1)
+    for s in range(0, len(wav)-win_size, win_size):
+        window = wav[s:s+win_size]
+        if np.average(np.absolute(window)) > wav_avg:
+            wav = wav[s:]
+            break
 
-    fig, ax = plt.subplots(1, figsize=(15, 10))
+    for s in range(len(wav)-win_size, 0, -win_size):
+        window = wav[s-win_size:s]
+        if np.average(np.absolute(window)) > wav_avg:
+            wav = wav[:s]
+            break
 
-    fig.suptitle('Train and Test Losses', fontsize=25,)
-
-    ax.set_xlim(0, 72)
-    ax.plot(X, train_losses, color="red", label="Train Loss")
-    ax.plot(X, test_losses, color="green", label="Test Loss")
-
-    plt.rcParams.update({'font.size': 20})
-
-    plt.legend(loc="upper right", frameon=False, fontsize=20)
-    # plt.xlabel("Epochs",{"size":20})
-    # plt.ylabel("Loss", {"size":20})
-
-    if (optimal_epoch != None):
-        plt.axvline(x=optimal_epoch, ymax=0.5)
-        # ax.plot(58, 0, 'go', label='marker only')
-        plt.text(optimal_epoch, 35,
-                 f'Optimal Epoch at {optimal_epoch}', fontsize=15)
-
-    plt.show()
+    pad = FRAME_SIZE - len(wav) % FRAME_SIZE
+    wav = np.pad(wav, (0, pad), mode="mean")
+    return wav

@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from uuid import UUID
 from os.path import splitext
-from nepalimodel.predict import predict_from_speech
+from predict import predict_from_speech
 from pydub import AudioSegment
 from pythonfiles.main import get_summary_from_text_file
 from pythonfiles import tokenizer
@@ -15,7 +15,7 @@ import os
 import subprocess 
 from pydub import AudioSegment
 from fastapi.responses import HTMLResponse
-
+import uvicorn
 
 
 
@@ -81,10 +81,11 @@ def create_upload_file(audio: UploadFile = File(...)):
         #     song = AudioSegment.from_wav(audio.filename)
         #     song.export("testme.flac",format = "flac")
             
-        
+        print("Start")
         file_location = f"static/audio/{uuid.uuid1()}{audio.filename}"
         with open(file_location, "wb+") as file_object:
             file_object.write(audio.file.read())    
+            print("File written")
         transcript=predict_from_speech(file_location)
         return transcript
         # return audio
@@ -112,6 +113,11 @@ def create_upload_file(audio: UploadFile = File(...)):
     
     # return audio    
 
+if __name__ == "__main__":
+    # for development
+    # uvicorn.run("main:app",host='127.0.0.1',port=8000,reload=True)
+    # for production
+    uvicorn.run(app,host='localhost',port=8000)
         
 
     
