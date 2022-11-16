@@ -57,7 +57,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
     with tf.device(device_name):
         # Definition of checkpoint
-        checkpoint_dir = '/content/drive/MyDrive/training_checkpoints'
+        checkpoint_dir = '/content/drive/MyDrive/Training_Checkpoints'
         checkpoint_prefix = os.path.join(checkpoint_dir,'ckpt')
         checkpoint = tf.train.Checkpoint(optimizer =optimizer, model = model)
         # restore latest checkpoint
@@ -210,7 +210,7 @@ if __name__ == "__main__":
     # Load the data
     print("Loading data.....")
     train_wavs, train_texts = load_data(
-        wavs_dir="/content/audio", texts_dir="/content/drive/MyDrive/Automatic-Nepali-Speech-Recognition-and-Summarizer/ASR/data_asr/transcript_asr/new_transcript_for_asr_complete.csv")
+        wavs_dir="/content/audio/audio", texts_dir="/content/drive/MyDrive/Automatic-Nepali-Speech-Recognition-and-Summarizer/ASR/data_old/transcript_asr/new_transcript_for_asr_complete.csv")
     t2 = time.time()
     print(f"Data loaded \u2705 \u2705 \u2705 \u2705\nAnd It took {t2-t1} seconds\n")
 
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     # model = load_model('/content/drive/MyDrive/Training_Checkpoints/checkpoint_50.h5')
 
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, epochs=100, batch_size=200)
+                test_wavs, test_texts, epochs=100, batch_size=100)
     model_trained.save('/content/drive/MyDrive/Trained_Models/model_5epoch.h5')
     print('Model Saved')
 
@@ -258,4 +258,5 @@ if __name__ == "__main__":
     Batch size - 500,300 gave GPU error
     Batch size - 5 was too slow took nearly 1 hr for an epoch
     Batch size - 250 increased gpu utilization without giving error and saw some improvement in training time
+    For the first 20000 data using batch size 200 gave error so reduced to 100
     '''
