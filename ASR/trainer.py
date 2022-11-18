@@ -16,14 +16,108 @@ from model.utils import CER_from_mfccs, batchify, clean_single_wav, gen_mfcc, in
 from model.model import get_model
 
 # To load the evaluation metrics 
-wer_metric = load_metric("wer")
-cer_metric = load_metric("cer",revision="master")
+# wer_metric = load_metric("wer")
+# cer_metric = load_metric("cer",revision="master")
 
+def calculateWER(actual_label, predicted_label):
+    # convert string to list
+    actual_words = actual_label.split()
+    predicted_words = predicted_label.split()
+    # costs will hold the costs like in Levenshtein distance algorithm
+    costs = [[0 for inner in range(len(predicted_words)+1)] for outer in range(len(actual_words)+1)]
+    # backtrace will hold the operations we've done.
+    # so we could later backtrace, like the WER algorithm requires us to.
+    backtrace = [[0 for inner in range(len(predicted_words)+1)] for outer in range(len(actual_words)+1)]
+    # ok means no change, sub means substitution, ins means insertion and del means deletion
+    operations = {
+        'ok': 0,
+        'sub': 1,
+        'ins': 2,
+        'del': 3
+    }
+    # penalties for insertion, substitution and deletion
+    penalties = {
+        'ins': 1,
+        'sub': 1,
+        'del': 1
+    }
+    # First column represents the case where we achieve zero predicted labels i-e all the actual labels were deleted 
+    for i in range(1,len(actual_words)+1):
+        costs[i][0] = penalties['del']*i 
+        backtrace[i][0] = operations['del']
+    
+    # First row represents the case where we achieve the predicted label by inserting all the predicted labels into a zero length actual label i-e all unwanted insertions 
+    for j in range(1,len(predicted_words)+1):
+        costs[0][j] = penalties['ins']*j 
+        backtrace[0][j] = operations['ins']
+    
+    # computation
+    for i in  range(1,len(actual_words)+1):
+        for j in range(1,len(predicted_words)+1):
+            # no change in predictions and actual label
+            if actual_words[i-1] == predicted_words[j-1]:
+                costs[i][j] = costs[i-1][j-1]
+                backtrace[i][j] = operations['ok']
+            else:
+                # change has occured
+                sub_cost = costs[i-1][j-1] + penalties['sub']
+                ins_cost = costs[i][j-1] + penalties['ins']
+                del_cost = costs[i-1][j] + penalties['del']
+                costs[i][j] = min(sub_cost,ins_cost,del_cost)
+                if costs[i][j] == sub_cost:
+                    backtrace[i][j] = operations['sub']
+                elif costs[i][j] == ins_cost:
+                    backtrace[i][j] = operations['ins']
+                else: 
+                    backtrace[i][j] = operations['del']
+    
+    # backtrace through the best route
+    i = len(actual_words)
+    j = len(predicted_words)
+    sub_count = 0 
+    del_count = 0 
+    ins_count = 0 
+    correct_count = 0 
+
+    while i > 0 or j > 0:
+        if backtrace[i][j] == operations['ok']:
+            correct_count += 1
+            i -= 1
+            j -= 1
+        elif backtrace[i][j] == operations['sub']:
+            sub_count += 1 
+            i -= 1
+            j -= 1
+        elif backtrace[i][j] == operations['ins']:
+            ins_count += 1
+            j -= 1
+        elif backtrace[i][j] == operations['del']:
+            del_count += 1
+            i -= 1
+    
+    """ 
+    WER formula: 
+    WER = S + D + I / N = S + D I / S + D + C
+    """
+    wer = round((sub_count + del_count + ins_count)/(sub_count + del_count + correct_count),3)
+    # wer = round((sub_count + ins_count + del_count)/(float)(len(actual_words)),3)
+    return wer 
+
+# Function to calculate the WER and CER 
 def calculateErrorRates(actual_label,predicted_label):
-    # Calculate CER and WER for given arguments 
-    cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
-    wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    # For CER
+    sm = ed.SequenceMatcher(predicted_label,actual_label)
+    ed_dist = sm.distance() 
+    cer = ed_dist/len(actual_label)
+    # For WER 
+    wer = calculateWER(actual_label,predicted_label)
     return cer,wer
+
+# def calculateErrorRates(actual_label,predicted_label):
+#     # Calculate CER and WER for given arguments 
+#     cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
+#     wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
+#     return cer,wer
 
 def calculateBatchErrorRates(output,target,start,end,cer,wer):
     """
@@ -46,6 +140,8 @@ def calculateBatchErrorRates(output,target,start,end,cer,wer):
     for i in range(len_batch):
         predicted_label = predicted_indices[i]
         actual_label = target_indices[i]
+        print(f"Pred: {predicted_label}")
+        print(f"Actual: {actual_label}")
         error_rates = calculateErrorRates(actual_label,predicted_label)
         batch_cer += error_rates[0]
         batch_wer += error_rates[1]
@@ -53,17 +149,18 @@ def calculateBatchErrorRates(output,target,start,end,cer,wer):
     batch_wer /= len_batch
     return batch_cer,batch_wer
 
-def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, validation_texts, epochs=100, batch_size=50):
+def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, validation_texts, epochs=100, batch_size=50,restore_checkpoint=True):
 
     with tf.device(device_name):
         # Definition of checkpoint
-        checkpoint_dir = '/content/drive/MyDrive/Training_Checkpoints'
+        checkpoint_dir = '/content/drive/MyDrive/training_checkpoints'
         checkpoint_prefix = os.path.join(checkpoint_dir,'ckpt')
         checkpoint = tf.train.Checkpoint(optimizer =optimizer, model = model)
         # restore latest checkpoint
-        if len(os.listdir(checkpoint_dir)) != 0: 
-            checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
-            print('Checkpoint Restored')
+        if restore_checkpoint == True:
+            if len(os.listdir(checkpoint_dir)) != 0: 
+                checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
+                print('Checkpoint Restored')
         # These will be the final results to be returned
         train_losses = []
         validation_losses = []
@@ -151,19 +248,17 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
             validation_CERs.append(validation_CER)
             validation_WERs.append(validation_WER)
             
-            
             rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Train CER: {(training_CER*100):.2f}, Validation CER: {(validation_CER*100):.2f}, Train WER: {(training_WER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
 
             print(rec)
 
+            print(f"Now saving checkpoint for epoch {epoch}")
+            checkpoint.save(checkpoint_prefix) 
+            print('Checkpoint Saved')
             # # To save checkpoint
-            if epoch % 2 == 0 and epoch != 0:
+            if epoch % 3 == 0 and epoch != 0:
                 # model.save(filepath = f'/content/drive/MyDrive/Training_Checkpoints/checkpoint_{e}.h5',save_format = "h5")
                 # checkpoint = tf.train.Checkpoint(model)
-                print("Saving Checkpoint ...")
-                checkpoint.save(checkpoint_prefix)
-                        
-                print('Checkpoint Saved')
                 break
 
 
@@ -180,7 +275,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
     return model, result
 
 def load_data(wavs_dir, texts_dir):
-    texts_df = pd.read_csv(texts_dir)[0:20000]
+    texts_df = pd.read_csv(texts_dir)[0:10]
     train_wavs = []
     print(f'There are {texts_df.shape[0]} files')
     for idx,f_name in enumerate(texts_df["filename"]):
@@ -188,7 +283,7 @@ def load_data(wavs_dir, texts_dir):
         train_wavs.append(wav)
         index = idx + 1
         if index % 10000 == 0:
-            print(f"{index} data loaded !!!")
+            print(f"{idx} data loaded !!!")
     train_texts = texts_df["label"].tolist()
     return train_wavs, train_texts
 
@@ -210,7 +305,7 @@ if __name__ == "__main__":
     # Load the data
     print("Loading data.....")
     train_wavs, train_texts = load_data(
-        wavs_dir="/content/audio/audio", texts_dir="/content/drive/MyDrive/Automatic-Nepali-Speech-Recognition-and-Summarizer/ASR/data_old/transcript_asr/new_transcript_for_asr_complete.csv")
+        wavs_dir="/content/audio", texts_dir="/content/drive/MyDrive/Automatic-Nepali-Speech-Recognition-and-Summarizer/ASR/data_asr/transcript_asr/new_transcript_for_asr_complete.csv")
     t2 = time.time()
     print(f"Data loaded \u2705 \u2705 \u2705 \u2705\nAnd It took {t2-t1} seconds\n")
 
@@ -249,8 +344,8 @@ if __name__ == "__main__":
     # model = load_model('/content/drive/MyDrive/Training_Checkpoints/checkpoint_50.h5')
 
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, epochs=100, batch_size=100)
-    model_trained.save('/content/drive/MyDrive/Trained_Models/model_5epoch.h5')
+                test_wavs, test_texts, epochs=100, batch_size=100,restore_checkpoint=False)
+    model_trained.save('/content/drive/MyDrive/Trained_Models/model1_20000.h5')
     print('Model Saved')
 
     '''
@@ -258,5 +353,4 @@ if __name__ == "__main__":
     Batch size - 500,300 gave GPU error
     Batch size - 5 was too slow took nearly 1 hr for an epoch
     Batch size - 250 increased gpu utilization without giving error and saw some improvement in training time
-    For the first 20000 data using batch size 200 gave error so reduced to 100
     '''
