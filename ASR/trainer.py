@@ -16,8 +16,8 @@ from model.utils import CER_from_mfccs, batchify, clean_single_wav, gen_mfcc, in
 from model.model import get_model
 
 # To load the evaluation metrics 
-# wer_metric = load_metric("wer")
-# cer_metric = load_metric("cer",revision="master")
+wer_metric = load_metric("wer")
+cer_metric = load_metric("cer",revision="master")
 
 def calculateWER(actual_label, predicted_label):
     # convert string to list
@@ -113,13 +113,14 @@ def calculateErrorRates(actual_label,predicted_label):
     wer = calculateWER(actual_label,predicted_label)
     return cer,wer
 
-# def calculateErrorRates(actual_label,predicted_label):
-#     # Calculate CER and WER for given arguments 
-#     cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
-#     wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
-#     return cer,wer
+# Using imported functions
+def calculateErrorRatesAlt(actual_label,predicted_label):
+    # Calculate CER and WER for given arguments 
+    cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    return cer,wer
 
-def calculateBatchErrorRates(output,target,start,end,cer,wer):
+def calculateBatchErrorRates(output,target,start,end,cer,wer,isValidation=False):
     """
         The line of codes below is for computing evaluation metric (CER) on internal validation data.
     """
@@ -137,16 +138,25 @@ def calculateBatchErrorRates(output,target,start,end,cer,wer):
     batch_cer = cer
     batch_wer = wer
     len_batch = end - start
+    predicted_labels = []
+    actual_labels = []
     for i in range(len_batch):
-        predicted_label = predicted_indices[i]
-        actual_label = target_indices[i]
-        print(f"Pred: {predicted_label}")
-        print(f"Actual: {actual_label}")
+        predicted_indices_list = predicted_indices[i]
+        actual_indices_list = target_indices[i]
+        predicted_label = "".join([UNQ_CHARS[index] for index in predicted_indices_list])
+        actual_label = "".join([UNQ_CHARS[index] for index in actual_indices_list])
+        if isValidation == True:
+            # print(f"\nPred: {predicted_label}")
+            # print(f"Actual: {actual_label}\n")
+            predicted_labels.append(predicted_label)
+            actual_labels.append(actual_label)
         error_rates = calculateErrorRates(actual_label,predicted_label)
         batch_cer += error_rates[0]
         batch_wer += error_rates[1]
     batch_cer /= len_batch
     batch_wer /= len_batch
+    if isValidation == True:
+        return batch_cer, batch_wer, predicted_labels, actual_labels
     return batch_cer,batch_wer
 
 def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, validation_texts, epochs=100, batch_size=50,restore_checkpoint=True):
@@ -227,8 +237,9 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
                 validation_loss += np.average(loss.numpy())
                 validation_batch_count += 1
-                validation_CER, validation_WER = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER)
-
+                validation_CER, validation_WER, predicted_labels, actual_labels = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER,isValidation=True)
+            print(f"\nPred: {predicted_labels[0]}")
+            print(f"Actual: {actual_labels[0]}\n")
             # Average the results
             # losses
             training_loss /= train_batch_count
@@ -275,7 +286,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
     return model, result
 
 def load_data(wavs_dir, texts_dir):
-    texts_df = pd.read_csv(texts_dir)[0:10]
+    texts_df = pd.read_csv(texts_dir)[0:20000]
     train_wavs = []
     print(f'There are {texts_df.shape[0]} files')
     for idx,f_name in enumerate(texts_df["filename"]):
@@ -283,7 +294,7 @@ def load_data(wavs_dir, texts_dir):
         train_wavs.append(wav)
         index = idx + 1
         if index % 10000 == 0:
-            print(f"{idx} data loaded !!!")
+            print(f"{index} data loaded !!!")
     train_texts = texts_df["label"].tolist()
     return train_wavs, train_texts
 
