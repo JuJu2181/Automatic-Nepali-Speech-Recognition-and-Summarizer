@@ -163,7 +163,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
     with tf.device(device_name):
         # Definition of checkpoint
-        checkpoint_dir = '/content/drive/MyDrive/training_checkpoints'
+        checkpoint_dir = '/content/drive/MyDrive/training-checkpoints'
         checkpoint_prefix = os.path.join(checkpoint_dir,'ckpt')
         checkpoint = tf.train.Checkpoint(optimizer =optimizer, model = model)
         # restore latest checkpoint
@@ -240,8 +240,8 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
                 validation_loss += np.average(loss.numpy())
                 validation_batch_count += 1
                 validation_CER, validation_WER, predicted_labels, actual_labels = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER,isValidation=True)
-            print(f"\nPred: {predicted_labels[0]}")
-            print(f"Actual: {actual_labels[0]}\n")
+            print(f"\nPred: {predicted_labels[0].split()}")
+            print(f"Actual: {actual_labels[0].split()}\n")
             # Average the results
             # losses
             training_loss /= train_batch_count
@@ -271,7 +271,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
 
         result = {
-            'epochs': range(start_epoch,end_epoch),
+            'epochs': list(range(start_epoch+1,end_epoch+1)),
             'train_loss': train_losses,
             'validation_loss': validation_losses,
             'train_cer': train_CERs,
@@ -301,6 +301,22 @@ def load_data_with_mfcc(wavs_dir, texts_dir):
     train_wavs = texts_df["mfcc"].to_list()
     train_wavs = [np.fromstring(mfcc_str, sep=',',dtype=np.float32) for mfcc_str in train_wavs]
     return train_wavs, train_texts
+
+def update_csv(result):
+    print("Now updating csv file")
+    original_csv_path = "/content/drive/MyDrive/results_20k.csv"
+    original_df = pd.read_csv(original_csv_path)
+    df_temp = pd.DataFrame(result)
+    df_temp.rename(columns={"epochs":"epoch"},inplace=True)
+    df_temp["train_cer"] = df_temp["train_cer"]*100
+    df_temp["validation_cer"] = df_temp["validation_cer"]*100
+    df_temp["train_wer"] = df_temp["train_wer"]*100
+    df_temp["validation_wer"] = df_temp["validation_wer"]*100
+    df_final = pd.concat([original_df,df_temp],ignore_index=True)
+    print(f"Updated results dataframe now have {df_final.shape[0]} rows")
+    df_final.to_csv("/content/drive/MyDrive/new_results.csv",index=False)
+    df_final.to_csv(original_csv_path,index=False)
+    print("Updated CSV saved")
 
 
 if __name__ == "__main__":
@@ -350,7 +366,7 @@ if __name__ == "__main__":
     # Load the data
     print("Loading data.....")
     train_wavs, train_texts = load_data_with_mfcc(
-        wavs_dir="/content/audio", texts_dir="/content/data_with_mfcc_20000_40000.csv")
+        wavs_dir="/content/audio/audio", texts_dir="/content/data_with_mfcc_0_20000.csv")
     t2 = time.time()
     print(f"Data loaded with mfcc \u2705 \u2705 \u2705 \u2705\nAnd It took {t2-t1} seconds\n")
 
@@ -369,9 +385,13 @@ if __name__ == "__main__":
     # model = load_model('/content/drive/MyDrive/Training_Checkpoints/checkpoint_50.h5')
 
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, start_epoch=0,end_epoch=1, batch_size=100,restore_checkpoint=True)
+                test_wavs, test_texts, start_epoch=40,end_epoch=42, batch_size=100,restore_checkpoint=True)
     # model_trained.save('/content/drive/MyDrive/Trained_Models/model1_20000.h5')
-    print('Model Saved')
+    print('Model Trained')
+
+    update_csv(result)
+
+
 
     '''
     Some notes:
