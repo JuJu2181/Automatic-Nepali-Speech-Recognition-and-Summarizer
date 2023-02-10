@@ -10,3 +10,10 @@ wandb/
 *.env
 *.zip
 node_modules/
+pytorch_model.bin
+training_checkpoints/
+archive/
+model_new/
+processor_new/
+model_wav2vec/
+static/
