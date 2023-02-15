@@ -24,7 +24,6 @@ def dense_block(arch,dense_dim):
     arch = layers.ReLU()(arch)
     return arch
 
-
 # Main ASR model
 def get_model(ip_channel, num_classes, num_res_blocks=3, num_cnn_layers=1, cnn_filters=50,
              cnn_kernel_size=15,  num_rnn_layers=2, rnn_dim=170, num_dense_layers=1,
@@ -62,14 +61,14 @@ def get_model(ip_channel, num_classes, num_res_blocks=3, num_cnn_layers=1, cnn_f
     return model
 
 
-if __name__ == "__main__":
-    # Defintion of the model
+# if __name__ == "__main__":
+#     # Defintion of the model
     
-    model = get_model(INPUT_DIM, NUM_UNQ_CHARS, num_res_blocks=5, num_cnn_layers=2,
-                     cnn_filters=50, cnn_kernel_size=15, rnn_dim=170, num_rnn_layers=2,
-                     num_dense_layers=1, dense_dim=340, model_name=MODEL_NAME, rnn_type="lstm",
-                     use_birnn=True)
-    x = np.random.rand(2, 100, INPUT_DIM)
-    y = model(x)
-    print(y.shape)
-    # model.summary()
+#     model = get_model(INPUT_DIM, NUM_UNQ_CHARS, num_res_blocks=5, num_cnn_layers=2,
+#                      cnn_filters=50, cnn_kernel_size=15, rnn_dim=170, num_rnn_layers=2,
+#                      num_dense_layers=1, dense_dim=340, model_name=MODEL_NAME, rnn_type="lstm",
+#                      use_birnn=True)
+#     x = np.random.rand(2, 100, INPUT_DIM)
+#     y = model(x)
+#     print(y.shape)
+#     # model.summary()

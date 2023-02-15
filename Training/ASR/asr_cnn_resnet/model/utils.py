@@ -170,6 +170,7 @@ def predict_from_wavs(model, wavs, unq_chars):
     mfccs = [gen_mfcc(wav) for wav in wavs]
     return predict_from_mfccs(model, mfccs, unq_chars)
 
+
 # U.9
 # Converts the text to list of indices as per the unique characters list
 

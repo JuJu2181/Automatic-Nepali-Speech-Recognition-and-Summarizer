@@ -12,8 +12,10 @@ wandb/
 node_modules/
 pytorch_model.bin
 training_checkpoints/
+training-checkpoints/
 archive/
 model_new/
 processor_new/
 model_wav2vec/
 static/
+results*.csv

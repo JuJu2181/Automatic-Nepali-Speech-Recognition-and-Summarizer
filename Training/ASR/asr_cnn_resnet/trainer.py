@@ -126,13 +126,12 @@ def calculateBatchErrorRates(output,target,start,end,cer,wer,isValidation=False)
     """
     input_len = np.ones(output.shape[0]) * output.shape[1]
     # Decode the output using beam search and CTC to get  the required logits
-    # decoded_indices = K.ctc_decode(output, input_length=input_len,
-    #                         greedy=False, beam_width=100)[0][0]
-    outputs = tf.nn.ctc_greedy_decoder(
-    logits,
-    seq_lens,
-    blank_index=1)
-    decoded_indices = K.ctc_greedy_decoder(output, sequence_length=input_len)[0][0]
+    with tf.device(device_name):
+        decoded_indices = K.ctc_decode(output, input_length=input_len,
+                            greedy=False, beam_width=100)[0][0]
+
+
+    # decoded_indices = tf.nn.ctc_beam_search_decoder(inputs=output, sequence_length=input_len,beam_width=100)[0][0]
     
     # Remove the padding token from batchified target texts
     target_indices = [sent[sent != 0].tolist() for sent in target]
@@ -181,21 +180,21 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
         # These will be the final results to be returned
         train_losses = []
         validation_losses = []
-        # train_CERs = []
-        # train_WERs = []
-        # validation_CERs = []
-        # validation_WERs = []
+        train_CERs = []
+        train_WERs = []
+        validation_CERs = []
+        validation_WERs = []
         for e in range(start_epoch, end_epoch):
             epoch = e+1
             start_time = time.time()
             len_train = len(train_wavs)
             len_validation = len(validation_wavs)
             training_loss = 0
-            # training_CER = 0
-            # training_WER = 0
+            training_CER = 0
+            training_WER = 0
             validation_loss = 0
-            # validation_CER = 0
-            # validation_WER = 0
+            validation_CER = 0
+            validation_WER = 0
             train_batch_count = 0
             validation_batch_count = 0
             # Training Steps
@@ -221,7 +220,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
                 training_loss += np.average(loss.numpy())
                 train_batch_count += 1
-                # training_CER, training_WER = calculateBatchErrorRates(output,target,start,end,training_CER,training_WER)
+                training_CER, training_WER = calculateBatchErrorRates(output,target,start,end,training_CER,training_WER)
 
 
             # Validation Step
@@ -244,31 +243,31 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
                 validation_loss += np.average(loss.numpy())
                 validation_batch_count += 1
-                # validation_CER, validation_WER, predicted_labels, actual_labels = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER,isValidation=True)
-            # print(f"\nPred: {predicted_labels[0].split()}")
-            # print(f"Actual: {actual_labels[0].split()}\n")
+                validation_CER, validation_WER, predicted_labels, actual_labels = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER,isValidation=True)
+            print(f"\nPred: {predicted_labels[0].split()}")
+            print(f"Actual: {actual_labels[0].split()}\n")
             # Average the results
             # losses
             training_loss /= train_batch_count
             validation_loss /= validation_batch_count
-            # # cers
-            # training_CER /= train_batch_count
-            # validation_CER /= validation_batch_count
-            # # wers 
-            # training_WER /= train_batch_count 
-            # validation_WER /= validation_batch_count
+            # cers
+            training_CER /= train_batch_count
+            validation_CER /= validation_batch_count
+            # wers 
+            training_WER /= train_batch_count 
+            validation_WER /= validation_batch_count
 
             # Append the results 
             train_losses.append(training_loss)
-            # train_CERs.append(training_CER)
-            # train_WERs.append(training_WER)
+            train_CERs.append(training_CER)
+            train_WERs.append(training_WER)
             validation_losses.append(validation_loss)
-            # validation_CERs.append(validation_CER)
-            # validation_WERs.append(validation_WER)
+            validation_CERs.append(validation_CER)
+            validation_WERs.append(validation_WER)
             
-            # rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Train CER: {(training_CER*100):.2f}, Validation CER: {(validation_CER*100):.2f}, Train WER: {(training_WER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
+            rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Train CER: {(training_CER*100):.2f}, Validation CER: {(validation_CER*100):.2f}, Train WER: {(training_WER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
 
-            rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f} in {(time.time() - start_time):.2f} secs\n"
+            # rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f} in {(time.time() - start_time):.2f} secs\n"
 
             print(rec)
             if epoch % 10 == 0:
@@ -281,10 +280,10 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
             'epochs': list(range(start_epoch+1,end_epoch+1)),
             'train_loss': train_losses,
             'validation_loss': validation_losses,
-            # 'train_cer': train_CERs,
-            # 'validation_cer': validation_CERs,
-            # 'train_wer': train_WERs,
-            # 'validation_wer': validation_WERs
+            'train_cer': train_CERs,
+            'validation_cer': validation_CERs,
+            'train_wer': train_WERs,
+            'validation_wer': validation_WERs
         }
     
     return model, result
@@ -303,7 +302,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 #     return train_wavs, train_texts
 
 def load_data_with_mfcc(texts_dir):
-    texts_df = pd.read_csv(texts_dir)
+    texts_df = pd.read_csv(texts_dir,skiprows=0,nrows=1000)
     train_texts = texts_df["label"].to_list()
     train_wavs = texts_df["mfcc"].to_list()
     train_wavs = [np.fromstring(mfcc_str, sep=',',dtype=np.float32) for mfcc_str in train_wavs]

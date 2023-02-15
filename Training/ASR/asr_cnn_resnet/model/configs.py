@@ -15,7 +15,7 @@ assert FRAME_SIZE % HOP_LENGTH == 0
 
 INPUT_DIM = int(N_MFCC * (FRAME_SIZE / HOP_LENGTH))
 
-with open('/content/drive/MyDrive/Automatic-Nepali-Speech-Recognition-and-Summarizer/ASR/data_old/vocabulary_asr/new_vocab.json','r',encoding='utf8') as f:
+with open('./new_vocab.json','r',encoding='utf8') as f:
     chars_dict = json.load(f)
 UNQ_CHARS = list(chars_dict.keys())
 UNQ_CHARS = ['0', 'u' ] + sorted(UNQ_CHARS) + ['-'] #"0" -> padding char,"u" -> unknown chars "-" -> blank char
