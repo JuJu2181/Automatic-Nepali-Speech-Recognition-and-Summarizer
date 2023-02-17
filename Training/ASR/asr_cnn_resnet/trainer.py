@@ -180,8 +180,8 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
         # These will be the final results to be returned
         train_losses = []
         validation_losses = []
-        train_CERs = []
-        train_WERs = []
+        # train_CERs = []
+        # train_WERs = []
         validation_CERs = []
         validation_WERs = []
         for e in range(start_epoch, end_epoch):
@@ -220,7 +220,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
                 training_loss += np.average(loss.numpy())
                 train_batch_count += 1
-                training_CER, training_WER = calculateBatchErrorRates(output,target,start,end,training_CER,training_WER)
+                # training_CER, training_WER = calculateBatchErrorRates(output,target,start,end,training_CER,training_WER)
 
 
             # Validation Step
@@ -244,33 +244,38 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
                 validation_loss += np.average(loss.numpy())
                 validation_batch_count += 1
                 validation_CER, validation_WER, predicted_labels, actual_labels = calculateBatchErrorRates(output,target,start,end,validation_CER,validation_WER,isValidation=True)
-            print(f"\nPred: {predicted_labels[0].split()}")
-            print(f"Actual: {actual_labels[0].split()}\n")
+            print(f"\nTest Results for epoch {epoch}:\n")
+            for pred_idx in range(0,len(predicted_labels)):
+                print(f"\nPred: {predicted_labels[pred_idx].split()}")
+                print(f"Actual: {actual_labels[pred_idx].split()}\n")
+            
             # Average the results
             # losses
             training_loss /= train_batch_count
             validation_loss /= validation_batch_count
             # cers
-            training_CER /= train_batch_count
+            # training_CER /= train_batch_count
             validation_CER /= validation_batch_count
             # wers 
-            training_WER /= train_batch_count 
+            # training_WER /= train_batch_count 
             validation_WER /= validation_batch_count
 
             # Append the results 
             train_losses.append(training_loss)
-            train_CERs.append(training_CER)
-            train_WERs.append(training_WER)
+            # train_CERs.append(training_CER)
+            # train_WERs.append(training_WER)
             validation_losses.append(validation_loss)
             validation_CERs.append(validation_CER)
             validation_WERs.append(validation_WER)
             
-            rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Train CER: {(training_CER*100):.2f}, Validation CER: {(validation_CER*100):.2f}, Train WER: {(training_WER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
+            # rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Train CER: {(training_CER*100):.2f}, Validation CER: {(validation_CER*100):.2f}, Train WER: {(training_WER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
+
+            rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f}, Validation CER: {(validation_CER*100):.2f}, Validation WER: {(validation_WER*100):.2f} in {(time.time() - start_time):.2f} secs\n"
 
             # rec = f"Epoch: {epoch}, Train Loss: {training_loss:.2f}, Validation Loss: {validation_loss:.2f} in {(time.time() - start_time):.2f} secs\n"
 
             print(rec)
-            if epoch % 10 == 0:
+            if epoch % 5 == 0:
                 print(f"Now saving checkpoint for epoch {epoch}")
                 checkpoint.save(checkpoint_prefix) 
                 print('Checkpoint Saved')
@@ -280,9 +285,9 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
             'epochs': list(range(start_epoch+1,end_epoch+1)),
             'train_loss': train_losses,
             'validation_loss': validation_losses,
-            'train_cer': train_CERs,
+            # 'train_cer': train_CERs,
             'validation_cer': validation_CERs,
-            'train_wer': train_WERs,
+            # 'train_wer': train_WERs,
             'validation_wer': validation_WERs
         }
     
@@ -302,7 +307,9 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 #     return train_wavs, train_texts
 
 def load_data_with_mfcc(texts_dir):
-    texts_df = pd.read_csv(texts_dir,skiprows=0,nrows=1000)
+    # texts_df = pd.read_csv(texts_dir,skiprows=0,nrows=1000)
+    texts_df = pd.read_csv(texts_dir)
+    print(f"There are {texts_df.shape[0]} rows in dataset")
     train_texts = texts_df["label"].to_list()
     train_wavs = texts_df["mfcc"].to_list()
     train_wavs = [np.fromstring(mfcc_str, sep=',',dtype=np.float32) for mfcc_str in train_wavs]
@@ -315,9 +322,9 @@ def update_csv(result):
     df_temp = pd.DataFrame(result)
     df_temp.rename(columns={"epochs":"epoch"},inplace=True)
     # df_temp["train_cer"] = df_temp["train_cer"]*100
-    # df_temp["validation_cer"] = df_temp["validation_cer"]*100
+    df_temp["validation_cer"] = df_temp["validation_cer"]*100
     # df_temp["train_wer"] = df_temp["train_wer"]*100
-    # df_temp["validation_wer"] = df_temp["validation_wer"]*100
+    df_temp["validation_wer"] = df_temp["validation_wer"]*100
     df_final = pd.concat([original_df,df_temp],ignore_index=True)
     print(f"Updated results dataframe now have {df_final.shape[0]} rows")
     df_final.to_csv(original_csv_path,index=False)
@@ -341,7 +348,7 @@ if __name__ == "__main__":
     t1 = time.time()
     # Load the data
     print("Loading data.....")
-    train_wavs, train_texts = load_data_with_mfcc(texts_dir="~/manualpartition/teamSaransha/data/data_cnn/data_first_40k.csv")
+    train_wavs, train_texts = load_data_with_mfcc(texts_dir="~/manualpartition/teamSaransha/data/data_cnn/data_first_90k.csv")
     t2 = time.time()
     print(f"Data loaded with mfcc \u2705 \u2705 \u2705 \u2705\nAnd It took {t2-t1} seconds\n")
 
@@ -352,7 +359,7 @@ if __name__ == "__main__":
     t3 = time.time()
     print("Splitting data.....")
     train_wavs, test_wavs, train_texts, test_texts = train_test_split(
-        train_wavs, train_texts, test_size=0.2,shuffle=False, random_state=None)
+        train_wavs, train_texts, test_size=0.01,shuffle=False, random_state=None)
     t4 = time.time()
     print(f"Data splitted \u2705 \u2705 \u2705 \u2705\nAnd It took {t4-t3} seconds\n")
     # Train the model
@@ -364,12 +371,12 @@ if __name__ == "__main__":
     t5 = time.time()
     print("Training Model.....")
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, start_epoch=0,end_epoch=50, batch_size=64,restore_checkpoint=True)
-    model_trained.save('./model1.h5')
+                test_wavs, test_texts, start_epoch=45,end_epoch=46, batch_size=64,restore_checkpoint=True)
+    model_trained.save('./model_46.h5')
     t6 = time.time()
     print(f"Model Trained and Saved \u2705 \u2705 \u2705 \u2705\nAnd It took {t6-t5} seconds\n")
 
-    update_csv(result)
+    # update_csv(result)
     print('Results updated \u2705 \u2705 \u2705 \u2705\n')
     print(f"Total time taken: {time.time() - t1} seconds")
 
