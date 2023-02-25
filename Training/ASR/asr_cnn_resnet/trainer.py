@@ -167,7 +167,7 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
 
     with tf.device(device_name):
         # Definition of checkpoint
-        checkpoint_dir = './training-checkpoints'
+        checkpoint_dir = './training-checkpoints-new'
         checkpoint_prefix = os.path.join(checkpoint_dir,'ckpt')
         checkpoint = tf.train.Checkpoint(optimizer =optimizer, model = model)
         # restore latest checkpoint
@@ -279,10 +279,12 @@ def train_model(model, optimizer, train_wavs, train_texts, validation_wavs, vali
                 print(f"Now saving checkpoint for epoch {epoch}")
                 checkpoint.save(checkpoint_prefix) 
                 print('Checkpoint Saved')
+                model.save(f'./trained_models/model_{epoch}.h5')
+                print(f"Model saved for epoch {epoch}")
 
 
         result = {
-            'epochs': list(range(start_epoch+1,end_epoch+1)),
+            'epoch': list(range(start_epoch+1,end_epoch+1)),
             'train_loss': train_losses,
             'validation_loss': validation_losses,
             # 'train_cer': train_CERs,
@@ -312,22 +314,25 @@ def load_data_with_mfcc(texts_dir):
     print(f"There are {texts_df.shape[0]} rows in dataset")
     train_texts = texts_df["label"].to_list()
     train_wavs = texts_df["mfcc"].to_list()
+    print("Getting mfcc features from the audio waves")
     train_wavs = [np.fromstring(mfcc_str, sep=',',dtype=np.float32) for mfcc_str in train_wavs]
     return train_wavs, train_texts
 
 def update_csv(result):
     print("Now updating csv file")
-    original_csv_path = "./results_new_data.csv"
-    original_df = pd.read_csv(original_csv_path)
+    original_csv_path = "./results_new_data1.csv"
+    # original_df = pd.read_csv(original_csv_path)
     df_temp = pd.DataFrame(result)
-    df_temp.rename(columns={"epochs":"epoch"},inplace=True)
+    # df_temp.rename(columns={"epochs":"epoch"},inplace=True)
     # df_temp["train_cer"] = df_temp["train_cer"]*100
     df_temp["validation_cer"] = df_temp["validation_cer"]*100
     # df_temp["train_wer"] = df_temp["train_wer"]*100
     df_temp["validation_wer"] = df_temp["validation_wer"]*100
-    df_final = pd.concat([original_df,df_temp],ignore_index=True)
-    print(f"Updated results dataframe now have {df_final.shape[0]} rows")
-    df_final.to_csv(original_csv_path,index=False)
+    # df_final = pd.concat([original_df,df_temp],ignore_index=True)
+    # print(f"Updated results dataframe now have {df_final.shape[0]} rows")
+    df_temp.to_csv(original_csv_path,index=False)
+    # df_final.to_csv(original_csv_path,index=False)
+    # df_final.to_csv("./results_new_data100.csv",index=False)
     print("Updated CSV saved")
 
 
@@ -339,10 +344,17 @@ if __name__ == "__main__":
                       cnn_filters=50, cnn_kernel_size=15, rnn_dim=170, rnn_dropout=0.15, num_rnn_layers=2,
                       num_dense_layers=1, dense_dim=340, model_name=MODEL_NAME, rnn_type="lstm",
                       use_birnn=True)
+    # model = get_model(INPUT_DIM, NUM_UNQ_CHARS, num_res_blocks=3, num_cnn_layers=2,
+    #                   cnn_filters=50, cnn_kernel_size=20, rnn_dim=180, rnn_dropout=0.2, num_rnn_layers=2,
+    #                   num_dense_layers=1, dense_dim=360, model_name=MODEL_NAME, rnn_type="lstm",
+    #                   use_birnn=True)
     print("Model defined \u2705 \u2705 \u2705 \u2705\n")
 
     # Defintion of the optimizer
     optimizer = tf.keras.optimizers.Adam()
+    # No learning was seen even upto 15 epochs
+    # optimizer = tf.keras.optimizers.SGD(learning_rate=0.003, momentum=0.9)
+
 
     #load data along with mfcc
     t1 = time.time()
@@ -371,12 +383,12 @@ if __name__ == "__main__":
     t5 = time.time()
     print("Training Model.....")
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, start_epoch=45,end_epoch=46, batch_size=64,restore_checkpoint=True)
-    model_trained.save('./model_46.h5')
+                test_wavs, test_texts, start_epoch=0,end_epoch=50, batch_size=64,restore_checkpoint=True)
+    # model_trained.save('./model_final_sgd.h5')
     t6 = time.time()
     print(f"Model Trained and Saved \u2705 \u2705 \u2705 \u2705\nAnd It took {t6-t5} seconds\n")
 
-    # update_csv(result)
+    update_csv(result)
     print('Results updated \u2705 \u2705 \u2705 \u2705\n')
     print(f"Total time taken: {time.time() - t1} seconds")
 
