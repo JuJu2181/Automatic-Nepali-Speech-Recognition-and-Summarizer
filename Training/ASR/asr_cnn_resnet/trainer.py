@@ -1,3 +1,5 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 import tensorflow.keras.backend as K
 import numpy as np
@@ -8,7 +10,6 @@ import time
 from tqdm import tqdm
 import edit_distance as ed
 from datasets import load_metric
-import os
 
 
 from model.configs import SR, device_name, UNQ_CHARS, INPUT_DIM, MODEL_NAME, NUM_UNQ_CHARS
@@ -321,17 +322,17 @@ def load_data_with_mfcc(texts_dir):
 def update_csv(result):
     print("Now updating csv file")
     original_csv_path = "./results_new_data1.csv"
-    # original_df = pd.read_csv(original_csv_path)
+    original_df = pd.read_csv(original_csv_path)
     df_temp = pd.DataFrame(result)
     # df_temp.rename(columns={"epochs":"epoch"},inplace=True)
     # df_temp["train_cer"] = df_temp["train_cer"]*100
     df_temp["validation_cer"] = df_temp["validation_cer"]*100
     # df_temp["train_wer"] = df_temp["train_wer"]*100
     df_temp["validation_wer"] = df_temp["validation_wer"]*100
-    # df_final = pd.concat([original_df,df_temp],ignore_index=True)
-    # print(f"Updated results dataframe now have {df_final.shape[0]} rows")
+    df_final = pd.concat([original_df,df_temp],ignore_index=True)
+    print(f"Updated results dataframe now have {df_final.shape[0]} rows")
     df_temp.to_csv(original_csv_path,index=False)
-    # df_final.to_csv(original_csv_path,index=False)
+    df_final.to_csv(original_csv_path,index=False)
     # df_final.to_csv("./results_new_data100.csv",index=False)
     print("Updated CSV saved")
 
@@ -383,7 +384,7 @@ if __name__ == "__main__":
     t5 = time.time()
     print("Training Model.....")
     model_trained, result = train_model(model, optimizer, train_wavs, train_texts,
-                test_wavs, test_texts, start_epoch=0,end_epoch=50, batch_size=64,restore_checkpoint=True)
+                test_wavs, test_texts, start_epoch=50,end_epoch=100, batch_size=64,restore_checkpoint=True)
     # model_trained.save('./model_final_sgd.h5')
     t6 = time.time()
     print(f"Model Trained and Saved \u2705 \u2705 \u2705 \u2705\nAnd It took {t6-t5} seconds\n")
