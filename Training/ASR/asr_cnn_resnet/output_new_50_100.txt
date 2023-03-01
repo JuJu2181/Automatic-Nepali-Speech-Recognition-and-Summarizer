@@ -1,0 +1,1204 @@
+/device:GPU:0
+/device:GPU:0
+Model defined ✅ ✅ ✅ ✅
+
+Loading data.....
+There are 90000 rows in dataset
+Getting mfcc features from the audio waves
+Data loaded with mfcc ✅ ✅ ✅ ✅
+And It took 286.47153425216675 seconds
+
+Splitting data.....
+Data splitted ✅ ✅ ✅ ✅
+And It took 0.3498208522796631 seconds
+
+Training Model.....
+Checkpoint Restored
+Training epoch: 51
+Validation epoch: 51
+
+Test Results for epoch 51:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनुप्र्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेबछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 51, Train Loss: 9.11, Validation Loss: 10.88, Validation CER: 1.04, Validation WER: 2.85 in 881.62 secs
+
+Training epoch: 52
+Validation epoch: 52
+
+Test Results for epoch 52:
+
+
+Pred: ['सबै', 'जनताहले', 'मिएेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछिपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 52, Train Loss: 9.08, Validation Loss: 10.69, Validation CER: 0.85, Validation WER: 3.76 in 847.48 secs
+
+Training epoch: 53
+Validation epoch: 53
+
+Test Results for epoch 53:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनु', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 53, Train Loss: 8.98, Validation Loss: 10.34, Validation CER: 0.92, Validation WER: 4.22 in 852.66 secs
+
+Training epoch: 54
+Validation epoch: 54
+
+Test Results for epoch 54:
+
+
+Pred: ['सबै', 'जनताहले', 'मिएर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 54, Train Loss: 8.92, Validation Loss: 10.83, Validation CER: 1.05, Validation WER: 4.27 in 868.26 secs
+
+Training epoch: 55
+Validation epoch: 55
+
+Test Results for epoch 55:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जान', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 55, Train Loss: 8.62, Validation Loss: 10.64, Validation CER: 0.83, Validation WER: 4.21 in 856.18 secs
+
+Now saving checkpoint for epoch 55
+Checkpoint Saved
+Model saved for epoch 55
+Training epoch: 56
+Validation epoch: 56
+
+Test Results for epoch 56:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनपर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 56, Train Loss: 8.72, Validation Loss: 10.79, Validation CER: 1.05, Validation WER: 3.40 in 862.80 secs
+
+Training epoch: 57
+Validation epoch: 57
+
+Test Results for epoch 57:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनपर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 57, Train Loss: 8.64, Validation Loss: 10.98, Validation CER: 0.87, Validation WER: 2.91 in 855.19 secs
+
+Training epoch: 58
+Validation epoch: 58
+
+Test Results for epoch 58:
+
+
+Pred: ['सबै', 'जनताले', 'मिएेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 58, Train Loss: 8.71, Validation Loss: 10.98, Validation CER: 0.91, Validation WER: 4.21 in 863.74 secs
+
+Training epoch: 59
+Validation epoch: 59
+
+Test Results for epoch 59:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थे']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 59, Train Loss: 8.37, Validation Loss: 11.04, Validation CER: 0.94, Validation WER: 3.11 in 867.55 secs
+
+Training epoch: 60
+Validation epoch: 60
+
+Test Results for epoch 60:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनु', 'पर्थे']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेबछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 60, Train Loss: 8.29, Validation Loss: 10.90, Validation CER: 1.15, Validation WER: 3.70 in 867.02 secs
+
+Now saving checkpoint for epoch 60
+Checkpoint Saved
+Model saved for epoch 60
+Training epoch: 61
+Validation epoch: 61
+
+Test Results for epoch 61:
+
+
+Pred: ['सबै', 'जनताले', 'मिएर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 61, Train Loss: 8.33, Validation Loss: 11.09, Validation CER: 1.15, Validation WER: 4.26 in 870.36 secs
+
+Training epoch: 62
+Validation epoch: 62
+
+Test Results for epoch 62:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तहरेर', 'जन', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेखबाट', 'पचेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 62, Train Loss: 8.31, Validation Loss: 10.71, Validation CER: 1.03, Validation WER: 5.06 in 865.36 secs
+
+Training epoch: 63
+Validation epoch: 63
+
+Test Results for epoch 63:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 63, Train Loss: 8.09, Validation Loss: 10.56, Validation CER: 0.82, Validation WER: 3.71 in 865.88 secs
+
+Training epoch: 64
+Validation epoch: 64
+
+Test Results for epoch 64:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानु', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 64, Train Loss: 8.10, Validation Loss: 10.88, Validation CER: 0.93, Validation WER: 3.67 in 876.45 secs
+
+Training epoch: 65
+Validation epoch: 65
+
+Test Results for epoch 65:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 65, Train Loss: 8.06, Validation Loss: 10.73, Validation CER: 0.95, Validation WER: 4.27 in 876.48 secs
+
+Now saving checkpoint for epoch 65
+Checkpoint Saved
+Model saved for epoch 65
+Training epoch: 66
+Validation epoch: 66
+
+Test Results for epoch 66:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनप्र्थे']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 66, Train Loss: 8.02, Validation Loss: 11.35, Validation CER: 1.36, Validation WER: 2.88 in 876.37 secs
+
+Training epoch: 67
+Validation epoch: 67
+
+Test Results for epoch 67:
+
+
+Pred: ['सबै', 'जनताहले', 'मिएर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनपर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 67, Train Loss: 7.87, Validation Loss: 10.88, Validation CER: 1.13, Validation WER: 3.90 in 894.75 secs
+
+Training epoch: 68
+Validation epoch: 68
+
+Test Results for epoch 68:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तहरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 68, Train Loss: 7.82, Validation Loss: 10.72, Validation CER: 0.92, Validation WER: 4.50 in 870.68 secs
+
+Training epoch: 69
+Validation epoch: 69
+
+Test Results for epoch 69:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तहरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपुछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 69, Train Loss: 7.99, Validation Loss: 10.90, Validation CER: 1.04, Validation WER: 4.55 in 865.01 secs
+
+Training epoch: 70
+Validation epoch: 70
+
+Test Results for epoch 70:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 70, Train Loss: 7.72, Validation Loss: 10.91, Validation CER: 0.96, Validation WER: 3.74 in 877.40 secs
+
+Now saving checkpoint for epoch 70
+Checkpoint Saved
+Model saved for epoch 70
+Training epoch: 71
+Validation epoch: 71
+
+Test Results for epoch 71:
+
+
+Pred: ['सबै', 'जनताले', 'मिएेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेकछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 71, Train Loss: 7.63, Validation Loss: 10.90, Validation CER: 0.95, Validation WER: 4.22 in 870.59 secs
+
+Training epoch: 72
+Validation epoch: 72
+
+Test Results for epoch 72:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 72, Train Loss: 7.65, Validation Loss: 10.73, Validation CER: 0.72, Validation WER: 3.66 in 867.94 secs
+
+Training epoch: 73
+Validation epoch: 73
+
+Test Results for epoch 73:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनु', 'पर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 73, Train Loss: 7.46, Validation Loss: 11.34, Validation CER: 0.85, Validation WER: 3.12 in 874.53 secs
+
+Training epoch: 74
+Validation epoch: 74
+
+Test Results for epoch 74:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 74, Train Loss: 7.47, Validation Loss: 10.77, Validation CER: 0.93, Validation WER: 3.67 in 876.14 secs
+
+Training epoch: 75
+Validation epoch: 75
+
+Test Results for epoch 75:
+
+
+Pred: ['सबैजनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनु', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 75, Train Loss: 7.42, Validation Loss: 10.71, Validation CER: 0.94, Validation WER: 4.24 in 889.49 secs
+
+Now saving checkpoint for epoch 75
+Checkpoint Saved
+Model saved for epoch 75
+Training epoch: 76
+Validation epoch: 76
+
+Test Results for epoch 76:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडु', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 76, Train Loss: 7.48, Validation Loss: 10.84, Validation CER: 0.84, Validation WER: 3.73 in 881.79 secs
+
+Training epoch: 77
+Validation epoch: 77
+
+Test Results for epoch 77:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 77, Train Loss: 7.21, Validation Loss: 10.76, Validation CER: 0.81, Validation WER: 3.69 in 887.31 secs
+
+Training epoch: 78
+Validation epoch: 78
+
+Test Results for epoch 78:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['परेर', 'जान', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 78, Train Loss: 7.52, Validation Loss: 10.67, Validation CER: 0.82, Validation WER: 4.54 in 888.70 secs
+
+Training epoch: 79
+Validation epoch: 79
+
+Test Results for epoch 79:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जान', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 79, Train Loss: 7.16, Validation Loss: 11.20, Validation CER: 0.72, Validation WER: 3.73 in 894.53 secs
+
+Training epoch: 80
+Validation epoch: 80
+
+Test Results for epoch 80:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जान', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 80, Train Loss: 7.03, Validation Loss: 10.63, Validation CER: 0.71, Validation WER: 3.67 in 893.09 secs
+
+Now saving checkpoint for epoch 80
+Checkpoint Saved
+Model saved for epoch 80
+Training epoch: 81
+Validation epoch: 81
+
+Test Results for epoch 81:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेखबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 81, Train Loss: 6.99, Validation Loss: 11.07, Validation CER: 0.74, Validation WER: 3.23 in 892.97 secs
+
+Training epoch: 82
+Validation epoch: 82
+
+Test Results for epoch 82:
+
+
+Pred: ['सबैजनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 82, Train Loss: 6.96, Validation Loss: 10.98, Validation CER: 1.16, Validation WER: 4.83 in 883.92 secs
+
+Training epoch: 83
+Validation epoch: 83
+
+Test Results for epoch 83:
+
+
+Pred: ['सबैजनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनपर्थेयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 83, Train Loss: 7.00, Validation Loss: 11.07, Validation CER: 1.04, Validation WER: 3.92 in 887.91 secs
+
+Training epoch: 84
+Validation epoch: 84
+
+Test Results for epoch 84:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानपर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 84, Train Loss: 6.94, Validation Loss: 10.98, Validation CER: 0.82, Validation WER: 2.81 in 881.31 secs
+
+Training epoch: 85
+Validation epoch: 85
+
+Test Results for epoch 85:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनपर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लकबाट', 'पछेपोछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 85, Train Loss: 6.94, Validation Loss: 11.18, Validation CER: 1.14, Validation WER: 2.81 in 888.01 secs
+
+Now saving checkpoint for epoch 85
+Checkpoint Saved
+Model saved for epoch 85
+Training epoch: 86
+Validation epoch: 86
+
+Test Results for epoch 86:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थे']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 86, Train Loss: 7.03, Validation Loss: 11.27, Validation CER: 1.15, Validation WER: 4.25 in 886.27 secs
+
+Training epoch: 87
+Validation epoch: 87
+
+Test Results for epoch 87:
+
+
+Pred: ['सबै', 'जनताले', 'मिलर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 87, Train Loss: 6.76, Validation Loss: 11.24, Validation CER: 1.14, Validation WER: 4.22 in 899.10 secs
+
+Training epoch: 88
+Validation epoch: 88
+
+Test Results for epoch 88:
+
+
+Pred: ['सबै', 'जनताले', 'मिलर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 88, Train Loss: 6.71, Validation Loss: 11.22, Validation CER: 1.14, Validation WER: 4.21 in 898.52 secs
+
+Training epoch: 89
+Validation epoch: 89
+
+Test Results for epoch 89:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानपर्थे']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 89, Train Loss: 6.72, Validation Loss: 11.08, Validation CER: 1.03, Validation WER: 3.40 in 888.64 secs
+
+Training epoch: 90
+Validation epoch: 90
+
+Test Results for epoch 90:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जान', 'पर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'कछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 90, Train Loss: 6.84, Validation Loss: 11.03, Validation CER: 0.92, Validation WER: 3.67 in 895.47 secs
+
+Now saving checkpoint for epoch 90
+Checkpoint Saved
+Model saved for epoch 90
+Training epoch: 91
+Validation epoch: 91
+
+Test Results for epoch 91:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जनु', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 91, Train Loss: 6.76, Validation Loss: 10.97, Validation CER: 0.85, Validation WER: 3.74 in 907.82 secs
+
+Training epoch: 92
+Validation epoch: 92
+
+Test Results for epoch 92:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानु', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 92, Train Loss: 6.72, Validation Loss: 11.25, Validation CER: 0.64, Validation WER: 3.77 in 895.30 secs
+
+Training epoch: 93
+Validation epoch: 93
+
+Test Results for epoch 93:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 93, Train Loss: 6.68, Validation Loss: 11.19, Validation CER: 1.03, Validation WER: 4.30 in 897.86 secs
+
+Training epoch: 94
+Validation epoch: 94
+
+Test Results for epoch 94:
+
+
+Pred: ['सबै', 'जनताहले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 94, Train Loss: 6.51, Validation Loss: 11.23, Validation CER: 0.96, Validation WER: 4.30 in 897.23 secs
+
+Training epoch: 95
+Validation epoch: 95
+
+Test Results for epoch 95:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'कछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 95, Train Loss: 6.40, Validation Loss: 11.36, Validation CER: 0.93, Validation WER: 3.72 in 888.23 secs
+
+Now saving checkpoint for epoch 95
+Checkpoint Saved
+Model saved for epoch 95
+Training epoch: 96
+Validation epoch: 96
+
+Test Results for epoch 96:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जान', 'पर्थेो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'कचेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 96, Train Loss: 6.55, Validation Loss: 11.61, Validation CER: 1.04, Validation WER: 3.76 in 900.17 secs
+
+Training epoch: 97
+Validation epoch: 97
+
+Test Results for epoch 97:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानु', 'पर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लेकबाट', 'कछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 97, Train Loss: 6.57, Validation Loss: 11.29, Validation CER: 0.83, Validation WER: 3.66 in 911.26 secs
+
+Training epoch: 98
+Validation epoch: 98
+
+Test Results for epoch 98:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानु', 'पर्थ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लकबाट', 'कछेपुछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 98, Train Loss: 6.56, Validation Loss: 11.16, Validation CER: 0.93, Validation WER: 3.76 in 3048.26 secs
+
+Training epoch: 99
+Validation epoch: 99
+
+Test Results for epoch 99:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जन', 'परथ्यो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'एकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 99, Train Loss: 6.39, Validation Loss: 11.57, Validation CER: 1.04, Validation WER: 3.70 in 901.05 secs
+
+Training epoch: 100
+Validation epoch: 100
+
+Test Results for epoch 100:
+
+
+Pred: ['सबै', 'जनताले', 'मिलेर']
+Actual: ['सबै', 'जनताले', 'मिलेर']
+
+
+Pred: ['तरेर', 'जानपर्थयो']
+Actual: ['तरेर', 'जानुपर्थ्यो']
+
+
+Pred: ['जाडो', 'भएको', 'कारणले']
+Actual: ['जाडो', 'भएको', 'कारणले']
+
+
+Pred: ['सो', 'लकबाट', 'पछेपछि']
+Actual: ['सो', 'लेखबाट', 'पछिपछि']
+
+Epoch: 100, Train Loss: 6.27, Validation Loss: 11.14, Validation CER: 0.83, Validation WER: 2.93 in 904.00 secs
+
+Now saving checkpoint for epoch 100
+Checkpoint Saved
+Model saved for epoch 100
+Model Trained and Saved ✅ ✅ ✅ ✅
+And It took 46243.73251700401 seconds
+
+Now updating csv file
+Updated CSV saved
+Results updated ✅ ✅ ✅ ✅
+
+Total time taken: 46530.58240008354 seconds

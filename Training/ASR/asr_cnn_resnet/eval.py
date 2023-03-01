@@ -125,12 +125,21 @@ if __name__ == "__main__":
     # print("Evaluation done")
     # sys.exit(1)
     speech_input = input("Enter the path to speech file: ")
+# =======
+#     print("Loading model.....")
+#     model = load_model(
+#         r"/home/user/manualpartition/teamSaransha/Automatic-Nepali-Speech-Recognition-and-Summarizer/Training/ASR/asr_cnn_resnet/trained_models/model_50.h5")
+#     print("Model loaded \u2705 \u2705 \u2705 \u2705\n")
+#     # speech_input = input("Enter the path to speech file: ")
+#     speech_input = "/home/user/manualpartition/teamSaransha/Automatic-Nepali-Speech-Recognition-and-Summarizer/Training/ASR/asr_cnn_resnet/eval2.wav"
+# >>>>>>> 4fa766dd551870b6d2bcaf59cea5a1868c0d022a
     print("Now Predicting ...")
     print('=> Input received')
     basename = os.path.basename(speech_input)
     filename,ext = os.path.splitext(basename)
     op_file_path = f'D:\Programming\Projects\major_project\Codes\Training\ASR\\asr_cnn_resnet\cnn_predictions\\{filename}.txt'       
     model = load_model(r"D:\from_vm\trained_models_new_final\model_175.h5")
+    # op_file_path = f'/home/user/manualpartition/teamSaransha/Automatic-Nepali-Speech-Recognition-and-Summarizer/Training/ASR/asr_cnn_resnet/cnn_predictions/{filename}.txt'       
     output = get_transcript(model, speech_input)
     with open(op_file_path,'w+',encoding='utf-8') as f:
         f.write(output)
