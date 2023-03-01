@@ -136,7 +136,7 @@ if __name__ == "__main__":
     # print("=> Output has been written to a file")
     
     # ** For testing in an entire test dataset
-    test_dataset_path = 'D:\Programming\Projects\major_project\Codes\ASR\data\\transcript_durations\dataset_duration_gt_10sec.csv'
+    test_dataset_path = 'D:\Programming\Projects\major_project\Codes\Training\ASR\eval_data\dataset_duration_gt_10sec.csv'
     # Audio paths for audio directory
     audio_path = 'D:\Programming\Projects\major_project\Codes\ASR\data\\audio\\' 
     test_df =  pd.read_csv(test_dataset_path,usecols=["path","labels"])

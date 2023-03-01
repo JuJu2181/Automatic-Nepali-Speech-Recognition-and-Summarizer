@@ -14,38 +14,34 @@ import pickle
 import matplotlib.pyplot as plt
 import time
 import edit_distance as ed
+from datasets import load_metric
 
+# For adjusting volume 
+import soundfile as sf 
+import pyloudnorm as pyln 
 
 # Global configs required for training
 from .configs import INPUT_DIM, SR, N_MFCC, HOP_LENGTH, FRAME_SIZE
 
-device_name = '/device:CPU:0'
+# device_name = '/device:CPU:0'
 
-# U.0
 # Loads model from the directory argument
-
-
 def load_model(model_dir):
     return models.load_model(model_dir)
 
-# U.1
+
 # Loading wav file from librosa
-
-
 def load_wav(dir):
     return librosa.load(dir, sr=SR)[0]
 
-# U.2
+
 # Generates Normalized MFCCs from audio
-
-
 def gen_mfcc(arr):
     mfccs = librosa.feature.mfcc(
         y=arr[:-1], sr=SR, n_mfcc=N_MFCC, hop_length=HOP_LENGTH).transpose().flatten()
     return (mfccs - np.mean(mfccs)) / np.std(mfccs)
 
 
-# U.3
 # Generates padded text from list of texts
 def pad_text(list_texts, unq_chars, unk_idx=1):
     max_len = max([len(txt) for txt in list_texts])
@@ -65,10 +61,8 @@ def pad_text(list_texts, unq_chars, unk_idx=1):
 
     return np.array(padded_arr), np.array(seq_lengths)
 
-# U.4
+
 # Returns tensor batch*seq*frame
-
-
 def pad_list_np(list_np):
     max_len = max([len(arr) for arr in list_np])
 
@@ -84,10 +78,7 @@ def pad_list_np(list_np):
 
     return np.array(padded_arr).reshape((len(list_np), -1, INPUT_DIM))
 
-# U.5
 # Generates batches of wavs and texts  with padding as per needed
-
-
 def batchify(wavs, texts, unq_chars):
     assert len(wavs) == len(texts)
     # generates tensor of dim (batch * seq * frame)
@@ -98,45 +89,6 @@ def batchify(wavs, texts, unq_chars):
 
     return input_tensor, target_tensor, target_lengths_tensor.reshape((-1, 1)), output_seq_lengths_tensor.reshape((-1, 1))
 
-
-# U.6
-# Plots lossses from the file
-def plot_losses(dir, optimal_epoch=None):
-    losses = None
-    with open(dir, "rb") as f:
-        losses = pickle.load(f)
-        f.close()
-
-    train_losses, test_losses = losses["train_losses"], losses["test_losses"]
-    epochs = len(train_losses)
-    # print(len(test_losses))
-
-    X = range(1, epochs+1)
-
-    fig, ax = plt.subplots(1, figsize=(15, 10))
-
-    fig.suptitle('Train and Test Losses', fontsize=25,)
-
-    ax.set_xlim(0, 72)
-    ax.plot(X, train_losses, color="red", label="Train Loss")
-    ax.plot(X, test_losses, color="green", label="Test Loss")
-
-    plt.rcParams.update({'font.size': 20})
-
-    plt.legend(loc="upper right", frameon=False, fontsize=20)
-    # plt.xlabel("Epochs",{"size":20})
-    # plt.ylabel("Loss", {"size":20})
-
-    if (optimal_epoch != None):
-        plt.axvline(x=optimal_epoch, ymax=0.5)
-        # ax.plot(58, 0, 'go', label='marker only')
-        plt.text(optimal_epoch, 35,
-                 f'Optimal Epoch at {optimal_epoch}', fontsize=15)
-
-    plt.show()
-
-
-# U.7
 # Decoding with prefix beam search from MFCC features only
 def predict_from_mfccs(model, mfccs, unq_chars):
 
@@ -164,17 +116,13 @@ def predict_from_mfccs(model, mfccs, unq_chars):
     return sentences, char_indices
 
 
-# U.8
 # Decoding with prefix beam search from wavs only
 def predict_from_wavs(model, wavs, unq_chars):
     mfccs = [gen_mfcc(wav) for wav in wavs]
     return predict_from_mfccs(model, mfccs, unq_chars)
 
 
-# U.9
 # Converts the text to list of indices as per the unique characters list
-
-
 def indices_from_texts(texts_list, unq_chars, unk_idx=1):
 
     indices_list = []
@@ -192,10 +140,7 @@ def indices_from_texts(texts_list, unq_chars, unk_idx=1):
 '''
 Calculates CER( character error rate) from dataset;
 '''
-# U.10
 # CER from mfccs
-
-
 def CER_from_mfccs(model, mfccs, texts, unq_chars, batch_size=100):
 
     with tf.device(device_name):
@@ -237,10 +182,7 @@ def CER_from_mfccs(model, mfccs, texts, unq_chars, batch_size=100):
             "The total time taken for all sentences CER calculation is  {:.2f} secs.".format(time.time() - start_time))
         return sum_cer / batch_count
 
-# U.11
 # CER from wavs
-
-
 def CER_from_wavs(model, wavs, texts, unq_chars, batch_size=100):
 
     assert len(wavs) == len(texts)
@@ -252,23 +194,19 @@ def CER_from_wavs(model, wavs, texts, unq_chars, batch_size=100):
     return CER_from_mfccs(model, wavs, texts, unq_chars, batch_size)
 
 
-# U.12
 # CTC softmax probabilities output from mfcc features
 def ctc_softmax_output_from_mfccs(model, mfccs):
     mfccs = pad_list_np(mfccs)
     y = model(mfccs)
     return y
 
-# U.13
+
 # CTC softmax probabilities output from wavs
-
-
 def ctc_softmax_output_from_wavs(model, wavs):
     mfccs = [gen_mfcc(wav) for wav in wavs]
     return ctc_softmax_output_from_mfccs(model, mfccs)
 
 
-# U.14
 # Clean the single audio file by clipping silent gaps from both ends
 def clean_single_wav(wav, win_size=500):
     wav_avg = np.average(np.absolute(wav))
@@ -288,3 +226,156 @@ def clean_single_wav(wav, win_size=500):
     pad = FRAME_SIZE - len(wav) % FRAME_SIZE
     wav = np.pad(wav, (0, pad), mode="mean")
     return wav
+
+# Calculating error rates
+# To load the evaluation metrics 
+wer_metric = load_metric("wer")
+cer_metric = load_metric("cer",revision="master")
+
+def calculateWER(actual_label, predicted_label):
+    # convert string to list
+    actual_words = actual_label.split()
+    predicted_words = predicted_label.split()
+    # costs will hold the costs like in Levenshtein distance algorithm
+    costs = [[0 for inner in range(len(predicted_words)+1)] for outer in range(len(actual_words)+1)]
+    # backtrace will hold the operations we've done.
+    # so we could later backtrace, like the WER algorithm requires us to.
+    backtrace = [[0 for inner in range(len(predicted_words)+1)] for outer in range(len(actual_words)+1)]
+    # ok means no change, sub means substitution, ins means insertion and del means deletion
+    operations = {
+        'ok': 0,
+        'sub': 1,
+        'ins': 2,
+        'del': 3
+    }
+    # penalties for insertion, substitution and deletion
+    penalties = {
+        'ins': 1,
+        'sub': 1,
+        'del': 1
+    }
+    # First column represents the case where we achieve zero predicted labels i-e all the actual labels were deleted 
+    for i in range(1,len(actual_words)+1):
+        costs[i][0] = penalties['del']*i 
+        backtrace[i][0] = operations['del']
+    
+    # First row represents the case where we achieve the predicted label by inserting all the predicted labels into a zero length actual label i-e all unwanted insertions 
+    for j in range(1,len(predicted_words)+1):
+        costs[0][j] = penalties['ins']*j 
+        backtrace[0][j] = operations['ins']
+    
+    # computation
+    for i in  range(1,len(actual_words)+1):
+        for j in range(1,len(predicted_words)+1):
+            # no change in predictions and actual label
+            if actual_words[i-1] == predicted_words[j-1]:
+                costs[i][j] = costs[i-1][j-1]
+                backtrace[i][j] = operations['ok']
+            else:
+                # change has occured
+                sub_cost = costs[i-1][j-1] + penalties['sub']
+                ins_cost = costs[i][j-1] + penalties['ins']
+                del_cost = costs[i-1][j] + penalties['del']
+                costs[i][j] = min(sub_cost,ins_cost,del_cost)
+                if costs[i][j] == sub_cost:
+                    backtrace[i][j] = operations['sub']
+                elif costs[i][j] == ins_cost:
+                    backtrace[i][j] = operations['ins']
+                else: 
+                    backtrace[i][j] = operations['del']
+    
+    # backtrace through the best route
+    i = len(actual_words)
+    j = len(predicted_words)
+    sub_count = 0 
+    del_count = 0 
+    ins_count = 0 
+    correct_count = 0 
+
+    while i > 0 or j > 0:
+        if backtrace[i][j] == operations['ok']:
+            correct_count += 1
+            i -= 1
+            j -= 1
+        elif backtrace[i][j] == operations['sub']:
+            sub_count += 1 
+            i -= 1
+            j -= 1
+        elif backtrace[i][j] == operations['ins']:
+            ins_count += 1
+            j -= 1
+        elif backtrace[i][j] == operations['del']:
+            del_count += 1
+            i -= 1
+    
+    """ 
+    WER formula: 
+    WER = S + D + I / N = S + D I / S + D + C
+    """
+    wer = round((sub_count + del_count + ins_count)/(sub_count + del_count + correct_count),3)
+    # wer = round((sub_count + ins_count + del_count)/(float)(len(actual_words)),3)
+    return wer 
+
+# Function to calculate the WER and CER 
+def calculateErrorRates(actual_label,predicted_label):
+    # For CER
+    sm = ed.SequenceMatcher(predicted_label,actual_label)
+    ed_dist = sm.distance() 
+    cer = ed_dist/len(actual_label)
+    # For WER 
+    wer = calculateWER(actual_label,predicted_label)
+    return cer,wer
+
+# Using imported functions
+def calculateErrorRatesAlt(actual_label,predicted_label):
+    # Calculate CER and WER for given arguments 
+    cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    return cer,wer
+
+# Function to normalize volume 
+def adjust_volume(data,sr=16000,norm="peak"):
+    # Peak normalization of all audio to -1dB
+    meter = pyln.Meter(sr) #create BS.1770 Meter
+    # print(data)
+    # print(np.transpose(data).shape)
+    loudness = meter.integrated_loudness(np.transpose(data)) 
+    # print(f'Before: {loudness} dB')
+    if norm == "peak":
+        # This is peak normalization which depends on the original volume of audio file
+        peak_normalized_audio = pyln.normalize.peak(data,-1.0)
+    elif norm=="fixed":
+        # Actually this is loudness normalization to a fixed level irrespective of volume in original file
+        peak_normalized_audio = pyln.normalize.loudness(data, loudness, 0)
+    else:
+        peak_normalized_audio = data
+    loudness = meter.integrated_loudness(np.transpose(peak_normalized_audio)) 
+    # print(f'After peak normalization: {loudness} dB')
+    return peak_normalized_audio
+
+def segmentLargeArray(inputTensor,chunksize=200000):
+    # print(inputTensor)
+    list_of_segments = []
+    tensor_length = inputTensor.shape[1]
+    for i in range(0,tensor_length+1,chunksize):
+        list_of_segments.append(inputTensor[:,i:i+chunksize])
+    return list_of_segments 
+
+def adjust_volume(data,sr=16000,norm="peak"):
+    # Peak normalization of all audio to -1dB
+    meter = pyln.Meter(sr) #create BS.1770 Meter
+    # print(data)
+    # print(np.transpose(data).shape)
+    loudness = meter.integrated_loudness(np.transpose(data)) 
+    print(f'Before: {loudness} dB')
+    if norm == "peak":
+        # This is peak normalization which depends on the original volume of audio file
+        peak_normalized_audio = pyln.normalize.peak(data,-1.0)
+    elif norm=="fixed":
+        # Actually this is loudness normalization to a fixed level irrespective of volume in original file
+        peak_normalized_audio = pyln.normalize.loudness(data, loudness, -1)
+    else:
+        peak_normalized_audio = data
+    loudness = meter.integrated_loudness(np.transpose(peak_normalized_audio)) 
+    print(f'After peak normalization: {loudness} dB')
+    return peak_normalized_audio

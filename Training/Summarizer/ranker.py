@@ -38,7 +38,7 @@ def find_squared_error(new_iv,old_iv):
     return sq_sum
 
 
-def calculate_word_ranks(association_matrix,counter_vector, max_iterations = 50, min_iterations = 10, threshold = 0.000001, damping_factor = 0.85):
+def calculate_word_ranks(association_matrix,counter_vector, max_iterations = 50, min_iterations = 10, threshold = 0.000001, damping_factor = 0.95):
     '''max_iterations : maximum number of iterations to go through to find the solution within the threahold (this should be a function of no of unique words)
     threshold : squared precision to be achieved to be classes as the solution vector 
     damping_factor: it is the factor by which a 
@@ -84,8 +84,6 @@ def calculate_sentence_influence(tokens, word_iv):
 #     return sorted_sentences
 
 def get_n_influencial_sentence(sentences,sentence_influence,n):
-    sentences_backup = sentences.copy()
-    no_of_sentences = len(sentences)
     influencial_sentences = []
     n = int(n)
     print("n = ",n)
