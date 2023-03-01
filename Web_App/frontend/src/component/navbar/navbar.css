@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 ul li a:hover{
     text-decoration: none;
 }
@@ -8,7 +10,7 @@ ul li a:hover{
     text-shadow: #131212 5px 5px 1px;
 }
 .links:hover{
-    color: #ea0e0e;
+    color: #ff8080;;
     text-decoration: none;
 }
 .links-title:hover{
@@ -38,4 +40,13 @@ ul li a:hover{
     mix-blend-mode: normal;
 
     filter: blur(0.5px);
+}
+
+.navbar-logo-anish{
+    font-family: 'Poppins', sans-serif;
+    color: #ffe082;
+    display: inline;
+}
+.navbar-logo-anish:hover{
+    color: #ff8080;
 }

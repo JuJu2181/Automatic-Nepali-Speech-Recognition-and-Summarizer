@@ -30,13 +30,13 @@ function Speech() {
   // const[transcript, setTranscript] = useState('')
   //getthesummary from the audiotranscript, audiotranscript is stores in {audiofiletranscript}
 
-  const [wordcount , setWordcount] = useState(0)
-  const [wordcountsummary , setWordcountsummary] = useState(0)
+  // const [wordcount , setWordcount] = useState(0)
+  // const [wordcountsummary , setWordcountsummary] = useState(0)
 
   
 
   
-  const getthesummary =(e)=>{
+  const getthesummary =async (e)=>{
     document.getElementById('summarybutton').disabled = true
     document.getElementById('summarybutton').style.cursor = 'not-allowed'
     let stringlength=audiofiletranscript.split(" ").length
@@ -55,7 +55,7 @@ function Speech() {
       }
       };
       
-      axios.post('http://localhost:8000/input-text',
+      await axios.post('http://localhost:8000/input-text',
       input, customConfig)
       .then(
         function(res){
@@ -71,7 +71,7 @@ function Speech() {
             }
             
           }
-          setWordcountsummary(count)
+          // setWordcountsummary(count)
          
           setDownloadbuttonstatus(true)
           
@@ -127,89 +127,99 @@ function Speech() {
     document.getElementById('filename').innerHTML = e.target.files[0].name
   }
   }
-  const handleSubmit = (e) => {
-     
+  const handleSubmit =async (e) => {   
+
     if (audio===''){
       document.getElementById('nofile-error').style.display = 'block'
       document.getElementById('audiofile').style.border = '2px dotted red'
     }
     else{
-
-    // let ext=audio.name.split('.').pop()
-    // console.log(audio.name)
-    // if(ext === 'flac' || ext === 'wav' || ext === 'mp3'){  
-      document.getElementById('upload-file-info').style.display = 'none'
-      
-      document.getElementById('audiofile').style.border = '2px dotted green'
-      document.getElementById('nofile-error').style.display = 'none'
-      document.getElementById('transcriptbutton').disabled = true
-      document.getElementById('transcriptbutton').style.cursor = 'not-allowed'
-      setShowwaitmessage(true)
-      setLoadinggif_audio(true) 
-      const formData = new FormData()
-      formData.append('audio', audio)
-      axios.post(      
-        'http://localhost:8000/audio', formData
-        
-      )
-      .then((res)=> {
-        setShowwaitmessage(false)
-        setLoadinggif_audio(false)
-        setShowbutton(true)
-        
-        // console.log(res)
-        document.getElementById('upload-file-info').innerHTML = "Upload Success!"
-        // document.getElementById("success").innerHTML = res.data
-        // setTranscript(res.data)
-        setTranscript(res.data)
-        var count = 0;
-        for (var i = 0; i < res.data.length; i++) {
-          if(res.data[i]===' '){
-            count=count+1
+      let ext = audio.name.split('.').pop()
+      let allowed_extensions = ['flac', 'wav', 'mp3', 'm4a', 'ogg', 'opus', 'webm'];
+      if(allowed_extensions.includes(ext)){ 
+        document.getElementById('upload-file-info').style.display = 'none'        
+        document.getElementById('audiofile').style.border = '2px dotted green'
+        document.getElementById('nofile-error').style.display = 'none'
+        document.getElementById('transcriptbutton').disabled = true
+        document.getElementById('transcriptbutton').style.cursor = 'not-allowed'
+        setShowwaitmessage(true)
+        setLoadinggif_audio(true) 
+        const formData = new FormData()
+        formData.append('audio', audio)
+        await axios.post(      
+          'http://localhost:8000/audio', formData
+          
+        )
+        .then((res)=> {
+          if(res.data==='fail'){
+            document.getElementById('transcriptbutton').disabled = false
+            document.getElementById('transcriptbutton').style.cursor = 'pointer'
+            setShowwaitmessage(false)
+            setLoadinggif_audio(false) 
+            document.getElementById('upload-file-info').style.display = 'block'
           }
+          else{
+            setShowwaitmessage(false)
+            setLoadinggif_audio(false)
+            setShowbutton(true)
+            
+            
+            // console.log(res)
+            document.getElementById('upload-file-info').innerHTML = "Upload Success!"
+            // document.getElementById("success").innerHTML = res.data
+            // setTranscript(res.data)
+            setTranscript(res.data)
+            var count = 0;
+            for (var i = 0; i < res.data.length; i++) {
+              if(res.data[i]===' '){
+                count=count+1
+              }
 
-        }
-        
-        document.getElementById('transcriptbutton').disabled = false
-        document.getElementById('transcriptbutton').style.cursor = 'pointer'
-        setWordcount(count)
-        setAudiofiletranscript(res.data)
-        const downloadTextFile = JSON.stringify(res.data);
-        const blob = new Blob([downloadTextFile], { type: "text/plain" });
-        const urls = URL.createObjectURL(blob);
-        setTranscripturl(urls)
-      }  
-      )
-      .catch((error)=>{
-        document.getElementById('transcriptbutton').disabled = false
-        document.getElementById('transcriptbutton').style.cursor = 'pointer'
-        // console.log(error)
-        // console.log("no response")
-        setShowwaitmessage(false)
-        setLoadinggif_audio(false)
-        document.getElementById('upload-file-info').style.display = 'block'
-      })
+            }
+            
+            document.getElementById('transcriptbutton').disabled = false
+            document.getElementById('transcriptbutton').style.cursor = 'pointer'
+            setAudiofiletranscript(res.data)
+            const downloadTextFile = JSON.stringify(res.data);
+            const blob = new Blob([downloadTextFile], { type: "text/plain" });
+            const urls = URL.createObjectURL(blob);
+            setTranscripturl(urls)
+          }
+        })
 
+        .catch((err)=>{
+          document.getElementById('transcriptbutton').disabled = false
+          document.getElementById('transcriptbutton').style.cursor = 'pointer'
+          // console.log(error)
+          // console.log("no response")
+          setShowwaitmessage(false)
+          setLoadinggif_audio(false)
+          document.getElementById('upload-file-info').style.display = 'block'
+        })
       
-    // }
-     
+      }
+    
+      else{       
+        document.getElementById('nofile-error').style.display = 'block'
+        document.getElementById('audiofile').style.border = '2px dotted red'
+      } 
   }
 
   }  
   return (
     <div>
       <center><img src={stt} alt="stt" className='col-xs-12 col-lg-6 col-md-6 mt-2 mb-2' width="auto" height="auto"/></center>
-        <div class="audio m-auto">
-        <div class="audio-input text-center">   
+        <div className="audio m-auto">
+        <div className="audio-input text-center">   
           <img src={audiofile} alt="audiofile" className='mt-2' width="auto" height="150"/>      
           <br/>
           <span id="nofile-error" style={{display:'none'}}><i className='fa fa-exclamation-triangle'></i> Please Upload audio file</span>
           <br/>
           <input type="file" id="file" accept="audio/*" onChange={handleFile}/>
-          <label id="audiofile" for="file" class="btn btn-primary" style={{borderRadius:"0px",border:"2px dotted"}}><i class="fa fa-file" style={{color:"green"}}/>  Upload Audio File</label>
+          <label id="audiofile" htmlFor="file" className="btn btn-primary" style={{borderRadius:"0px",border:"2px dotted"}}><i className="fas fa-upload" style={{color:"green"}}/> Upload Audio File</label>
           <p id="filename"></p>
           <br/>
-          <div id='audio-player' class="audio-player mt-3" style={{display:'none'}}>
+          <div id='audio-player' className="audio-player mt-3" style={{display:'none'}}>
             <ReactAudioPlayer
               className='col-xs-12 col-lg-6 col-md-6'
               src={audiopath}
@@ -217,7 +227,7 @@ function Speech() {
               controls
             />
           </div>  
-          <button id="transcriptbutton" onClick={handleSubmit} class="btn btn-primary "><i className='fa  fa-arrow-right' style={{color:"blue"}}/> Transcript</button>
+          <button id="transcriptbutton" onClick={handleSubmit} className="btn btn-primary "><i className='fa  fa-arrow-right' style={{color:"blue"}}/> Transcript</button>
              
         
         <p id="upload-file-info" style={{color:"red",display:"none",marginTop:"20px"}}>
@@ -225,29 +235,29 @@ function Speech() {
         </p>
         <br/>
         {showwaitmessage && <p id="wait-message mt-5">Please wait while we work on your audio file and generate the transcript ...</p>}
-        {loadinggif_audio && <img class="col-xs-6 col-lg-3 col-md-6" src={loading} alt="loading" width="300px" height="200px"/>}
+        {loadinggif_audio && <img className="col-xs-6 col-lg-3 col-md-6" src={loading} alt="loading" width="300px" height="200px"/>}
         <br/>
-        {!loadinggif_audio && showsummarybutton && <textarea class="col-lg-8 col-md-8 col-xs-8" value={Transcript}disabled></textarea>}
-        {!loadinggif_audio && showsummarybutton && <p>Total: {wordcount} words</p>}
+        {!loadinggif_audio && showsummarybutton && <textarea className="col-lg-8 col-md-8 col-xs-8" value={Transcript}disabled></textarea>}
+        {/* {!loadinggif_audio && showsummarybutton && <p>Total: {wordcount} words</p>} */}
         <br/>
-        { !loadinggif_audio && showsummarybutton && <button onClick={transcript_downloader} class="btn btn-primary mt-2"><i className='fa  fa-download' style={{color:"blue"}}/> Transcript</button>} 
+        { !loadinggif_audio && showsummarybutton && <button onClick={transcript_downloader} className="btn btn-primary mt-2"><i className='fa  fa-download' style={{color:"blue"}}/> Transcript</button>} 
 
         <br/>
-        { !loadinggif_audio && showsummarybutton && <button onClick={getthesummary} id="summarybutton" class="btn btn-primary mt-2"><i className='fa  fa-arrow-right' style={{color:"blue"}}/> Summary</button>} 
+        { !loadinggif_audio && showsummarybutton && <button onClick={getthesummary} id="summarybutton" className="btn btn-primary mt-2"><i className='fa  fa-arrow-right' style={{color:"blue"}}/> Summary</button>} 
 
         <br/>
         
 
         {showsummarywait && <p id="wait-message"> Please wait while we work on your audio file and generate the summary ...</p>}
 
-        {loadinggif_summary && <img class="col-xs-6 col-lg-3 col-md-6" src={loading} alt="loading" width="300px" height="200px"/>}
+        {loadinggif_summary && <img className="col-xs-6 col-lg-3 col-md-6" src={loading} alt="loading" width="300px" height="200px"/>}
         <br/>
-        {!loadinggif_summary && downloadbuttonstatus && <textarea class="col-lg-8 col-md-8 col-xs-8" value={audiosummary} disabled></textarea>
+        {!loadinggif_summary && downloadbuttonstatus && <textarea className="col-lg-8 col-md-8 col-xs-8" value={audiosummary} disabled></textarea>
 
       }
       {/* {!loadinggif_summary && downloadbuttonstatus && <p>Total: {wordcountsummary} words</p>} */}
         <br/>
-        {!loadinggif_summary && downloadbuttonstatus && <button onClick={input_text_downloader}  type="submit" class="btn btn-primary"> <i className='fa  fa-download' style={{color:"blue"}}/> Summary</button>}                       
+        {!loadinggif_summary && downloadbuttonstatus && <button onClick={input_text_downloader}  type="submit" className="btn btn-primary"> <i className='fa  fa-download' style={{color:"blue"}}/> Summary</button>}                       
         
                 
                 

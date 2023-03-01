@@ -32,16 +32,17 @@ input{
       color: rgb(3, 68, 70);       
       font-size: large;
       font-family: 'Arima', cursive;
-       
-      
-      
-        
         
     }
 .filename{
     color :rgb(178, 152, 220);
-    font-size: 1.2rem;
-    font-family: 'Arima', cursive;
+    font-size: 1rem;
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 auto;
+    background-color: aquamarine;
+    border-radius: 8px;
     
     
 }    

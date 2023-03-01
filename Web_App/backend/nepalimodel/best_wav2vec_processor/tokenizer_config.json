@@ -1,0 +1,11 @@
+{
+  "bos_token": "<s>",
+  "do_lower_case": false,
+  "eos_token": "</s>",
+  "pad_token": "[PAD]",
+  "processor_class": "Wav2Vec2Processor",
+  "replace_word_delimiter_char": " ",
+  "tokenizer_class": "Wav2Vec2CTCTokenizer",
+  "unk_token": "[UNK]",
+  "word_delimiter_token": "|"
+}

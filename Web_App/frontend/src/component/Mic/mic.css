@@ -88,3 +88,45 @@ select{
   margin: 5px;
   background-color: #87d5e8;
 }
+.model-selection{
+  border: 1px solid #862020;  
+  background-color: #0a2336;
+  color: #fff;
+  border-radius: 5px;
+}
+.record-status{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #042035;
+  width: 150px;
+  margin: auto;
+  color: white;
+  border-radius: 10px;
+  
+}
+.circle{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  margin: 5px;
+  animation-name: recording;
+  animation-duration:3s ;
+  animation-iteration-count: infinite;
+}
+@keyframes blinker{
+  0% {opacity: 1;}
+  50% {opacity: 0.2;}
+  100% {opacity: 1;}
+}
+@keyframes recording {
+  0% {background-color: #ff0000;}
+  50% {background-color: #781b1b;}
+  100% {background-color: #fbffff;}
+}
+#recording{
+  animation-name: blinker;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
