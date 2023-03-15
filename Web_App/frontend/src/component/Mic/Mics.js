@@ -47,6 +47,7 @@ export default class Mics extends React.Component {
     document.getElementById("start-recording").style.display = "none";
     document.getElementById("stop-recording").style.display = "block";
     document.getElementById("displayAll").style.display="none"
+    this.setState({showEvaluation:false})
   }
 
   stopRecording = () => {
@@ -210,7 +211,7 @@ export default class Mics extends React.Component {
         .then((res)=> {
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("textsuccess").style.display = "block";
-          document.getElementById("displayAll").style.display="block"
+          document.getElementById("displayAll").style.display="block"          
           document.getElementById("textsuccess").innerHTML = res.data.transcript
           this.setState({transcript:res.data.transcript})
           if(res.data.time){
@@ -331,63 +332,70 @@ export default class Mics extends React.Component {
             this.setState({userInput:e.target.value})
 
             }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
-          </div>
-          <br/>
-          <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
-            if(this.state.userInput===""){
-              alert("Please enter text to evaluate")
-            }
-            else{
-              const data ={
-                userText: this.state.userInput,
-                userTranscript: this.state.transcript
-              }                        
-              let input = JSON.stringify(data);
-              console.log(input)
-              let customConfig = {
-              headers: {
-              'Content-Type': 'application/json'
-              }};
-              await axios.post("http://localhost:8000/evaluate",input, customConfig)
-              .then(res => {
-                console.log(res.data)
-                if(res.data.cer && res.data.wer){
-                document.getElementById("cer").innerHTML = "CER: "+res.data.cer;
-                document.getElementById("wer").innerHTML = "WER: "+res.data.wer;
-                }
-                function redTheDiff(){
-                  let b= data.userTranscript //transcript
-                  let a= data.userText //userInput
-                  console.log(a)
-                  console.log(b)
-
-                  let diff = Diff.diffChars(a, b);
-                  console.log(diff)
-                  let result = "";
-
-                  diff.forEach(function(part) {
-                    // if the part is removed or added, wrap it in a span element with red color
-                    let color = part.added ? 'green' : part.removed ? 'red' : 'black';
-                    result += '<span style="color:' + color + '">' + part.value + '</span>';
-                  });
-                  document.getElementById("resultDiff").innerHTML = result;
-                }
-                redTheDiff();
-
-              })
-              .catch(err => {
-                console.log(err)
+            </div>
+            <br/>
+            
+            <div className='showEvaluation-result'>
+              <span id="cer"></span>
+              <span id="wer"></span>
+              <span id="representation"> </span>
+              <br/>
+              <span id="resultDiff"></span>
+            </div>
+            
+            <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
+              if(this.state.userInput===""){
+                alert("Please enter text to evaluate")
               }
-              )
-              
-            }
+              else{
+                const data ={
+                  userText: this.state.userInput,
+                  userTranscript: this.state.transcript
+                }                        
+                let input = JSON.stringify(data);
+                console.log(input)
+                let customConfig = {
+                headers: {
+                'Content-Type': 'application/json'
+                }};
+                await axios.post("http://localhost:8000/evaluate",input, customConfig)
+                .then(res => {
+                  console.log(res.data)
+                  if(res.data.cer && res.data.wer){
+                  document.getElementById("cer").innerHTML = "CER "+res.data.cer;
+                  document.getElementById("wer").innerHTML = "WER "+res.data.wer;
+                  document.getElementById("representation").innerHTML ="🔴removed character  🟢added character"
+                  }
+                  function redTheDiff(){
+                    let b= data.userTranscript //transcript
+                    let a= data.userText //userInput
+                    console.log(a)
+                    console.log(b)
 
-          }}> Evaluate </button></> : null}
-          <div className='showEvaluation-result'>
-          <span id="cer"></span>
-          <span id="wer"></span>
-          </div>
-          <span id="resultDiff"></span>
+                    let diff = Diff.diffChars(a, b);
+                    console.log(diff)
+                    let result = "";
+
+                    diff.forEach(function(part) {
+                      // if the part is removed or added, wrap it in a span element with red color
+                      let color = part.added ? 'green' : part.removed ? 'red' : 'black';
+                      result += '<span style="color:' + color + '">' + part.value + '</span>';
+                    });
+                    document.getElementById("resultDiff").innerHTML = result;
+                  }
+                  redTheDiff();
+
+                })
+                .catch(err => {
+                  console.log(err)
+                }
+                )
+                
+              }
+
+            }}> Evaluate
+          </button></> : null}
+          
           <center>       
             <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8'>
               <span>Select Summary Method </span>

@@ -134,6 +134,8 @@ select{
 .model-text{
   background-color: #c3cfd2 !important;
   color:black !important;
+  border:none;
+  align-items: center;
 }
 
 .showEvaluation-result{
@@ -141,4 +143,16 @@ select{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+}
+#cer,#wer{
+  background-color: #042035;
+  border-radius: 3px;
+  margin: 2px auto;
+  color:white;
+  padding:1rem auto;
+}
+#resultDiff{
+  background-color: #F6F9FE;
+  border:none;
 }
