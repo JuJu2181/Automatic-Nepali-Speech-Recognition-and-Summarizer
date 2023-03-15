@@ -60,9 +60,12 @@ export default function Content() {
         <div className="text-center">
             {/* <button className="button-three">Speech Recognition</button>
             <button className="button-three">Summary</button> */}
+          <Link className='linkof' to='/mictest'><button className="button-three">Live Speech</button></Link>
+          
             <Link className='linkof' to='/sr'><button className="button-three">Speech Recognition</button></Link>
             
-            <Link className='linkof' to='/summary'><button className="button-three">Summary</button></Link>
+          <Link className='linkof' to='/summary'><button className="button-three">Summarizer</button></Link>
+          
             
         </div>
         <br/>

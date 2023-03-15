@@ -265,7 +265,7 @@ export default class Mics extends React.Component {
             onStop={this.onStop}
             onData={this.onData}            
             // strokeColor={strokeColor}
-            strokeColor="#Fc5a8d"
+            strokeColor="#b22222"
             strokeWidth={10}            
             backgroundColor="white" 
             setAudioPath={setAudioPath}
@@ -327,10 +327,11 @@ export default class Mics extends React.Component {
 
               }}> Evaluate Transcript</button>
           <br/>
-          { this.state.showEvaluation?<><textarea onChange={(e)=>{
+            {this.state.showEvaluation ? <><div style={{ display: "flex", flexDirection:"column", alignItems:"center"}}><span>Enter Actual Transcript: </span><textarea onChange={(e)=>{
             this.setState({userInput:e.target.value})
 
-          }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
+            }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
+          </div>
           <br/>
           <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
             if(this.state.userInput===""){
