@@ -18,10 +18,12 @@ import subprocess
 from pydub import AudioSegment
 from fastapi.responses import HTMLResponse
 from nepalimodel import load_model
+import time
 #####################import for custom model############################################
 from ownmodel.predict import get_transcript
 from ownmodel.configs import UNQ_CHARS
 app = FastAPI()
+
 ##############################3
 
 origins = [
@@ -85,7 +87,8 @@ async def create_upload_file(text: UploadFile = File(...)):
       
 @app.post("/audio")
 def create_upload_file(audio: UploadFile = File(...)):
-    try:      
+    try:
+         
         ext=audio.filename.split('.').pop()        
         file_location = f"static/audio/{uuid.uuid1()}{audio.filename}"
         with open(file_location, "wb+") as file_object:
@@ -100,6 +103,7 @@ def create_upload_file(audio: UploadFile = File(...)):
             transcript=predict_from_speech(dest_path)
             os.remove(dest_path)
             os.remove(file_location)
+        
         return transcript
     except:
         return "fail"
@@ -108,6 +112,7 @@ def create_upload_file(audio: UploadFile = File(...)):
 @app.post("/audio_live")
 async def create_upload_file(audio: UploadFile = File(...)):    
     try:
+        t1=time.time()  
         ext=audio.filename.split('.').pop()
         file_location = f"static/audio/{uuid.uuid1()}{audio.filename}"
         with open(file_location, "wb+") as file_object:
@@ -120,14 +125,16 @@ async def create_upload_file(audio: UploadFile = File(...)):
             print(dest_path)
         os.remove(dest_path)
         os.remove(file_location)
-        return transcript
+        t2=time.time()
+        return {"transcript":transcript,"time":round(t2-t1,4)}
     except:
         return "couldnot handle the request, Try Again!"
     
     # return audio  
 @app.post("/audio_live_own")
 async def create_upload_file(audio: UploadFile = File(...)):
-    # try:    
+    try:   
+        t1=time.time()   
         ext=audio.filename.split('.').pop()
         file_location = f"static/audio/{uuid.uuid1()}{audio.filename}"
         with open(file_location, "wb+") as file_object:
@@ -138,9 +145,10 @@ async def create_upload_file(audio: UploadFile = File(...)):
         transcript= get_transcript(dest_path)
         os.remove(dest_path)
         os.remove(file_location)
-        return transcript     
-    # except:
-    #     return "couldnot handle the request, Try Again!"
+        t2=time.time()  
+        return {"transcript":transcript,"time":round(t2-t1,4)}     
+    except:
+        return "couldnot handle the request, Try Again!"
 @app.post("/abstract")
 async def create_upload_text(data: text):    
     with open('static/input-text/input.txt', 'w',encoding="utf-8") as f:
@@ -149,9 +157,23 @@ async def create_upload_text(data: text):
     summary=abstractive_predict.abstractive_summarization_from_file(filepath)
     os.remove(filepath)
     return summary
-    
-        
 
-    
+#######################################
+#function for evaluation
+import edit_distance as ed
+from typing import Dict
+from datasets import load_metric
+import json
+wer_metric = load_metric("wer")
+cer_metric = load_metric("cer",revision="master")
+def calculateErrorRatesAlt(actual_label,predicted_label):
+    # Calculate CER and WER for given arguments 
+    cer = cer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    wer = wer_metric.compute(predictions=[predicted_label],references=[actual_label])
+    return cer,wer
+@app.post("/evaluate")
+async def evaluate_stt(data:Dict[str,str]):
+    cer,wer= calculateErrorRatesAlt(data["userText"],data["userTranscript"])
+    return {"cer":round(cer*100,4),"wer":round(wer*100,4)}
        
     
