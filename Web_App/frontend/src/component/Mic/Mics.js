@@ -86,7 +86,7 @@ export default class Mics extends React.Component {
         e.preventDefault();
         let audiolength = this.state.transcript.split(" ").length
         if (audiolength > 10){
-          document.getElementById("summarystatus").style.display = "block";
+          document.getElementById("summarystatus").style.display = "flex";
 
           let data = {
             texts: this.state.transcript
@@ -160,6 +160,7 @@ export default class Mics extends React.Component {
           )
           .then((res)=> {
             console.log(res.data)
+            document.getElementById("liveOutput1").style.display = "flex";
             document.getElementById("textsuccess").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
@@ -234,9 +235,9 @@ export default class Mics extends React.Component {
      let strokeColor=this.state.strokestate ? "green" : undefined
     return (
       <div className='audio'>
-        
+          <h2 className="sectionTitle">Live Nepali ASR</h2>
           <center>       
-            <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8'>
+            <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-5'>
               <span>Select the Model </span>
               <select id="select" onChange={this.changeOption} style={{width:"30%"}}>
                 <option value="Wav2Vec">Wav2Vec</option>
@@ -262,7 +263,8 @@ export default class Mics extends React.Component {
             onChange={this.onChange}
             record={this.state.record}
             className="sound-wave col"
-            visualSetting="frequencyBars"
+            // visualSetting="frequencyBars"
+            visualSetting="sinewave"
             onStop={this.onStop}
             onData={this.onData}            
             // strokeColor={strokeColor}
@@ -305,16 +307,19 @@ export default class Mics extends React.Component {
         <span id="no-response" style={{color:'red'}}></span>
         <div id="displayAll" style={{display:"block"}}>
           <div className=" col">
-              <div className=" col">
-              <p id="textsuccess" style={{color:'palevioletred'}} className="contain col">
-              </p>
+            <div className=" col">
+              <div className="liveOutput" id="liveOutput1">
+              <span className='outputTitle'>Predicted Transcript ⬇️: </span>
+              <p id="textsuccess" style={{color:'darkgreen'}} className="contain col outputText">
+                </p>
+              </div>
               <span id="time" style={{color:'Blue'}}></span>              
               </div> 
           </div>
           
           
 
-          {this.state.transcript === ""? null :<>
+          {this.state.transcript === "" ? null : <>
           <button onClick={()=>{
             const downloadTextFile = JSON.stringify(this.state.transcript);
             const blob = new Blob([downloadTextFile], { type: "text/plain" });
@@ -322,25 +327,23 @@ export default class Mics extends React.Component {
             tempLink.href = URL.createObjectURL(blob);;
             tempLink.setAttribute('download', 'summary.txt');
             tempLink.click();
-          }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{color:"blue"}}/> Transcript</button>
+            }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{ color: "blue" }} /> Transcript</button>
           <button id="showEvaluation"className='btn col-2' onClick={()=>{
                 this.setState({showEvaluation:true})
-
+                document.getElementById("evalbutton").style.display = "none";
               }}> Evaluate Transcript</button>
-          <br/>
-            {this.state.showEvaluation ? <><div style={{ display: "flex", flexDirection:"column", alignItems:"center"}}><span>Enter Actual Transcript: </span><textarea onChange={(e)=>{
+            {this.state.showEvaluation ? <><div className='evaluateOutput'><span className='outputTitle'>Enter Actual Transcript ⬇️: </span><textarea onChange={(e)=>{
             this.setState({userInput:e.target.value})
 
             }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
-            </div>
-            <br/>
-            
-            <div className='showEvaluation-result'>
+            </div>            
+              <div className='showEvaluation-result' id="EvaluationResult">
+              <span className='outputTitle'>Evaluated Scores ⬇️:</span>
               <span id="cer"></span>
               <span id="wer"></span>
-              <span id="representation"> </span>
-              <br/>
+              <span className='outputTitle'>Difference Between Transcripts ⬇️</span>
               <span id="resultDiff"></span>
+              <span id="representation"> </span>
             </div>
             
             <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
@@ -361,10 +364,11 @@ export default class Mics extends React.Component {
                 await axios.post("http://localhost:8000/evaluate",input, customConfig)
                 .then(res => {
                   console.log(res.data)
-                  if(res.data.cer && res.data.wer){
-                  document.getElementById("cer").innerHTML = "CER "+res.data.cer;
-                  document.getElementById("wer").innerHTML = "WER "+res.data.wer;
-                  document.getElementById("representation").innerHTML ="🔴removed character  🟢added character"
+                  if (res.data.cer && res.data.wer) {
+                    document.getElementById("EvaluationResult").style.display = "flex";
+                  document.getElementById("cer").innerHTML = "CER: "+res.data.cer;
+                  document.getElementById("wer").innerHTML = "WER: "+res.data.wer;
+                  document.getElementById("representation").innerHTML ="Note: 🔴removed character, 🟢added character, ⚫correct character"
                   }
                   function redTheDiff(){
                     let b= data.userTranscript //transcript
@@ -384,7 +388,7 @@ export default class Mics extends React.Component {
                     document.getElementById("resultDiff").innerHTML = result;
                   }
                   redTheDiff();
-
+                  document.getElementById("evalbutton").style.display = "none";
                 })
                 .catch(err => {
                   console.log(err)
@@ -395,9 +399,10 @@ export default class Mics extends React.Component {
 
             }}> Evaluate
           </button></> : null}
-          
-          <center>       
-            <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8'>
+            <span className="sectionDivider"></span>
+            <center>       
+            <h2 className="sectionTitle">Nepali Text Summarization</h2>
+            <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-5'>
               <span>Select Summary Method </span>
               <select id="selectsummary" onChange={this.changeOptionSummary} style={{width:"30%"}}>
                 <option value="Extractive">Extractive</option>
@@ -407,13 +412,15 @@ export default class Mics extends React.Component {
               <span>Summary Method: {this.state.selectedOptionSummary}</span>
             </div>
           </center>
-          <button id="sumbutton"className='btn col-2' onClick={handlesummary}> Summary </button></>}
+          <button id="sumbutton"className='btn col-2 mt-3' onClick={handlesummary}> Get Summary </button></>}
           <span id="summarystatus" style={{color:"blue",display:"none"}}><i className="fa fa-info-circle" ></i> Summary in Process...</span>
           <br/>
           <center>
-          <div className='summary' id="summary" style={{display:'none'}}  >
-          <textarea  className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary}  disabled></textarea>
-          <br/>
+            <div className='summary' id="summary" style={{ display: 'none' }}  >
+            <div className="summaryOutput">
+            <span className='outputTitle'>Generated Summary ⬇️: </span>
+                <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea>
+              </div>
           <button onClick={()=>{
             const downloadTextFile = JSON.stringify(this.state.summary);
             const blob = new Blob([downloadTextFile], { type: "text/plain" });

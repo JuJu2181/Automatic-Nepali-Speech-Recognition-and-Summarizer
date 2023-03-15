@@ -139,7 +139,7 @@ select{
 }
 
 .showEvaluation-result{
-  display:flex;
+  display:none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -150,9 +150,76 @@ select{
   border-radius: 3px;
   margin: 2px auto;
   color:white;
-  padding:1rem auto;
+  padding:1rem;
+  margin: 1rem auto;
 }
 #resultDiff{
   background-color: #F6F9FE;
   border:none;
+}
+#representation{
+  margin-top: 10px;
+}
+
+.liveOutput{
+  display: none;
+  flex-direction: column;
+  width: 76%;
+  border-radius: 10px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #c3cfd2;
+}
+
+.outputTitle{
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 5px 0;
+  border-bottom:  3px solid #00a6ed;
+}
+
+.sectionTitle{
+  font-weight: 800;
+  color: #781b1b;
+  margin: 1.2rem 0;
+  padding: 0.6rem;
+  border-bottom: 1px solid black;
+}
+
+.evaluateOutput{
+  display: flex;
+  flex-direction: column;
+  width: 76%;
+  border-radius: 10px;
+  margin: 2rem auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #c3cfd2;
+}
+
+span{
+  cursor: default;
+}
+
+.outputText{
+  box-shadow: none;
+}
+
+.summaryOutput{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.sectionDivider{
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin: 5rem 0;
+  background-color: #3c4043;
 }
