@@ -258,9 +258,11 @@ export default class Mics extends React.Component {
             onChange={this.onChange}
             record={this.state.record}
             className="sound-wave col"
+            visualSetting="frequencyBars"
             onStop={this.onStop}
             onData={this.onData}            
-            strokeColor={strokeColor}
+            // strokeColor={strokeColor}
+            strokeColor="#Fc5a8d"
             strokeWidth={10}            
             backgroundColor="white" 
             setAudioPath={setAudioPath}
