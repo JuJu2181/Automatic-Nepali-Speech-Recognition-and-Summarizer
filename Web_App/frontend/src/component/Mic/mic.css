@@ -135,3 +135,10 @@ select{
   background-color: #c3cfd2 !important;
   color:black !important;
 }
+
+.showEvaluation-result{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

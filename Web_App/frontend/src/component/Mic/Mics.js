@@ -5,6 +5,7 @@ import AudioPlayer from "react-h5-audio-player";
 import './mic.css';
 import axios from 'axios';
 import mic from '../../static/image/mic.jpg';
+const Diff = require('diff');
 
 
 
@@ -21,6 +22,8 @@ export default class Mics extends React.Component {
       selectedOption: "Wav2Vec",
       transcript:"",
       selectedOptionSummary: "Extractive",
+      showEvaluation:false,
+      userInput:""
     }
   }
 
@@ -52,10 +55,6 @@ export default class Mics extends React.Component {
     document.getElementById("start-recording").style.display = "block";
     document.getElementById("stop-recording").style.display = "none";
   }
-
-  // onData(recordedBlob) {
-  //   console.log('chunk of real-time data is: ', recordedBlob);
-  // }
   onStop = (blobObject) => {
     const { setAudioPath,wavFileblob } = this.props; // eslint-disable-line
     // console.info("onStop blobObject: ", blobObject);
@@ -107,13 +106,13 @@ export default class Mics extends React.Component {
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
             
-        })
-        .catch((error) => {
-          alert(" Server Error")
-          console.log(error)
-          document.getElementById("showstatus").style.display = "none";
-          document.getElementById("summarystatus").style.display = "none";
-        }) :
+          })
+          .catch((error) => {
+            alert(" Server Error")
+            console.log(error)
+            document.getElementById("showstatus").style.display = "none";
+            document.getElementById("summarystatus").style.display = "none";
+          }) :
           // await axios.post('http://tasr.eastus2.cloudapp.azure.com/abstract',input, customConfig)
           // await axios.post(`http://192.168.50.31:8000/abstract`,input, customConfig)  
           await axios.post(`http://localhost:8000/abstract`,input, customConfig)  
@@ -126,7 +125,6 @@ export default class Mics extends React.Component {
         })
         .catch((error) => {
           alert(" Server Error")
-          console.log(error)
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("summarystatus").style.display = "none";
         })
@@ -159,14 +157,18 @@ export default class Mics extends React.Component {
             `http://localhost:8000/audio_live`, formData
           )
           .then((res)=> {
+            console.log(res.data)
             document.getElementById("textsuccess").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
-            document.getElementById("textsuccess").innerHTML = res.data
-            this.setState({transcript:res.data})
-            console.log(this.state.transcript)
+            document.getElementById("textsuccess").innerHTML = res.data.transcript
+            this.setState({transcript:res.data.transcript})
+          
             document.getElementById("btn-transcript").disabled = false;
             document.getElementById("btn-transcript").style.cursor = "pointer";
+            if(res.data.time){
+              document.getElementById("time").innerHTML = "Time Taken: "+res.data.time + " seconds"
+            }
         
           }  
           )
@@ -206,9 +208,11 @@ export default class Mics extends React.Component {
         .then((res)=> {
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("textsuccess").style.display = "block";
-          document.getElementById("textsuccess").innerHTML = res.data
-          this.setState({transcript:res.data})
-          console.log(this.state.transcript)
+          document.getElementById("textsuccess").innerHTML = res.data.transcript
+          this.setState({transcript:res.data.transcript})
+          if(res.data.time){
+            document.getElementById("time").innerHTML = "Time Taken: "+res.data.time+ "seconds"
+          }
           
         }  
         )
@@ -239,7 +243,7 @@ export default class Mics extends React.Component {
               </div>
               <br/>
               <div className='model-selection model-text col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-4'>
-              <span >🗣️ Try This </span><br/>
+              <span >🗣️ Try This</span><br/>
               <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ</span>
             </div>    
           </center> 
@@ -257,7 +261,7 @@ export default class Mics extends React.Component {
             onStop={this.onStop}
             onData={this.onData}            
             strokeColor={strokeColor}
-            strokeWidth={5}            
+            strokeWidth={10}            
             backgroundColor="white" 
             setAudioPath={setAudioPath}
             mimeType="audio/wav"
@@ -293,33 +297,121 @@ export default class Mics extends React.Component {
         <span id="showstatus" style={{color:"green",display:"none"}}><i className="fa fa-info-circle" ></i> STT in Process...</span>
         <span id="recordstatus" style={{color:"red",display:"none"}}><i className="fa fa-exclamation-triangle" ></i> Please Record Audio</span>
         <span id="no-response" style={{color:'red'}}></span>
-        
-        <div className=" col">
-            <div className=" col">
-            <p id="textsuccess" style={{color:'palevioletred'}} className="contain col">
-            </p>
-            </div>
-        </div>
-        {this.state.transcript === ""? null :<>
-        <center>       
-          <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8'>
-            <span>Select Summary Method </span>
-            <select id="selectsummary" onChange={this.changeOptionSummary} style={{width:"30%"}}>
-              <option value="Extractive">Extractive</option>
-              <option value="Abstractive">Abstractive</option>
-            </select>         
-            <br/>
-            <span>Summary Method: {this.state.selectedOptionSummary}</span>
+          <div className=" col">
+              <div className=" col">
+              <p id="textsuccess" style={{color:'palevioletred'}} className="contain col">
+              </p>
+              <span id="time" style={{color:'Blue'}}></span>              
+              </div> 
           </div>
-        </center>
-        <button id="sumbutton"className='btn col-2' onClick={handlesummary}> Summary </button></>}
-        <span id="summarystatus" style={{color:"blue",display:"none"}}><i className="fa fa-info-circle" ></i> Summary in Process...</span>
-        <br/>
-        <center>
-        <textarea  id="summary" style={{display:'none'}} className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary}  disabled></textarea>
-        </center>
-      </div>
+          
+          
 
+          {this.state.transcript === ""? null :<>
+          <button onClick={()=>{
+            const downloadTextFile = JSON.stringify(this.state.transcript);
+            const blob = new Blob([downloadTextFile], { type: "text/plain" });
+            const tempLink = document.createElement('a');
+            tempLink.href = URL.createObjectURL(blob);;
+            tempLink.setAttribute('download', 'summary.txt');
+            tempLink.click();
+          }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{color:"blue"}}/> Transcript</button>
+          <button id="showEvaluation"className='btn col-2' onClick={()=>{
+                this.setState({showEvaluation:true})
+
+              }}> Evaluate Transcript</button>
+          <br/>
+          { this.state.showEvaluation?<><textarea onChange={(e)=>{
+            this.setState({userInput:e.target.value})
+
+          }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
+          <br/>
+          <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
+            if(this.state.userInput===""){
+              alert("Please enter text to evaluate")
+            }
+            else{
+              const data ={
+                userText: this.state.userInput,
+                userTranscript: this.state.transcript
+              }                        
+              let input = JSON.stringify(data);
+              console.log(input)
+              let customConfig = {
+              headers: {
+              'Content-Type': 'application/json'
+              }};
+              await axios.post("http://localhost:8000/evaluate",input, customConfig)
+              .then(res => {
+                console.log(res.data)
+                if(res.data.cer && res.data.wer){
+                document.getElementById("cer").innerHTML = "CER: "+res.data.cer;
+                document.getElementById("wer").innerHTML = "WER: "+res.data.wer;
+                }
+                function redTheDiff(){
+                  let b= data.userTranscript //transcript
+                  let a= data.userText //userInput
+                  console.log(a)
+                  console.log(b)
+
+                  let diff = Diff.diffChars(a, b);
+                  console.log(diff)
+                  let result = "";
+
+                  diff.forEach(function(part) {
+                    // if the part is removed or added, wrap it in a span element with red color
+                    let color = part.added ? 'green' : part.removed ? 'red' : 'black';
+                    result += '<span style="color:' + color + '">' + part.value + '</span>';
+                  });
+                  document.getElementById("resultDiff").innerHTML = result;
+                }
+                redTheDiff();
+
+              })
+              .catch(err => {
+                console.log(err)
+              }
+              )
+              
+            }
+
+          }}> Evaluate </button></> : null}
+          <div className='showEvaluation-result'>
+          <span id="cer"></span>
+          <span id="wer"></span>
+          </div>
+          <span id="resultDiff"></span>
+          <center>       
+            <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8'>
+              <span>Select Summary Method </span>
+              <select id="selectsummary" onChange={this.changeOptionSummary} style={{width:"30%"}}>
+                <option value="Extractive">Extractive</option>
+                <option value="Abstractive">Abstractive</option>
+              </select>         
+              <br/>
+              <span>Summary Method: {this.state.selectedOptionSummary}</span>
+            </div>
+          </center>
+          <button id="sumbutton"className='btn col-2' onClick={handlesummary}> Summary </button></>}
+          <span id="summarystatus" style={{color:"blue",display:"none"}}><i className="fa fa-info-circle" ></i> Summary in Process...</span>
+          <br/>
+          <center>
+          <div className='summary' id="summary" style={{display:'none'}}  >
+          <textarea  className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary}  disabled></textarea>
+          <br/>
+          <button onClick={()=>{
+            const downloadTextFile = JSON.stringify(this.state.summary);
+            const blob = new Blob([downloadTextFile], { type: "text/plain" });
+            const tempLink = document.createElement('a');
+            tempLink.href = URL.createObjectURL(blob);;
+            tempLink.setAttribute('download', 'summary.txt');
+            tempLink.click();
+          }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{color:"blue"}}/> Summary</button>
+          </div>
+
+          </center>
+      </div>
     );
   }
+
 }
