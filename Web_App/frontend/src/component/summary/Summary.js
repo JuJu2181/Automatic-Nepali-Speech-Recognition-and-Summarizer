@@ -7,6 +7,7 @@ import type from '../../static/image/type.jpg'
 
 export default function Summary() {
   
+  // const domain_to_server = "192.168.50.31:8000";
 
   const[text,setText] = useState('')
   const [txt, setTxt] = useState({
@@ -76,7 +77,8 @@ export default function Summary() {
         setWaitstatus(true)     
         const formData= new FormData()      
         formData.append('text',text)
-        await axios.post("http://tasr.eastus2.cloudapp.azure.com/text",formData)
+        // await axios.post("http://tasr.eastus2.cloudapp.azure.com/text",formData)
+        await axios.post(`http://192.168.50.31:8000/text`,formData)
         .then( 
           function(res){
             document.getElementById('summbtn').disabled=false;
@@ -153,7 +155,9 @@ export default function Summary() {
               'Content-Type': 'application/json'
               }};
               setTalakoWaitstatus(true)
-              await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
+              // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig);
+              // await axios.post(`http://192.168.50.31:8000/input-text`,input, customConfig)
+              await axios.post(`http://localhost:8000/input-text`,input, customConfig)
               .then(
                 function(res){            
                   setTalakoWaitstatus(false)            

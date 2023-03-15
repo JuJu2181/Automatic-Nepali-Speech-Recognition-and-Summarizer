@@ -77,7 +77,7 @@
 }
 
 .mic{
-  height: 100px;
+  height: 150px;
 }
 select{
   width: 10%;
@@ -130,6 +130,7 @@ select{
   animation-duration: 2s;
   animation-iteration-count: infinite;
 }
+
 .model-text{
   background-color: #c3cfd2 !important;
   color:black !important;
