@@ -76,8 +76,7 @@ export default function Summary() {
         setWaitstatus(true)     
         const formData= new FormData()      
         formData.append('text',text)
-        // await axios.post("http://tasr.eastus2.cloudapp.azure.com/text",formData)
-        await axios.post("http://localhost:8000/text",formData)
+        await axios.post("http://tasr.eastus2.cloudapp.azure.com/text",formData)
         .then( 
           function(res){
             document.getElementById('summbtn').disabled=false;
@@ -154,8 +153,7 @@ export default function Summary() {
               'Content-Type': 'application/json'
               }};
               setTalakoWaitstatus(true)
-              // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig);
-              await axios.post('http://localhost:8000/input-text',input, customConfig)
+              await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
               .then(
                 function(res){            
                   setTalakoWaitstatus(false)            

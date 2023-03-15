@@ -94,10 +94,8 @@ export default class Mics extends React.Component {
               'Content-Type': 'application/json'
             }
           }
-          console.log(this.selectedOptionSummary)
           this.state.selectedOptionSummary === "Extractive"? 
-          // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
-          await axios.post('http://localhost:8000/input-text',input, customConfig)
+          await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
           .then((res) => {
             this.setState({summary:res.data})
             document.getElementById("summary").style.display = "block";
@@ -111,8 +109,7 @@ export default class Mics extends React.Component {
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("summarystatus").style.display = "none";
         }) :
-          // await axios.post('http://tasr.eastus2.cloudapp.azure.com/abstract',input, customConfig) 
-          await axios.post('http://localhost:8000/abstract',input, customConfig)  
+          await axios.post('http://tasr.eastus2.cloudapp.azure.com/abstract',input, customConfig)        
           .then((res) => {
             this.setState({summary:res.data})
             document.getElementById("summary").style.display = "block";
@@ -150,8 +147,8 @@ export default class Mics extends React.Component {
           formData.append('audio', wavFile)
           
           await axios.post(      
-            // 'http://tasr.eastus2.cloudapp.azure.com/audio_live', formData
-            'http://localhost:8000/audio_live', formData
+            'http://tasr.eastus2.cloudapp.azure.com/audio_live', formData
+            
           )
           .then((res)=> {
             document.getElementById("textsuccess").style.display = "block";
@@ -169,7 +166,7 @@ export default class Mics extends React.Component {
             document.getElementById("btn-transcript").disabled = false;
             document.getElementById("btn-transcript").style.cursor = "pointer";
             document.getElementById("showstatus").style.display = "none";
-            document.getElementById("no-response").innerHTML="No response from server"
+            document.getElementById("no-response").innerHTML=" 📛 No response from server"
           })
         }
         else{
@@ -194,8 +191,8 @@ export default class Mics extends React.Component {
         const formData = new FormData()
         formData.append('audio', wavFile)
         await axios.post(      
-          // 'http://tasr.eastus2.cloudapp.azure.com/audio_live_own', formData
-          'http://localhost:8000/audio_live_own', formData
+          'http://tasr.eastus2.cloudapp.azure.com/audio_live_own', formData
+          
         )
         .then((res)=> {
           document.getElementById("showstatus").style.display = "none";
@@ -208,7 +205,7 @@ export default class Mics extends React.Component {
         )
         .catch((error)=>{
           document.getElementById("showstatus").style.display = "none";
-            document.getElementById("no-response").innerHTML="No response from server"
+            document.getElementById("no-response").innerHTML=" 📛 No response from server"
         })
       }
       else{
@@ -230,7 +227,12 @@ export default class Mics extends React.Component {
               </select>         
               <br/>
               <span>Current Model: {this.state.selectedOption}</span>
-              </div>
+              <br/>             
+            </div>
+            <div className='model-selection model-text col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-4'>
+              <span >🗣️ Try This </span><br/>
+              <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ</span>
+            </div>            
           </center> 
         
         
@@ -266,6 +268,7 @@ export default class Mics extends React.Component {
           />
           } 
           <br/>
+          
           <span id="start-recording" style={{color:"blue"}}>Click on start to start recording</span>
           <span id="stop-recording" style={{color:"blue",display:"none"}}>
             <div className='record-status'><div className='circle'></div><span id="recording"style={{marginTop:"4px"}}> Recording</span></div>

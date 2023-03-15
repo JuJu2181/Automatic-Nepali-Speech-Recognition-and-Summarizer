@@ -11,8 +11,7 @@ export default function Content() {
   const [model, setModel] = useState(false);
   useEffect(() => {
     axios
-      // .post('http://tasr.eastus2.cloudapp.azure.com/loadmodel')
-      .post('http://localhost:8000/loadmodel')
+      .post('http://tasr.eastus2.cloudapp.azure.com/loadmodel')
       .then((res) => {
         setModel(true);
         document.getElementById('model-success').style.display = 'block';
@@ -55,6 +54,18 @@ export default function Content() {
         
         <h1 className="project-title text-center mt-3">स्वर-सारांश</h1>
         <h4 className="project-title project-title-english text-center mt-3">Automatic Nepali Speech Recognition and Summary</h4>
+            
+        <div className="container1">
+            <p className="about">
+            This is our major project on speech Recognition and summary. We have used the speech recognition API to convert the audio 
+            file into text. We have also used the text summarization API to summarize the text.We have used the ReactJS framework to build the front end of the website. The website is also responsive and can be used on 
+            mobile devices as well.
+            <br/>
+            For speech recognition, we have used wav2vec 2.0 model (facebook/wav2vec2-large-xlsr-53). The model is finetuned on the openslr dataset.
+            Similarly, for text summarization, we have used Extractive Summary using textRank Algorithm. Another model for speech to text is CNN-Resner-BiLSTM.
+            
+            </p>
+        </div>
         <div className="content ">
         <div className="text-center">
             {/* <button className="button-three">Speech Recognition</button>
@@ -68,18 +79,6 @@ export default function Content() {
         
         
         </div>
-        <div className="container1">
-            <p className="about">
-            This is our major project on speech Recognition and summary. We have used the speech recognition API to convert the audio 
-            file into text. We have also used the text summarization API to summarize the text.We have used the ReactJS framework to build the front end of the website. The website is also responsive and can be used on 
-            mobile devices as well.
-            <br/>
-            For speech recognition, we have used wav2vec 2.0 model (facebook/wav2vec2-large-xlsr-53). The model is finetuned on the openslr dataset.
-            Similarly, for text summarization, we have used Extractive Summary using textRank Algorithm. Another model for speech to text is CNN-Resner-BiLSTM.
-            
-            </p>
-        </div>
-
         <h1 className="project-title text-center mt-3">Motivation</h1>
         
         <div className="container1">
@@ -94,9 +93,9 @@ export default function Content() {
               communication, enhance access to information, and have a positive impact on Nepali society.
             </p>
         </div>
-        {/* <h1 className="project-title text-center mt-3">Model Details and Visualiztion</h1> */}
-        {/* <h4 className="project-title text-center mt-3"><i className='fab fa-facebook'></i>-wav2vec2-large-xlsr-53</h4> */}
-        {/* <div className="container1 wave2vec">
+        {/* <h1 className="project-title text-center mt-3">Model Details and Visualiztion</h1>
+        <h4 className="project-title text-center mt-3"><i className='fab fa-facebook'></i>-wav2vec2-large-xlsr-53</h4>
+        <div className="container1 wave2vec">
           <img src={wav2vec}  style={{height:"80%",width:"100%"}}alt="xlsr diagram" />
           <br/>
         <a style={{textAlign:"center",fontSize:"15px"}} href="https://huggingface.co/facebook/wav2vec2-large-xlsr-53">Facebook's XLSR-Wav2Vec2</a>

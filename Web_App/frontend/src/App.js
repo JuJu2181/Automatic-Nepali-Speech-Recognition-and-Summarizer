@@ -14,24 +14,31 @@ import Navbar from "./component/navbar/Navbar";
 function App() {
   
   return (
-    <><Router>
+    <>
+    <div className="page-container">
+    <Router>
+    <div className="content-wrap">
       <Navbar/>
-    <Routes>
-      <Route exact path="/"
-      element={<Home/>} />     
-    
-      <Route path="/sr"
-      element={<SpeechPage/>} /> 
-        
-      <Route path="/summary" element={<Summarize/>} />  
+      <Routes>
+        <Route exact path="/"
+        element={<Home/>} />     
+      
+        <Route path="/sr"
+        element={<SpeechPage/>} /> 
+          
+        <Route path="/summary" element={<Summarize/>} />  
 
-      <Route path="/teams" element={<TeamPage/>} />
-      <Route path="/mictest" element={<RealTime/>} />
+        <Route path="/teams" element={<TeamPage/>} />
+        <Route path="/mictest" element={<RealTime/>} />
 
-    </Routes>
+      </Routes>
+
     <Scroll/>
+    </div>
+    <br/>
     <Footer/>
   </Router>
+  </div>
     </>
   );
 }

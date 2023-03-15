@@ -55,7 +55,7 @@ function Speech() {
       }
       };
       
-      await axios.post('http://localhost:8000/input-text',
+      await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',
       input, customConfig)
       .then(
         function(res){
@@ -147,7 +147,7 @@ function Speech() {
         const formData = new FormData()
         formData.append('audio', audio)
         await axios.post(      
-          'http://localhost:8000/audio', formData
+          'http://tasr.eastus2.cloudapp.azure.com/audio', formData
           
         )
         .then((res)=> {

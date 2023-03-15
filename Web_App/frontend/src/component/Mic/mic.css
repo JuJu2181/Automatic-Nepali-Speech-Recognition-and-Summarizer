@@ -77,7 +77,7 @@
 }
 
 .mic{
-  height: 200px;
+  height: 100px;
 }
 select{
   width: 10%;
@@ -129,4 +129,8 @@ select{
   animation-name: blinker;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+}
+.model-text{
+  background-color: #c3cfd2 !important;
+  color:black !important;
 }

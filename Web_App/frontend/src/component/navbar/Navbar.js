@@ -9,7 +9,7 @@ export default function Navbar() {
     <div>
         <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
 			<div className="container" >    
-				<span className='navbar-brand'><Link className='links-title' to="/"><i className="fas fa-microphone"/> <p className="navbar-logo-anish">स्वर-सारांश </p></Link></span>
+				<span className='navbar-brand'><Link className='links-title' to="/"><i className="fas fa-microphone"/> <p className='navbar-logo'>स्वर-सारांश</p> </Link></span>
                 <button className="navbar-toggler text-white" type="button" 
                     data-toggle="collapse"
                     data-target="#navbarSupportedContent"
