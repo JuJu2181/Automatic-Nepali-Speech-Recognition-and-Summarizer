@@ -46,6 +46,7 @@ export default class Mics extends React.Component {
     this.setState({strokestate:true})
     document.getElementById("start-recording").style.display = "none";
     document.getElementById("stop-recording").style.display = "block";
+    document.getElementById("displayAll").style.display="none"
   }
 
   stopRecording = () => {
@@ -161,6 +162,7 @@ export default class Mics extends React.Component {
             document.getElementById("textsuccess").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
+            document.getElementById("displayAll").style.display="block"
             document.getElementById("textsuccess").innerHTML = res.data.transcript
             this.setState({transcript:res.data.transcript})
           
@@ -208,6 +210,7 @@ export default class Mics extends React.Component {
         .then((res)=> {
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("textsuccess").style.display = "block";
+          document.getElementById("displayAll").style.display="block"
           document.getElementById("textsuccess").innerHTML = res.data.transcript
           this.setState({transcript:res.data.transcript})
           if(res.data.time){
@@ -299,6 +302,7 @@ export default class Mics extends React.Component {
         <span id="showstatus" style={{color:"green",display:"none"}}><i className="fa fa-info-circle" ></i> STT in Process...</span>
         <span id="recordstatus" style={{color:"red",display:"none"}}><i className="fa fa-exclamation-triangle" ></i> Please Record Audio</span>
         <span id="no-response" style={{color:'red'}}></span>
+        <div id="displayAll" style={{display:"block"}}>
           <div className=" col">
               <div className=" col">
               <p id="textsuccess" style={{color:'palevioletred'}} className="contain col">
@@ -412,6 +416,7 @@ export default class Mics extends React.Component {
           </div>
 
           </center>
+        </div>  
       </div>
     );
   }
