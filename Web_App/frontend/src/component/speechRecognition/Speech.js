@@ -33,7 +33,7 @@ function Speech() {
   // const [wordcount , setWordcount] = useState(0)
   // const [wordcountsummary , setWordcountsummary] = useState(0)
 
-  
+  // const domain_to_server = "192.168.50.31:8000";
 
   
   const getthesummary =async (e)=>{
@@ -55,7 +55,9 @@ function Speech() {
       }
       };
       
-      await axios.post('http://localhost:8000/input-text',
+      // await axios.post(`http://192.168.50.31:8000/input-text`,
+      // input, customConfig)
+      await axios.post(`http://localhost:8000/input-text`,
       input, customConfig)
       .then(
         function(res){
@@ -147,8 +149,8 @@ function Speech() {
         const formData = new FormData()
         formData.append('audio', audio)
         await axios.post(      
-          'http://localhost:8000/audio', formData
-          
+          // `http://192.168.50.31:8000/audio`, formData
+          `http://localhost:8000/audio`, formData
         )
         .then((res)=> {
           if(res.data==='fail'){

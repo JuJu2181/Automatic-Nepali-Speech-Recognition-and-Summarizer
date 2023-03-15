@@ -12,6 +12,7 @@ export default function Content() {
   useEffect(() => {
     axios
       // .post('http://tasr.eastus2.cloudapp.azure.com/loadmodel')
+      // .post('http://192.168.50.31:8000/loadmodel')
       .post('http://localhost:8000/loadmodel')
       .then((res) => {
         setModel(true);
@@ -54,7 +55,7 @@ export default function Content() {
         </div>  
         
         <h1 className="project-title text-center mt-3">स्वर-सारांश</h1>
-        <h4 className="project-title project-title-english text-center mt-3">Automatic Nepali Speech Recognition and Summary</h4>
+        <h4 className="project-title project-title-english text-center mt-3">Automatic Nepali Speech Recognition and Summarizer</h4>
         <div className="content ">
         <div className="text-center">
             {/* <button className="button-three">Speech Recognition</button>
@@ -74,8 +75,8 @@ export default function Content() {
             file into text. We have also used the text summarization API to summarize the text.We have used the ReactJS framework to build the front end of the website. The website is also responsive and can be used on 
             mobile devices as well.
             <br/>
-            For speech recognition, we have used wav2vec 2.0 model (facebook/wav2vec2-large-xlsr-53). The model is finetuned on the openslr dataset.
-            Similarly, for text summarization, we have used Extractive Summary using textRank Algorithm. Another model for speech to text is CNN-Resner-BiLSTM.
+            For speech recognition, we have used wav2vec 2.0 model (facebook/wav2vec2-large-xlsr-53) which was finetuned on the Nepali openslr dataset.
+            Similarly, for text summarization, we have used Extractive Summary using textRank Algorithm. An abstractive text summarizer model was also developed.
             
             </p>
         </div>

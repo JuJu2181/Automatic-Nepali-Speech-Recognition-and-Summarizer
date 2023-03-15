@@ -24,6 +24,8 @@ export default class Mics extends React.Component {
     }
   }
 
+  // domain_to_server = "192.168.50.31:8000";
+
   changeOption = (e) => {
     let value = document.getElementById("select").value;
     this.setState({selectedOption:value});
@@ -97,7 +99,8 @@ export default class Mics extends React.Component {
           console.log(this.selectedOptionSummary)
           this.state.selectedOptionSummary === "Extractive"? 
           // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
-          await axios.post('http://localhost:8000/input-text',input, customConfig)
+          // await axios.post(`http://192.168.50.31:8000/input-text`,input, customConfig)
+          await axios.post(`http://localhost:8000/input-text`,input, customConfig)
           .then((res) => {
             this.setState({summary:res.data})
             document.getElementById("summary").style.display = "block";
@@ -111,8 +114,9 @@ export default class Mics extends React.Component {
           document.getElementById("showstatus").style.display = "none";
           document.getElementById("summarystatus").style.display = "none";
         }) :
-          // await axios.post('http://tasr.eastus2.cloudapp.azure.com/abstract',input, customConfig) 
-          await axios.post('http://localhost:8000/abstract',input, customConfig)  
+          // await axios.post('http://tasr.eastus2.cloudapp.azure.com/abstract',input, customConfig)
+          // await axios.post(`http://192.168.50.31:8000/abstract`,input, customConfig)  
+          await axios.post(`http://localhost:8000/abstract`,input, customConfig)  
           .then((res) => {
             this.setState({summary:res.data})
             document.getElementById("summary").style.display = "block";
@@ -151,7 +155,8 @@ export default class Mics extends React.Component {
           
           await axios.post(      
             // 'http://tasr.eastus2.cloudapp.azure.com/audio_live', formData
-            'http://localhost:8000/audio_live', formData
+            // `http://192.168.50.31:8000/audio_live`, formData
+            `http://localhost:8000/audio_live`, formData
           )
           .then((res)=> {
             document.getElementById("textsuccess").style.display = "block";
@@ -195,7 +200,8 @@ export default class Mics extends React.Component {
         formData.append('audio', wavFile)
         await axios.post(      
           // 'http://tasr.eastus2.cloudapp.azure.com/audio_live_own', formData
-          'http://localhost:8000/audio_live_own', formData
+          // `http://192.168.50.31:8000/audio_live_own`, formData
+          `http://localhost:8000/audio_live_own`, formData
         )
         .then((res)=> {
           document.getElementById("showstatus").style.display = "none";
