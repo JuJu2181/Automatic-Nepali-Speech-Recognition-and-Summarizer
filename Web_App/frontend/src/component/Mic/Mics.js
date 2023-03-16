@@ -50,6 +50,7 @@ export default class Mics extends React.Component {
     document.getElementById("btn-start").style.display = "none";
     document.getElementById("btn-transcript").style.display = "none";
     document.getElementById("btn-stop").style.display = "inline";
+    document.getElementById("summary").style.display = "none";
     this.setState({showEvaluation:false})
   }
 
@@ -107,6 +108,7 @@ export default class Mics extends React.Component {
           this.state.selectedOptionSummary === "Extractive"? 
           // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
           // await axios.post(`http://192.168.50.31:8000/input-text`,input, customConfig)
+        
           await axios.post(`http://localhost:8000/input-text`,input, customConfig)
           .then((res) => {
             this.setState({summary:res.data})
@@ -433,7 +435,7 @@ export default class Mics extends React.Component {
           <br/>
           <center>
             <div className='summary' id="summary" style={{ display: 'none' }}  >
-            <div className="summaryOutput">
+            <div className="summaryOutput" id='summaryOutput'>
             <span className='outputTitle'>Generated Summary ⬇️: </span>
                 <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea>
               </div>
