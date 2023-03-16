@@ -41,6 +41,7 @@ app.add_middleware(
     
     
 # endpoint for textinput
+# for extractive text summarizer
 class text(BaseModel):    
     texts: str
 @app.post("/input-text")
@@ -49,9 +50,12 @@ async def create_upload_text(data: text):
         with open('static/input-text/input.txt', 'w',encoding="utf-8") as f:
             f.write(data.texts)
         filepath='static/input-text/input.txt'
+        t1 = time.time()
         summary=get_summary_from_text_file(filepath)
         os.remove(filepath)
-        return summary
+        t2 = time.time()
+        # return summary
+        return {"summary":summary,"time":round(t2-t1,4)}
     except:
         return "fail"
         
@@ -70,14 +74,11 @@ async def create_upload_file(text: UploadFile = File(...)):
         file_location = f"static/text/{uuid.uuid1()}{text.filename}"
         with open(file_location, "wb+") as file_object:
             file_object.write(text.file.read())
-            
         summary=get_summary_from_text_file(file_location)
         # print(summary)
         os.remove(file_location)
         return summary
         # return JSONResponse(content={"summary": summary})
-         
-        
     except:
         return "fail"
 
@@ -149,14 +150,21 @@ async def create_upload_file(audio: UploadFile = File(...)):
         return {"transcript":transcript,"time":round(t2-t1,4)}     
     except:
         return "couldnot handle the request, Try Again!"
+    
+# for abstractive text summarizer
 @app.post("/abstract")
 async def create_upload_text(data: text):    
-    with open('static/input-text/input.txt', 'w',encoding="utf-8") as f:
-        f.write(data.texts)
-    filepath='static/input-text/input.txt'
-    summary=abstractive_predict.abstractive_summarization_from_file(filepath)
-    os.remove(filepath)
-    return summary
+    try:
+        with open('static/input-text/input.txt', 'w',encoding="utf-8") as f:
+            f.write(data.texts)
+        filepath='static/input-text/input.txt'
+        t1 = time.time()
+        summary=abstractive_predict.abstractive_summarization_from_file(filepath)
+        os.remove(filepath)
+        t2 = time.time() 
+        return {"summary":summary,"time":round(t2-t1,4)}
+    except:
+        return "couldnot handle request, Try again!"
 
 #######################################
 #function for evaluation

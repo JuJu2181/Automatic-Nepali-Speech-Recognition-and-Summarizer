@@ -91,7 +91,8 @@ export default class Mics extends React.Component {
       } = this.props;
       const handlesummary = async (e) => {
         e.preventDefault();
-        let audiolength = this.state.transcript.split(" ").length
+        let audiolength = this.state.transcript.split(" ").length;
+        document.getElementById("summary").style.display = "none";
         if (audiolength > 10){
           document.getElementById("summarystatus").style.display = "block";
 
@@ -108,15 +109,18 @@ export default class Mics extends React.Component {
           this.state.selectedOptionSummary === "Extractive"? 
           // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig)
           // await axios.post(`http://192.168.50.31:8000/input-text`,input, customConfig)
-        
+
           await axios.post(`http://localhost:8000/input-text`,input, customConfig)
-          .then((res) => {
-            this.setState({summary:res.data})
+              .then((res) => {
+                console.log(res);
+            this.setState({summary:res.data.summary})
             document.getElementById("summary").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
-            document.getElementById("generatedSummary").innerHTML = res.data;
-            
+            document.getElementById("generatedSummary").innerHTML = res.data.summary;
+            if(res.data.time){
+              document.getElementById("summaryTime").innerHTML = "Time Taken: "+res.data.time + " seconds"
+            }
           })
           .catch((error) => {
             alert(" Server Error")
@@ -128,11 +132,14 @@ export default class Mics extends React.Component {
           // await axios.post(`http://192.168.50.31:8000/abstract`,input, customConfig)  
           await axios.post(`http://localhost:8000/abstract`,input, customConfig)  
           .then((res) => {
-            this.setState({summary:res.data})
+            this.setState({summary:res.data.summary})
             document.getElementById("summary").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
-            document.getElementById("generatedSummary").innerHTML = res.data;
+            document.getElementById("generatedSummary").innerHTML = res.data.summary;
+            if(res.data.time){
+              document.getElementById("summaryTime").innerHTML = "Time Taken: "+res.data.time + " seconds"
+            }
             
         })
         .catch((error) => {
@@ -311,9 +318,9 @@ export default class Mics extends React.Component {
           />
           } 
           <br/>
-          <span id="start-recording" style={{color:"blue"}}>Click on start to start new recording</span>
-          <span id="stop-recording" style={{color:"blue",display:"none"}}>
-            <div className='record-status'><div className='circle'></div><span id="recording"style={{marginTop:"4px"}}> Recording</span></div>
+          <span id="start-recording" style={{color:"blue"}} className='statusNotification'>Click on start to start new recording</span>
+          <span id="stop-recording" style={{color:"blue",display:"none"}} className='statusNotification'>
+            <div className='record-status'><div className='circle'></div><span id="recording" style={{margin:"4px"}}> Recording</span></div>
             Click on stop to stop recording
           </span>
           <br/>
@@ -324,8 +331,8 @@ export default class Mics extends React.Component {
           <button className='btn col-2' id="btn-transcript" onClick={test_own} type="button">Transcript- CNN</button>}
         </div>
         <br/>
-        <span id="showstatus" style={{color:"green",display:"none"}}><i className="fa fa-info-circle" ></i> STT in Process...</span>
-        <span id="recordstatus" style={{color:"red",display:"none"}}><i className="fa fa-exclamation-triangle" ></i> Please Record Audio</span>
+        <span id="showstatus" style={{color:"green",display:"none"}} className='statusNotification'><i className="fa fa-info-circle" ></i> STT in Process...</span>
+        <span id="recordstatus" style={{color:"red",display:"none"}} className='statusNotification'><i className="fa fa-exclamation-triangle" ></i> Please Record Audio</span>
         <span id="no-response" style={{color:'red'}}></span>
         <div id="displayAll" style={{display:"block"}}>
           <div className=" col">
@@ -347,7 +354,7 @@ export default class Mics extends React.Component {
             const blob = new Blob([downloadTextFile], { type: "text/plain" });
             const tempLink = document.createElement('a');
             tempLink.href = URL.createObjectURL(blob);;
-            tempLink.setAttribute('download', 'summary.txt');
+            tempLink.setAttribute('download', 'transcript.txt');
             tempLink.click();
             }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{ color: "blue" }} /> Transcript</button>
           <button id="showEvaluation" className='btn col-2' onClick={()=>{
@@ -436,15 +443,18 @@ export default class Mics extends React.Component {
             </div>
           </center>
           <button id="sumbutton"className='btn col-2 mt-3' onClick={handlesummary}> Get Summary </button></>}
-          <span id="summarystatus" style={{color:"blue",display:"none"}}><i className="fa fa-info-circle" ></i> Summary in Process...</span>
+          <span id="summarystatus" style={{color:"blue",display:"none"}} className='statusNotification'><i className="fa fa-info-circle" ></i> Summary in Process...</span>
           <br/>
           <center>
             <div className='summary' id="summary" style={{ display: 'none' }}  >
+              <div className="summaryOp">
             <div className="summaryOutput" id='summaryOutput'>
             <span className='outputTitle'>Generated Summary ⬇️: </span>
                 {/* <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea> */}
                 <p id="generatedSummary" style={{color:'darkgreen'}} className="contain col outputText">
                 </p>
+              </div>
+                <span id="summaryTime" style={{ color: 'Blue' }}></span>   
               </div>
           <button onClick={()=>{
             const downloadTextFile = JSON.stringify(this.state.summary);

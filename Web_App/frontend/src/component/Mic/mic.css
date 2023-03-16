@@ -100,7 +100,7 @@ select{
   justify-content: center;
   background-color: #042035;
   width: 150px;
-  margin: auto;
+  margin: 10px auto;
   color: white;
   border-radius: 10px;
   
@@ -222,6 +222,12 @@ span{
   background-color: #eff2f1;
 }
 
+.summaryOp{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .sectionDivider{
   display: block;
   width: 100%;
@@ -238,4 +244,9 @@ span{
   padding: 10px;
   color: #fc2e2e;
   font-weight: 800 !important;
+}
+
+.statusNotification{
+  margin-top: 8px;
+  color: #042035;
 }
