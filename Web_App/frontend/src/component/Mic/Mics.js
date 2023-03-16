@@ -46,7 +46,10 @@ export default class Mics extends React.Component {
     this.setState({strokestate:true})
     document.getElementById("start-recording").style.display = "none";
     document.getElementById("stop-recording").style.display = "block";
-    document.getElementById("displayAll").style.display="none"
+    document.getElementById("displayAll").style.display = "none"
+    document.getElementById("btn-start").style.display = "none";
+    document.getElementById("btn-transcript").style.display = "none";
+    document.getElementById("btn-stop").style.display = "inline";
     this.setState({showEvaluation:false})
   }
 
@@ -56,6 +59,9 @@ export default class Mics extends React.Component {
     this.setState({strokestate:false});
     document.getElementById("start-recording").style.display = "block";
     document.getElementById("stop-recording").style.display = "none";
+    document.getElementById("btn-transcript").style.display = "inline";
+    document.getElementById("btn-start").style.display = "inline";
+    document.getElementById("btn-stop").style.display = "none";
   }
   onStop = (blobObject) => {
     const { setAudioPath,wavFileblob } = this.props; // eslint-disable-line
@@ -86,7 +92,7 @@ export default class Mics extends React.Component {
         e.preventDefault();
         let audiolength = this.state.transcript.split(" ").length
         if (audiolength > 10){
-          document.getElementById("summarystatus").style.display = "flex";
+          document.getElementById("summarystatus").style.display = "block";
 
           let data = {
             texts: this.state.transcript
@@ -138,6 +144,8 @@ export default class Mics extends React.Component {
       }  
       const test_wav2vec = async (e) =>{               
         //display the status and result
+        this.setState({ showEvaluation: false });
+        document.getElementById("displayAll").style.display = "none";
         document.getElementById("recordstatus").style.display = "none";
         document.getElementById("textsuccess").style.display = "none";
         document.getElementById("showstatus").style.display = "block";
@@ -173,15 +181,17 @@ export default class Mics extends React.Component {
             if(res.data.time){
               document.getElementById("time").innerHTML = "Time Taken: "+res.data.time + " seconds"
             }
-        
           }  
           )
-          .catch((error)=>{
+          .catch((error) => {
+            console.log(error)
+            console.log(error ==="TypeError: Cannot read properties of null (reading 'style') at Mics.js:180:1 at async test_wav2vec (Mics.js:162:1)")
             document.getElementById("btn-transcript").disabled = false;
             document.getElementById("btn-transcript").style.cursor = "pointer";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("no-response").innerHTML="No response from server"
           })
+          document.getElementById("showEvaluation").style.display ="inline";
         }
         else{
           document.getElementById("recordstatus").style.display = "block";
@@ -191,7 +201,9 @@ export default class Mics extends React.Component {
       
           
      }
-     const test_own = async (e) =>{
+    const test_own = async (e) => {
+      this.setState({ showEvaluation: false });
+      document.getElementById("displayAll").style.display = "none";
       document.getElementById("textsuccess").style.display = "none";
       document.getElementById("showstatus").style.display = "block";
       if (this.state.blobURL != null){
@@ -225,6 +237,7 @@ export default class Mics extends React.Component {
           document.getElementById("showstatus").style.display = "none";
             document.getElementById("no-response").innerHTML="No response from server"
         })
+        document.getElementById("showEvaluation").style.display ="inline";
       }
       else{
         alert("Please record audio first")
@@ -247,9 +260,10 @@ export default class Mics extends React.Component {
               <span>Current Model: {this.state.selectedOption}</span>
               </div>
               <br/>
+            <span className='titleNote'>Note: For better results use a proper 🎤 or 🎧 at low noise 🔊</span>
               <div className='model-selection model-text col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-4'>
               <span >🗣️ Try This</span><br/>
-              <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ</span>
+            <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ। हाम्रो जीवनको हरेक मार्गमा अनुशासन अत्यन्त मूल्यवान छ। यसले व्यक्तिलाई जीवनमा प्रगति गर्न र सफलता प्राप्त गर्न प्रेरित गर्दछ। हामीले स्कूल, घर, कार्यालय, संस्था, कारखाना, खेल मैदान, रणभूमि वा अन्य स्थानमा अनुशासनको पालना गर्नुपर्दछ। अनुशासनले हामीलाई परिपक्व,सोच्न कार्य गर्न र जिम्मेवार निर्णयहरू लिन सक्षम गर्दछ।</span>
             </div>    
           </center> 
         
@@ -268,7 +282,8 @@ export default class Mics extends React.Component {
             onStop={this.onStop}
             onData={this.onData}            
             // strokeColor={strokeColor}
-            strokeColor="#b22222"
+            // strokeColor="#b22222"
+            strokeColor="#4059Ad"
             strokeWidth={10}            
             backgroundColor="white" 
             setAudioPath={setAudioPath}
@@ -289,14 +304,14 @@ export default class Mics extends React.Component {
           />
           } 
           <br/>
-          <span id="start-recording" style={{color:"blue"}}>Click on start to start recording</span>
+          <span id="start-recording" style={{color:"blue"}}>Click on start to start new recording</span>
           <span id="stop-recording" style={{color:"blue",display:"none"}}>
             <div className='record-status'><div className='circle'></div><span id="recording"style={{marginTop:"4px"}}> Recording</span></div>
             Click on stop to stop recording
           </span>
           <br/>
-          <button className='btn col-2' onClick={this.startRecording} type="button"><i className='fa fa-play' style={{paddingRight:"5px",color:"black"}}></i>Start</button>
-          <button className='btn col-2' onClick={this.stopRecording} type="button"><i className='fa fa-stop' style={{paddingRight:"5px",color:"black"}}></i> Stop</button>
+          <button className='btn col-2' onClick={this.startRecording} type="button" id="btn-start"><i className='fa fa-play' style={{paddingRight:"5px",color:"black"}}></i>Start</button>
+          <button className='btn col-2' onClick={this.stopRecording} type="button" id="btn-stop"><i className='fa fa-stop' style={{paddingRight:"5px",color:"black"}}></i> Stop</button>
           
           {this.state.selectedOption === "Wav2Vec"?<button className='btn col-2' id="btn-transcript"onClick={test_wav2vec} type="button">Transcript- WV</button>:
           <button className='btn col-2' id="btn-transcript" onClick={test_own} type="button">Transcript- CNN</button>}
@@ -328,24 +343,16 @@ export default class Mics extends React.Component {
             tempLink.setAttribute('download', 'summary.txt');
             tempLink.click();
             }} type="submit" className="btn btn-primary"><i className='fa  fa-download' style={{ color: "blue" }} /> Transcript</button>
-          <button id="showEvaluation"className='btn col-2' onClick={()=>{
+          <button id="showEvaluation" className='btn col-2' onClick={()=>{
                 this.setState({showEvaluation:true})
-                document.getElementById("evalbutton").style.display = "none";
+                document.getElementById("showEvaluation").style.display = "none";
+              document.getElementById("evalbutton").style.display = "inline";
               }}> Evaluate Transcript</button>
             {this.state.showEvaluation ? <><div className='evaluateOutput'><span className='outputTitle'>Enter Actual Transcript ⬇️: </span><textarea onChange={(e)=>{
             this.setState({userInput:e.target.value})
 
-            }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col=lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
-            </div>            
-              <div className='showEvaluation-result' id="EvaluationResult">
-              <span className='outputTitle'>Evaluated Scores ⬇️:</span>
-              <span id="cer"></span>
-              <span id="wer"></span>
-              <span className='outputTitle'>Difference Between Transcripts ⬇️</span>
-              <span id="resultDiff"></span>
-              <span id="representation"> </span>
+            }} id="textholder" className=" col-xs-12 col-sm-12 col-md-8 col-lg-8" placeholder='कृपया तपाईंले बोलेको पाठ प्रविष्ट गर्नुहोस्'></textarea>
             </div>
-            
             <button id="evalbutton" className='btn col-2' onClick={async (e)=>{
               if(this.state.userInput===""){
                 alert("Please enter text to evaluate")
@@ -364,7 +371,7 @@ export default class Mics extends React.Component {
                 await axios.post("http://localhost:8000/evaluate",input, customConfig)
                 .then(res => {
                   console.log(res.data)
-                  if (res.data.cer && res.data.wer) {
+                  if (res.data.cer != null && res.data.wer != null) {
                     document.getElementById("EvaluationResult").style.display = "flex";
                   document.getElementById("cer").innerHTML = "CER: "+res.data.cer;
                   document.getElementById("wer").innerHTML = "WER: "+res.data.wer;
@@ -388,7 +395,7 @@ export default class Mics extends React.Component {
                     document.getElementById("resultDiff").innerHTML = result;
                   }
                   redTheDiff();
-                  document.getElementById("evalbutton").style.display = "none";
+                  // document.getElementById("evalbutton").style.display = "none";
                 })
                 .catch(err => {
                   console.log(err)
@@ -398,7 +405,16 @@ export default class Mics extends React.Component {
               }
 
             }}> Evaluate
-          </button></> : null}
+          </button>  
+              <div className='showEvaluation-result' id="EvaluationResult">
+              <span className='outputTitle'>Evaluated Scores ⬇️:</span>
+              <span id="cer"></span>
+              <span id="wer"></span>
+              <span className='outputTitle'>Difference Between Transcripts ⬇️</span>
+              <span id="resultDiff"></span>
+              <span id="representation"> </span>
+            </div>
+            </> : null}
             <span className="sectionDivider"></span>
             <center>       
             <h2 className="sectionTitle">Nepali Text Summarization</h2>
