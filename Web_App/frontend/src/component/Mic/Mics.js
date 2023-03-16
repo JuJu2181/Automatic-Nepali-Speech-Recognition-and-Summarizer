@@ -115,6 +115,7 @@ export default class Mics extends React.Component {
             document.getElementById("summary").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
+            document.getElementById("generatedSummary").innerHTML = res.data;
             
           })
           .catch((error) => {
@@ -131,6 +132,7 @@ export default class Mics extends React.Component {
             document.getElementById("summary").style.display = "block";
             document.getElementById("showstatus").style.display = "none";
             document.getElementById("summarystatus").style.display = "none";
+            document.getElementById("generatedSummary").innerHTML = res.data;
             
         })
         .catch((error) => {
@@ -148,6 +150,7 @@ export default class Mics extends React.Component {
         //display the status and result
         this.setState({ showEvaluation: false });
         document.getElementById("displayAll").style.display = "none";
+        document.getElementById("summary").style.display = "none";
         document.getElementById("recordstatus").style.display = "none";
         document.getElementById("textsuccess").style.display = "none";
         document.getElementById("showstatus").style.display = "block";
@@ -206,6 +209,7 @@ export default class Mics extends React.Component {
     const test_own = async (e) => {
       this.setState({ showEvaluation: false });
       document.getElementById("displayAll").style.display = "none";
+      document.getElementById("summary").style.display = "none";
       document.getElementById("textsuccess").style.display = "none";
       document.getElementById("showstatus").style.display = "block";
       if (this.state.blobURL != null){
@@ -250,6 +254,7 @@ export default class Mics extends React.Component {
      let strokeColor=this.state.strokestate ? "green" : undefined
     return (
       <div className='audio'>
+        <span className="sectionDivider"></span>
           <h2 className="sectionTitle">Live Nepali ASR</h2>
           <center>       
             <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-5'>
@@ -437,7 +442,9 @@ export default class Mics extends React.Component {
             <div className='summary' id="summary" style={{ display: 'none' }}  >
             <div className="summaryOutput" id='summaryOutput'>
             <span className='outputTitle'>Generated Summary ⬇️: </span>
-                <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea>
+                {/* <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea> */}
+                <p id="generatedSummary" style={{color:'darkgreen'}} className="contain col outputText">
+                </p>
               </div>
           <button onClick={()=>{
             const downloadTextFile = JSON.stringify(this.state.summary);
@@ -450,7 +457,8 @@ export default class Mics extends React.Component {
           </div>
 
           </center>
-        </div>  
+        </div>
+        <span className="sectionDivider"></span>
       </div>
     );
   }
