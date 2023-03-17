@@ -258,7 +258,7 @@ export default class Mics extends React.Component {
       }
       
    }
-     let strokeColor=this.state.strokestate ? "green" : undefined
+    let strokeColor=this.state.strokestate ? "green" : undefined
     return (
       <div className='audio'>
         <span className="sectionDivider"></span>
@@ -437,7 +437,11 @@ export default class Mics extends React.Component {
               <select id="selectsummary" onChange={this.changeOptionSummary} style={{width:"30%"}}>
                 <option value="Extractive">Extractive</option>
                 <option value="Abstractive">Abstractive</option>
-              </select>         
+              </select>   
+              <br/>
+              <span style={{color:"red"}}> Extractive* selects important sentences from source</span>
+              <br/>
+              <span style={{color:"red"}}>Abstractive* generates new words not present in the original text</span>      
               <br/>
               <span>Summary Method: {this.state.selectedOptionSummary}</span>
             </div>
