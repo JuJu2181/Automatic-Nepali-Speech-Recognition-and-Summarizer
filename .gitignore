@@ -19,3 +19,4 @@ model_wav2vec/
 results*.csv
 trained_models
 trained_models_new_final
+output.txt

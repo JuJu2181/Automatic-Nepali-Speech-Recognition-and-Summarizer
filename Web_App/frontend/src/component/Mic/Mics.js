@@ -451,7 +451,7 @@ export default class Mics extends React.Component {
             <div className="summaryOutput" id='summaryOutput'>
             <span className='outputTitle'>Generated Summary ⬇️: </span>
                 {/* <textarea className="col-lg-8 col-xs-8 col-md-8" value={this.state.summary} disabled></textarea> */}
-                <p id="generatedSummary" style={{color:'darkgreen'}} className="contain col-6 outputText">
+                <p id="generatedSummary" style={{color:'darkgreen'}} className="contain outputText">
                 </p>
               </div>
                 <span id="summaryTime" style={{ color: 'Blue' }}></span>   

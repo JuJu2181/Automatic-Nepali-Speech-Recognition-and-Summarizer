@@ -7,6 +7,23 @@ model_name = "./abstractive/"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
+
+def filter_summary(summary):
+    words_arr = summary.split(" ")
+    print(words_arr)
+    if words_arr[-1] == "":
+        words_arr = words_arr[:-1]
+    if words_arr[-1] == "पनि":
+        words_arr = words_arr[:-1]
+    if words_arr[-1] == "यो":
+        words_arr = words_arr[:-1]
+    if words_arr[-1] == "अनि":
+        words_arr = words_arr[:-1]
+    
+    new_summary = " ".join(words_arr)
+    return new_summary
+        
+
 # model = None
 # tokenizer = None
 def load_model():
@@ -42,6 +59,8 @@ def abstracrive_summarization(text):
         skip_special_tokens=True,
         clean_up_tokenization_spaces=False
     )
+    
+    summary = filter_summary(summary)
     return summary
 
 def abstractive_summarization_from_file(file_path):
