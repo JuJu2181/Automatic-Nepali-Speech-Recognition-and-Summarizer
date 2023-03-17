@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```
 2. For setting up Backend Go inside backend folder
 3. Inside nepalimodel/best_wav2vec_model download files from [here](https://huggingface.co/anish-shilpakar/wav2vec2-nepali-asr-v1/tree/main) and place the files in this folder
-4. Inside the abstractive download files from [here]() and place the files in this folder. 
+4. Inside the abstractive download files from [here](https://huggingface.co/Anjaan-Khadka/Nepali-Summarization) and place the files in this folder. 
 4. Run this command to start backend server
 ```
 uvicorn api:app --reload
