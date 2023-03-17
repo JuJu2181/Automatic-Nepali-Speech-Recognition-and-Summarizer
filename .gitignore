@@ -1,4 +1,3 @@
-audio/
 openslr/
 wav2vec_trained_models/
 tokenizer/
@@ -17,7 +16,6 @@ archive/
 model_new/
 processor_new/
 model_wav2vec/
-static/
 results*.csv
 trained_models
 trained_models_new_final

@@ -17,21 +17,35 @@ A simple system developed as major project for final year of computer which will
 pip install -r requirements.txt
 ```
 2. For setting up Backend Go inside backend folder
-3. Create a new folder named static and create 3 other folders named audio, input-text, text
-4. Inside nepalimodel create a new folder called model_wav2vec and then download files from [here](https://huggingface.co/anish-shilpakar/wav2vec2-nepali-asr-v1/tree/main) and place the files in this folder
-5. Run this command to start backend server
+3. Inside nepalimodel/best_wav2vec_model download files from [here](https://huggingface.co/anish-shilpakar/wav2vec2-nepali-asr-v1) and place the files in this folder
+4. Inside the abstractive download files from [here](https://huggingface.co/Anjaan-Khadka/Nepali-Summarization) and place the files in this folder. 
+4. Run this command to start backend server
 ```
 uvicorn api:app --reload
 ```
-6. For frontend, open a new terminal and go inside the frontend folder
-7. Make sure you have react installed in your computer, then run following command
+5. For frontend, open a new terminal and go inside the frontend folder
+6. Make sure you have react installed in your computer, then run following command
 ```
-npm install
+npm install --force
 ```
-8. To open the webapp run frontend server while still keeping the backend server running
+7. To open the webapp run frontend server while still keeping the backend server running
 ```
 npm start
 ```
+8. In the frontend once you get model is ready notification as in image below, you are all set to go and start using the webapp to perform speech recognition and summarization.
+![Model Status](screenshots/model_load_sucess.png)
+
+## Screen Shots
+### 1. Home Page 
+![Home Page](screenshots/home_page_ui.png)
+### 2. Speech Recognition From File 
+![Speech Recognition Page](screenshots/speech_recognition_ui.png)
+### 3. Summarizer 
+![Summarizer Page](screenshots/summarizer.png)
+### 4. Live Speech 
+![Live Speeech Page](screenshots/live_ui1.png)
+### 5. Evaluation 
+![Evaluation Page](screenshots/evaluation_ui.png)
 
 ## Project Members
 [Anish Shilpakar](https://github.com/JuJu2181)  
