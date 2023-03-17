@@ -20,3 +20,4 @@ results*.csv
 trained_models
 trained_models_new_final
 output.txt
+live_tests

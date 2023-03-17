@@ -74,12 +74,7 @@ export default function Content() {
         </div>
         <div className="container1">
             <p className="about">
-            This is our major project on speech Recognition and summary. We have used the speech recognition API to convert the audio 
-            file into text. We have also used the text summarization API to summarize the text.We have used the ReactJS framework to build the front end of the website. The website is also responsive and can be used on 
-            mobile devices as well.
-            <br/>
-            For speech recognition, we have used wav2vec 2.0 model (facebook/wav2vec2-large-xlsr-53) which was finetuned on the Nepali openslr dataset.
-            Similarly, for text summarization, we have used Extractive Summary using textRank Algorithm. An abstractive text summarizer model was also developed.
+            A system which can convert Nepali speech to text and generate summary of text developed as major project for final year of computer engineering. This project introduces an innovative Nepali speech recognition and summarizer system that has the potential to revolutionize the way we process and analyze spoken information. Our system leverages the power of deep learning algorithms, including CNN, Resnet, BiLSTM, and wav2vec2, to transcribe speech into text with remarkable accuracy and speed. Additionally, the summarizer component of our system employs advanced natural language processing techniques, such as the TextRank Algorithm and Transformer mt5, to condense lengthy speeches into concise and informative summaries, making it easier to digest large amounts of information. This system has significant applications for various fields, including journalism, legal transcription, and business meetings. By streamlining the process of speech transcription and information extraction, our system can save time, increase productivity, and improve the overall quality of speech-to-text analysis.
             
             </p>
         </div>
@@ -88,14 +83,7 @@ export default function Content() {
         
         <div className="container1">
             <p className="about">
-              By developing an automatic Nepali speech recognition and summarization project, we can help address this need and provide a valuable tool for individ-
-              uals, businesses, and organizations that rely on Nepali language communication. The project has the potential to greatly enhance access to information, improve
-              language learning, and facilitate more efficient and effective communication in Nepali. Furthermore, the project can have a significant impact on Nepali society, par-
-              ticularly in education and healthcare. With accurate speech recognition and summarization technology, teachers can easily transcribe and summarize lectures,
-              making them accessible to students who may have missed classes or have difficulty understanding spoken Nepali. In the healthcare sector, doctors and medical pro-
-              fessionals can use technology to transcribe patient consultations and summarize medical records, improving patient care and medical research.
-              Overall, the development of an automatic Nepali speech recognition and summarization project is a worthwhile endeavor that has the potential to improve
-              communication, enhance access to information, and have a positive impact on Nepali society.
+            The Nepali language is spoken by more than 17 million people worldwide, making it one of the most widely spoken languages in South Asia. However, there is a significant need for automated speech recognition and summarization tools for Nepali, as there are currently limited options available for accurately transcribing and summarizing Nepali speech. By developing **Swar-Saransha**, we aim to address this need and provide a valuable tool for individuals, businesses, and organizations that rely on Nepali language communication. The project has the potential to greatly enhance access to information, improve language learning, and facilitate more efficient and effective communication in Nepal.
             </p>
         </div>
         {/* <h1 className="project-title text-center mt-3">Model Details and Visualiztion</h1> */}
