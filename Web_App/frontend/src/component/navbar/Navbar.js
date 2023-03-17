@@ -22,14 +22,14 @@ export default function Navbar() {
                 
                     <ul className="nav navbar-nav ml-auto">
                         
+                        <li className="nav-item"> 
+                            <span className="px-4 mr-3" ><Link  className='links' to="/mictest" > Live Speech and Summary</Link>    </span> 
+                        </li> 
                         <li className="nav-item "> 
                             <span className=" px-4 mr-3 "><Link className='links' to="/sr">Speech Recognition</Link></span> 
                         </li> 
                         <li className="nav-item"> 
-                            <span className="px-4 mr-3" ><Link className='links' to="/summary" > Summary</Link>    </span> 
-                        </li> 
-                        <li className="nav-item"> 
-                            <span className="px-4 mr-3" ><Link  className='links' to="/mictest" > RealTime Speech</Link>    </span> 
+                            <span className="px-4 mr-3" ><Link className='links' to="/summary" > Summarizer</Link>    </span> 
                         </li> 
                         <li className="nav-item"> 
                             <span className="px-4 mr-3" > <Link  className='links' to ="/teams">Team</Link></span> 

@@ -32,3 +32,13 @@ npm install
 ```
 npm start
 ```
+
+## Project Members
+[Anish Shilpakar](https://github.com/JuJu2181)  
+[Anjaan Khadka](https://github.com/AnjaanKhadka)  
+[Sudip Shrestha](https://github.com/sudips413)  
+[Sachin Manandhar](https://github.com/sachin035) 
+
+
+***
+*Feel Free to contact us if you want to know more about how we trained and integrated these models.*

@@ -29,8 +29,8 @@ export default function Team() {
 							</span>
 						</div>
 						<div className="person-info">
-							<h3 className="full-name">Anish Silphakar</h3>
-							<span className="speciality">KCE075BCT08</span>
+							<h3 className="full-name">Anish Shilpakar</h3>
+							<span className="speciality">KCE075BCT008</span>
 						</div>
 					</div>
 				</div>
@@ -45,7 +45,7 @@ export default function Team() {
 						</div>
 						<div className="person-info">
 							<h3 className="full-name">Anjaan Khadka</h3>
-							<span className="speciality">KCE075BCT09</span>
+							<span className="speciality">KCE075BCT009</span>
 						</div>
 					</div>
 				</div>
@@ -60,7 +60,7 @@ export default function Team() {
 						</div>
 						<div className="person-info">
 							<h3 className="full-name">Sachin Manandhar</h3>
-							<span className="speciality">KCE075BCT35</span>
+							<span className="speciality">KCE075BCT035</span>
 						</div>
 					</div>
 				</div>
@@ -75,7 +75,7 @@ export default function Team() {
 						</div>
 						<div className="person-info">
 							<h3 className="full-name">Sudip Shrestha</h3>
-							<span className="speciality">KCE075BCT46</span>
+							<span className="speciality">KCE075BCT046</span>
 						</div>
 					</div>
 				</div>
