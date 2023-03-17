@@ -65,7 +65,7 @@ function Speech() {
           setsummarywait(false)
           document.getElementById('summarybutton').disabled = false
         document.getElementById('summarybutton').style.cursor = 'pointer'
-          setaudiosummary(res.data)
+          setaudiosummary(res.data.summary)
           var count = 0;
           for (var i = 0; i < res.data.length; i++) {
             if(res.data[i]===' '){
@@ -77,7 +77,7 @@ function Speech() {
          
           setDownloadbuttonstatus(true)
           
-          const downloadTextFile = JSON.stringify(res.data);
+          const downloadTextFile = JSON.stringify(res.data.summary);
           const blob = new Blob([downloadTextFile], { type: "text/plain" });
           const urls = URL.createObjectURL(blob);
           setUrl_text_input(urls)

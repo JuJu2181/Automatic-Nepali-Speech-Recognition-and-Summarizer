@@ -14,6 +14,7 @@ export default function Summary() {
     fileName: '',
     fileContent: '',
   })
+  const [summaryMethod, setSummaryMethod] = useState('Extractive')
   const [mathikosummary,setmathikosummary] = useState('')
   const [talakosummary,settalakosummary] = useState('')
   const[input_text,setInput_text] = useState('')
@@ -78,7 +79,8 @@ export default function Summary() {
         const formData= new FormData()      
         formData.append('text',text)
         // await axios.post("http://tasr.eastus2.cloudapp.azure.com/text",formData)
-        await axios.post(`http://192.168.50.31:8000/text`,formData)
+        summaryMethod==='Extractive'?
+        await axios.post("http://localhost:8000/text",formData)
         .then( 
           function(res){
             document.getElementById('summbtn').disabled=false;
@@ -87,8 +89,8 @@ export default function Summary() {
             setWaitstatus(false)
             // var obj=JSON.parse(JSON.stringify(res.data))
             document.getElementById("upload").innerHTML="Upload Success"          
-            setmathikosummary(res.data)
-            const downloadTextFile = JSON.stringify(res.data);
+            setmathikosummary(res.data.summary)
+            const downloadTextFile = JSON.stringify(res.data.summary);
             const blob = new Blob([downloadTextFile], { type: "text/plain" });
             const urls = URL.createObjectURL(blob);
             setUrl_text_input(urls)
@@ -102,7 +104,35 @@ export default function Summary() {
         document.getElementById("upload").innerHTML="Request Failed, Try again!" 
         
       }) 
+      :
+      await axios.post("http://localhost:8000/abstract-file",formData)
+      .then( 
+        function(res){
+          document.getElementById('summbtn').disabled=false;
+          document.getElementById('summbtn').style.cursor='pointer';
+          setDownloadbuttonstatusfile(true)
+          setWaitstatus(false)
+          // var obj=JSON.parse(JSON.stringify(res.data))
+          document.getElementById("upload").innerHTML="Upload Success"          
+          setmathikosummary(res.data.summary)
+          const downloadTextFile = JSON.stringify(res.data.summary);
+          const blob = new Blob([downloadTextFile], { type: "text/plain" });
+          const urls = URL.createObjectURL(blob);
+          setUrl_text_input(urls)
       }
+      )
+    .catch((err)=>{
+      console.log(err)
+      document.getElementById('summbtn').disabled=false;
+      document.getElementById('summbtn').style.cursor='pointer';
+      setWaitstatus(false)
+      document.getElementById("upload").innerHTML="Request Failed, Try again!" 
+      
+    }) 
+
+
+      }
+      
       else{
         alert('Please upload a Nepali text file');
       }  
@@ -157,17 +187,18 @@ export default function Summary() {
               setTalakoWaitstatus(true)
               // await axios.post('http://tasr.eastus2.cloudapp.azure.com/input-text',input, customConfig);
               // await axios.post(`http://192.168.50.31:8000/input-text`,input, customConfig)
+              summaryMethod ==='Extractive'?
               await axios.post(`http://localhost:8000/input-text`,input, customConfig)
               .then(
                 function(res){            
                   setTalakoWaitstatus(false)            
                   setDownloadbuttonstatustext(true)
                   console.log(res.data)
-                  const downloadTextFile = JSON.stringify(res.data);
+                  const downloadTextFile = JSON.stringify(res.data.summary);
                   const blob = new Blob([downloadTextFile], { type: "text/plain" });
                   const url_text = URL.createObjectURL(blob);
                   setUrl_text(url_text)
-                  settalakosummary(res.data)   
+                  settalakosummary(res.data.summary)   
                   document.getElementById("input-text-error").style.display = "none"
                   document.getElementById('textholder').style.border='2px solid green';
 
@@ -177,7 +208,28 @@ export default function Summary() {
                 setTalakoWaitstatus(false)
                 document.getElementById("input-text-error").innerHTML = "Request was not handled!"
 
-              }) 
+              }) :
+              await axios.post(`http://localhost:8000/abstract`,input, customConfig)
+              .then(
+                function(res){            
+                  setTalakoWaitstatus(false)            
+                  setDownloadbuttonstatustext(true)
+                  console.log(res.data)
+                  const downloadTextFile = JSON.stringify(res.data.summary);
+                  const blob = new Blob([downloadTextFile], { type: "text/plain" });
+                  const url_text = URL.createObjectURL(blob);
+                  setUrl_text(url_text)
+                  settalakosummary(res.data.summary)   
+                  document.getElementById("input-text-error").style.display = "none"
+                  document.getElementById('textholder').style.border='2px solid green';
+
+                }
+              )
+              .catch((err)=>{
+                setTalakoWaitstatus(false)
+                document.getElementById("input-text-error").innerHTML = "Request was not handled!"
+
+              })
             
           } else {
             document.getElementById("input-text-error").innerHTML = "कृपया 50 भन्दा बढी शब्दहरू टाइप गर्नुहोस् |"
@@ -190,6 +242,20 @@ export default function Summary() {
   return (
     <div>
       <p className='summaryTitle mt-3 text-center'>|| SUMMARY || सारांश ||</p>
+      <center>
+        <div className='model-selection col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-5'>
+          <span>Select Summary Method </span>
+          <select id="selectsummary" onChange={()=>{
+            setSummaryMethod(document.getElementById('selectsummary').value)
+            
+          }} style={{width:"30%"}}>
+            <option value="Extractive">Extractive</option>
+            <option value="Abstractive">Abstractive</option>
+          </select>         
+          <br/>
+          <span>Summary Method:{summaryMethod}</span>
+        </div>
+      </center>
         <div className="text mt-2">        
         <div className="text-input  mt-5">
               <img src={txtfile} alt="txtfile" className='textfile mt-2' height={100} />

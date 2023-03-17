@@ -70,17 +70,19 @@ async def loadthemodels():
 ############################################################################################################
 @app.post("/text")
 async def create_upload_file(text: UploadFile = File(...)):
-    try:       
+    try: 
+        t1=time.time()
         file_location = f"static/text/{uuid.uuid1()}{text.filename}"
         with open(file_location, "wb+") as file_object:
             file_object.write(text.file.read())
         summary=get_summary_from_text_file(file_location)
         # print(summary)
         os.remove(file_location)
-        return summary
+        t2=time.time()
+        return {"summary": summary,"time":round(t2-t1,4)}
         # return JSONResponse(content={"summary": summary})
     except:
-        return "fail"
+        return {"summary":"couldnot handle the request, Try Again!","time":0}
 
 
 #endpoint for audioinput
@@ -129,7 +131,7 @@ async def create_upload_file(audio: UploadFile = File(...)):
         t2=time.time()
         return {"transcript":transcript,"time":round(t2-t1,4)}
     except:
-        return "couldnot handle the request, Try Again!"
+        return {"transcript":"couldnot handle the request, Try Again!", "time":0}
     
     # return audio  
 @app.post("/audio_live_own")
@@ -149,7 +151,7 @@ async def create_upload_file(audio: UploadFile = File(...)):
         t2=time.time()  
         return {"transcript":transcript,"time":round(t2-t1,4)}     
     except:
-        return "couldnot handle the request, Try Again!"
+        return {"transcript":"couldnot handle the request, Try Again!","time":0}
     
 # for abstractive text summarizer
 @app.post("/abstract")
@@ -164,7 +166,7 @@ async def create_upload_text(data: text):
         t2 = time.time() 
         return {"summary":summary,"time":round(t2-t1,4)}
     except:
-        return "couldnot handle request, Try again!"
+        return {"summary":"couldnot handle request, Try again!" ,"time":0}
 
 #######################################
 #function for evaluation
@@ -183,5 +185,24 @@ def calculateErrorRatesAlt(actual_label,predicted_label):
 async def evaluate_stt(data:Dict[str,str]):
     cer,wer= calculateErrorRatesAlt(data["userText"],data["userTranscript"])
     return {"cer":round(cer*100,4),"wer":round(wer*100,4)}
+
+
+###########for abstractive text summarizer for file ##########
+@app.post("/abstract-file")
+async def create_upload_file(text: UploadFile = File(...)):
+    try:       
+        t1 = time.time()
+        file_location = f"static/text/{uuid.uuid1()}{text.filename}"
+        with open(file_location, "wb+") as file_object:
+            file_object.write(text.file.read())
+        summary=abstractive_predict.abstractive_summarization_from_file(file_location)
+        # print(summary)
+        os.remove(file_location)
+        t2 = time.time()
+        return {"summary":summary,"time":round(t2-t1,4)}
+        # return JSONResponse(content={"summary": summary})
+    except:
+        return {"summary":"couldnot handle request, Try again!", "time":0}
+
        
     
