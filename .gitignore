@@ -17,7 +17,6 @@ archive/
 model_new/
 processor_new/
 model_wav2vec/
-static/
 results*.csv
 trained_models
 trained_models_new_final
