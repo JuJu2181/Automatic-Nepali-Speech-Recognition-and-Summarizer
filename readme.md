@@ -32,8 +32,20 @@ npm install --force
 ```
 npm start
 ```
-8. In the frontend once you get model is ready notification, you are all set to go and start using the webapp to perform speech recognition and summarization.
+8. In the frontend once you get model is ready notification as in image below, you are all set to go and start using the webapp to perform speech recognition and summarization.
+![Model Status](screenshots/model_load_sucess.png)
 
+## Screen Shots
+### 1. Home Page 
+![Home Page](screenshots/home_page_ui.png)
+### 2. Speech Recognition From File 
+![Speech Recognition Page](screenshots/speech_recognition_ui.png)
+### 3. Summarizer 
+![Summarizer Page](screenshots/summarizer.png)
+### 4. Live Speech 
+![Live Speeech Page](screenshots/live_ui1.png)
+### 5. Evaluation 
+![Evaluation Page](screenshots/evaluation_ui.png)
 
 ## Project Members
 [Anish Shilpakar](https://github.com/JuJu2181)  
