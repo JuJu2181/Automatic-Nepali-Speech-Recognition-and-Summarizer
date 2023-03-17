@@ -17,7 +17,8 @@ A simple system developed as major project for final year of computer which will
 pip install -r requirements.txt
 ```
 2. For setting up Backend Go inside backend folder
-3. Inside nepalimodel create a new folder called model_wav2vec and then download files from [here](https://huggingface.co/anish-shilpakar/wav2vec2-nepali-asr-v1/tree/main) and place the files in this folder
+3. Inside nepalimodel/best_wav2vec_model download files from [here](https://huggingface.co/anish-shilpakar/wav2vec2-nepali-asr-v1/tree/main) and place the files in this folder
+4. Inside the abstractive download files from [here]() and place the files in this folder. 
 4. Run this command to start backend server
 ```
 uvicorn api:app --reload
@@ -25,12 +26,14 @@ uvicorn api:app --reload
 5. For frontend, open a new terminal and go inside the frontend folder
 6. Make sure you have react installed in your computer, then run following command
 ```
-npm install
+npm install --force
 ```
 7. To open the webapp run frontend server while still keeping the backend server running
 ```
 npm start
 ```
+8. In the frontend once you get model is ready notification, you are all set to go and start using the webapp to perform speech recognition and summarization.
+
 
 ## Project Members
 [Anish Shilpakar](https://github.com/JuJu2181)  
