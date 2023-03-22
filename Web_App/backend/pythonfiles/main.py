@@ -27,9 +27,6 @@ def main(argv):
             use_imputed_text = True
 
 
-
-
-    
 stop_words = open("./pythonfiles/stopwords.txt",'r',encoding="utf-8").read()
 word_endings = open("./pythonfiles/word_endings.txt",'r',encoding='utf-8').read() 
 kriyapads = open("./pythonfiles/minimal_kriyapad.txt",'r',encoding="utf-8").read().split("\n")
