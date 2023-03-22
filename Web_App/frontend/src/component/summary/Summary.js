@@ -166,7 +166,7 @@ export default function Summary() {
         // eslint-disable-next-line no-control-regex
         const regex = /[^\u0000-\u007F]+/g;
         let nepaliText = input_text.match(regex)
-        console.log(nepaliText)
+  
         if(nepaliText===null){
           document.getElementById('textholder').style.border='2px solid red';
           document.getElementById("input-text-error").innerHTML = "कृपया नेपाली मात्र प्रविष्ट गर्नुहोस् |"
@@ -193,7 +193,7 @@ export default function Summary() {
                 function(res){            
                   setTalakoWaitstatus(false)            
                   setDownloadbuttonstatustext(true)
-                  console.log(res.data)
+
                   const downloadTextFile = JSON.stringify(res.data.summary);
                   const blob = new Blob([downloadTextFile], { type: "text/plain" });
                   const url_text = URL.createObjectURL(blob);
@@ -214,7 +214,7 @@ export default function Summary() {
                 function(res){            
                   setTalakoWaitstatus(false)            
                   setDownloadbuttonstatustext(true)
-                  console.log(res.data)
+
                   const downloadTextFile = JSON.stringify(res.data.summary);
                   const blob = new Blob([downloadTextFile], { type: "text/plain" });
                   const url_text = URL.createObjectURL(blob);

@@ -191,6 +191,7 @@ async def evaluate_stt(data:Dict[str,str]):
 @app.post("/abstract-file")
 async def create_upload_file(text: UploadFile = File(...)):
     try:       
+        print("hello")
         t1 = time.time()
         file_location = f"static/text/{uuid.uuid1()}{text.filename}"
         with open(file_location, "wb+") as file_object:
