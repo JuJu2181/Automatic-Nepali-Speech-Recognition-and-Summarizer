@@ -65,12 +65,15 @@ def seperate_text_into_chunks(text):
     sentence_arr = new_sentence_arr.copy()
      
     new_sentence_arr = []
+    
     if len(sentence_arr) > 8:
         for i in range(0,len(sentence_arr),10):
             if i+10 <= len(sentence_arr):
                 new_sentence_arr.append("। ".join(sentence_arr[i:i+10]))
             else:
                 new_sentence_arr.append("। ".join(sentence_arr[i:]))
+    else:
+        return [text]
     return new_sentence_arr           
 
 def get_summary_of_text(text):
