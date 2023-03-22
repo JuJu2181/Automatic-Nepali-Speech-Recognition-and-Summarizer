@@ -114,4 +114,4 @@ https://user-images.githubusercontent.com/43902648/225966400-c21ca1e0-4499-4bd0-
 
 
 ***
-*Feel Free to contact us if you want to know more about how we trained and integrated these models.*
+*Feel Free to contact us if you want to know more about how we trained and integrated these model.*
