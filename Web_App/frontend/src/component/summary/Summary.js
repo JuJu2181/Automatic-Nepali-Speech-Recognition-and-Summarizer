@@ -253,9 +253,9 @@ export default function Summary() {
             <option value="Abstractive">Abstractive</option>
           </select> 
           <br/>
-          <span style={{color:"red"}}> Extractive* selects important sentences from source</span>
+          <span style={{color:"yellow"}}> Extractive* selects important sentences from source</span>
           <br/>
-          <span style={{color:"red"}}>Abstractive* generates new words not present in the original text</span>        
+          <span style={{color:"yellow"}}>Abstractive* generates new words not present in the original text</span>        
           <br/>
           <span>Current Method: {summaryMethod}</span>
         </div>

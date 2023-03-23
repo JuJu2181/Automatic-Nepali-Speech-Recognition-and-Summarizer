@@ -277,7 +277,7 @@ export default class Mics extends React.Component {
             <span className='titleNote'>Note: For better results use a proper 🎤 or 🎧 at low noise 🔊</span>
               <div className='model-selection model-text col-lg-6 col-sm-12 col-xs-12 col-md-8 mt-4'>
               <span >🗣️ Try This</span><br/>
-            <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ। हाम्रो जीवनको हरेक मार्गमा अनुशासन अत्यन्त मूल्यवान छ। यसले व्यक्तिलाई जीवनमा प्रगति गर्न र सफलता प्राप्त गर्न प्रेरित गर्दछ। हामीले स्कूल, घर, कार्यालय, संस्था, कारखाना, खेल मैदान, रणभूमि वा अन्य स्थानमा अनुशासनको पालना गर्नुपर्दछ। अनुशासनले हामीलाई परिपक्व,सोच्न कार्य गर्न र जिम्मेवार निर्णयहरू लिन सक्षम गर्दछ।</span>
+            <span>अनुशासन एक त्यस्तो गुण हो जसद्वारा व्यक्तिले आफ्ना भावनाहरू र व्यवहारलाई नियन्त्रण गर्न सिक्छ। हाम्रो जीवनको हरेक मार्गमा अनुशासन अत्यन्त मूल्यवान छ। यसले व्यक्तिलाई जीवनमा प्रगति गर्न र सफलता प्राप्त गर्न प्रेरित गर्दछ। हामीले स्कूल घर कार्यालय संस्था कारखाना खेल मैदान  रणभूमि वा अन्य स्थानमा अनुशासनको पालना गर्नुपर्दछ। अनुशासनले हामीलाई परिपक्व सोच्न कार्य गर्न र जिम्मेवार निर्णयहरू लिन सक्षम गर्दछ।</span>
             </div>    
           </center> 
         
@@ -389,7 +389,7 @@ export default class Mics extends React.Component {
                     document.getElementById("EvaluationResult").style.display = "flex";
                   document.getElementById("cer").innerHTML = "CER: "+res.data.cer;
                   document.getElementById("wer").innerHTML = "WER: "+res.data.wer;
-                  document.getElementById("representation").innerHTML ="Note: 🔴removed character, 🟢added character, ⚫correct character"
+                  document.getElementById("representation").innerHTML ="Note: 🔴removed character, 🟡added character, ⚪correct character"
                   }
                   function redTheDiff(){
                     let b= data.userTranscript //transcript
@@ -403,7 +403,7 @@ export default class Mics extends React.Component {
 
                     diff.forEach(function(part) {
                       // if the part is removed or added, wrap it in a span element with red color
-                      let color = part.added ? 'green' : part.removed ? 'red' : 'black';
+                      let color = part.added ? 'yellow' : part.removed ? 'red' : 'white';
                       result += '<span style="color:' + color + '">' + part.value + '</span>';
                     });
                     document.getElementById("resultDiff").innerHTML = result;
@@ -425,7 +425,7 @@ export default class Mics extends React.Component {
               <span id="cer"></span>
               <span id="wer"></span>
               <span className='outputTitle'>Difference Between Transcripts ⬇️</span>
-              <span id="resultDiff"></span>
+              <span id="resultDiff" style={{backgroundColor:"black"}}></span>
               <span id="representation"> </span>
             </div>
             </> : null}
@@ -439,9 +439,9 @@ export default class Mics extends React.Component {
                 <option value="Abstractive">Abstractive</option>
               </select>   
               <br/>
-              <span style={{color:"red"}}> Extractive* selects important sentences from source</span>
+              <span style={{color:"yellow"}}> Extractive* selects important sentences from source</span>
               <br/>
-              <span style={{color:"red"}}>Abstractive* generates new words not present in the original text</span>      
+              <span style={{color:"yellow"}}>Abstractive* generates new words not present in the original text</span>      
               <br/>
               <span>Summary Method: {this.state.selectedOptionSummary}</span>
             </div>

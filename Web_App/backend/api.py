@@ -23,6 +23,7 @@ import time
 from ownmodel.predict import get_transcript
 from ownmodel.configs import UNQ_CHARS
 app = FastAPI()
+import gc
 
 ##############################3
 
@@ -106,7 +107,6 @@ def create_upload_file(audio: UploadFile = File(...)):
             transcript=predict_from_speech(dest_path)
             os.remove(dest_path)
             os.remove(file_location)
-        
         return transcript
     except:
         return "fail"
