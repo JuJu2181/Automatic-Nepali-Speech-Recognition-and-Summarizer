@@ -39,7 +39,7 @@ def get_summary_from_text(text,force_use_purnabiram_model):
     #
     # text = open(file_path,'r',encoding="utf-8").read()
     #
-    print(f"Input Text: \n{text}")
+    # print(f"Input Text: \n{text}")
     
     is_complete_sentence = True
     # if "।" not in text:
@@ -60,7 +60,7 @@ def get_summary_from_text(text,force_use_purnabiram_model):
       
     if not is_complete_sentence:
         text = tokenizer.add_purnabiram(text,kriyapads,samyojaks)
-    print(f"Sentence after adding purnabirams: \n{text}")  
+    # print(f"Sentence after adding purnabirams: \n{text}")  
     
     #
     # Split the sentence into array of words and patagraph in its array. (as Array of Array of the words)
@@ -126,7 +126,7 @@ def get_summary_from_text(text,force_use_purnabiram_model):
     #
     summarized_text = ranker.get_summarized_text(summary_sentences)
     
-    print(f"generated summary: \n{summarized_text}")
+    # print(f"generated summary: \n{summarized_text}")
     
     with open(outputfile, 'w',encoding="utf-8") as f:
         f.write(summarized_text)

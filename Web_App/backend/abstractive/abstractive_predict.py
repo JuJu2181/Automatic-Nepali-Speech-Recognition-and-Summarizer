@@ -16,7 +16,7 @@ samyojaks = open("./pythonfiles/samyojak.txt",'r',encoding="utf-8").read().split
 
 def filter_summary(summary):
     words_arr = summary.split(" ")
-    print(words_arr)
+    # print(words_arr)
     if words_arr[-1] == "":
         words_arr = words_arr[:-1]
     if words_arr[-1] == "यो":
@@ -111,14 +111,14 @@ def abstracrive_summarization(text):
     
     text_chunks = seperate_text_into_chunks(text)
     
-    print(text_chunks)
+    # print(text_chunks)
     
     summ_arr = []
     for i_texts in text_chunks:
         summ_arr.append(get_summary_of_text(i_texts))
     
     
-    print(summ_arr)
+    # print(summ_arr)
     summary = "। ".join(summ_arr)
     return re.sub('\।+', '।', summary)
 
