@@ -14,27 +14,50 @@ kriyapads = open("./pythonfiles/minimal_kriyapad.txt",'r',encoding="utf-8").read
 samyojaks = open("./pythonfiles/samyojak.txt",'r',encoding="utf-8").read().split("\n")
 
 
+def remove_useless(words_arr):
+    if words_arr[-1] == "":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "यो":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "पनि":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "पढ्नुहोस्":
+        words_arr = remove_useless(words_arr[:-1])
+    # if words_arr[-1] == "पनि":
+    #     words_arr = remove_useless(words_arr[:-1])
+    # if words_arr[-1] == "यो":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "अनि":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "परियारअनि":
+        words_arr = remove_useless(words_arr[:-1])
+    if words_arr[-1] == "कमल":
+        words_arr = remove_useless(words_arr[:-1])
+    return words_arr
+
+
 def filter_summary(summary):
     words_arr = summary.split(" ")
+    words_arr = remove_useless(words_arr)
     # print(words_arr)
-    if words_arr[-1] == "":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "यो":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "पनि":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "पढ्नुहोस्":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "पनि":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "यो":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "अनि":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "परियारअनि":
-        words_arr = words_arr[:-1]
-    if words_arr[-1] == "कमल":
-        words_arr = words_arr[:-1]
+    # if words_arr[-1] == "":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "यो":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "पनि":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "पढ्नुहोस्":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "पनि":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "यो":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "अनि":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "परियारअनि":
+    #     words_arr = words_arr[:-1]
+    # if words_arr[-1] == "कमल":
+    #     words_arr = words_arr[:-1]
     
     new_summary = " ".join(words_arr)
     return new_summary
